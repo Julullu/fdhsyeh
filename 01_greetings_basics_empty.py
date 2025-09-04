@@ -22,13 +22,6 @@ os.system("cls")
 ### Základní verze - vždy stejná odpověď
 
 # Získání jména a příjmení od uživatele
-<<<<<<< HEAD
-jméno=input("Jak se jmenuješ?")
-oslovení= input("A jak ti mám říkat (uveď jméno v 5. pádu)")
-příjmení= input("A jaké máš příjmení?")
-=======
-
->>>>>>> 9136545 (prepare lesson)
 
 
 # Generování pozdravu bez náhodného prvku a zobrazení v terminálu
