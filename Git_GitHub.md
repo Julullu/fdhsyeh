@@ -126,7 +126,8 @@ git --version
 Nastav **meno** a **heslo** (ak používaš Github, _použi github údaje_).
 
 ```python
-git config --global user.name "tvojemeno"  git config --global user.email "tvoj@email.hu"
+git config --global user.name "tvojemeno"
+git config --global user.email "tvoj@email.hu"
 ```
 
 ### GIT ZÁKLADY
