@@ -1,0 +1,69 @@
+# -*- coding: utf-8 -*-
+# Příliš žluťoučký kůň úpěl ďábelské ódy - testovací pangram
+"""_summary_
+    02) calc_basics.py
+
+    Vyžádej si na vstupu 2 čísla, proveď s nima základní operace, na výstupu vždy zobraz operaci a výsledek.
+    * ošetři dělení nulou
+    * ošetři číselný vstup
+    ** ukládání výstupů do souboru
+    *** GUI tkinter
+"""
+
+# import knihoven je zvykem definovat na začátku
+import os
+import csv
+
+import tkinter as tk
+from tkinter import messagebox
+
+
+os.system('cls')
+
+
+##############################################################
+### Jednoduchá verze bez kontroly
+
+print("Jednoduchá verze bez kontroly")
+# Získání dvou čísel od uživatele
+
+
+
+
+# Provedení aritmetických operací
+
+
+
+
+# Zobrazení výsledků
+
+
+
+
+##############################################################
+### Rozšířená verze - dělení nulou (ZeroDivisionError: float division by zero)
+
+print("\nRozšířená verze - kontrola dělení nulou:")
+
+
+
+##############################################################
+### * verze - ověření číselného vstupu od uživatele, opakování požadavku při chybě
+
+# Získání dvou čísel od uživatele
+print("\nRozšířená verze - kontrola dělení nulou, kontrola číselného vstupu:")
+
+
+##############################################################
+### ** verze - uložení do csv, doplnit také přečtení ze souboru
+
+print("\nRozšířená verze - uložení do csv 02_calc_basics_vysledky.csv:")
+
+
+
+##############################################################
+### *** verze s GUI - tkinter s výběrem operace
+# funkce compute_examples
+
+print("\nRozšířená verze - grafické rozhraní - otevře se okno!")
+
