@@ -235,7 +235,19 @@ Příklady (výpočet obsahu, obvodu):
 | Kruh | \$ \pi r^2 \$ | \$ 2\pi r \$ |
 | Kosočtverec | \$ \frac{e \cdot f}{2}\$ | \$ 4a \$ |
 
-## 9. Kontrolní otázky a náměty k diskusi
+
+##############################################################
+## 9. MOŽNOSTI JAK NADEFINOVAT TYP VSTUPŮ I VÝSTUPŮ Z FUNKCE
+
+```python
+def get_number_from_user(
+    input_text: str = "Vložte číslo: ",                  # text výzvy pro uživatele (string)
+    error_message: str = "Špatný vstup, zkuste znova!",  # text chyby při neplatném vstupu (string)
+    conditions: list = None                              # volitelný seznam podmínek (např. funkcí), které vstup musí splnit
+) -> float:                                              # návratová hodnota: číslo ve formátu float
+```
+
+## 10. Kontrolní otázky a náměty k diskusi
 
 - Proč je nutné ověřovat trojúhelníkovou nerovnost?
 - Jak by se program rozšířil na práci s obecnými mnohoúhelníky?

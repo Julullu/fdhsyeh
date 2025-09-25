@@ -48,6 +48,17 @@ print(f"Obsah trojúhelníku: {content:.2f}")
 
 
 ##############################################################
+# MOŽNOSTI JAK NADEFINOVAT TYP VSTUPŮ I VÝSTUPŮ Z FUNKCE, např.:
+"""
+def get_number_from_user(
+    input_text: str = "Vložte číslo: ",                  # text výzvy pro uživatele (string)
+    error_message: str = "Špatný vstup, zkuste znova!",  # text chyby při neplatném vstupu (string)
+    conditions: list = None                              # volitelný seznam podmínek (např. funkcí), které vstup musí splnit
+) -> float:                                              # návratová hodnota: číslo ve formátu float
+"""
+
+
+##############################################################
 ### Verze s ověřením vstupu - obvod a obsah trojúhelníku
 ### Funkce side_input_verification
 
