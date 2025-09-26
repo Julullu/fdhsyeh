@@ -57,9 +57,9 @@ result_product = number_1 * number_2
 
 # Kontrola, zda se nedělí nulou
 if number_2 != 0:
-    result_quotient = number_1 / number_2
+    result_quotient = number_1 / number_2    # pylint: disable=invalid-name
 else:
-    result_quotient = " nedefinováno (dělení nulou)"
+    result_quotient = " nedefinováno (dělení nulou)"   # pylint: disable=invalid-name
 
 # Zobrazení výsledků
 print(f"Sčítání: {number_1} + {number_2} = {result_sum}")
@@ -91,7 +91,7 @@ result_product = number_1 * number_2
 if number_2 != 0:
     result_quotient = number_1 / number_2
 else:
-    result_quotient = " nedefinováno (dělení nulou)"
+    result_quotient = " nedefinováno (dělení nulou)"   # pylint: disable=invalid-name
 
 # Zobrazení výsledků
 print(f"Sčítání: {number_1} + {number_2} = {result_sum}")
@@ -124,7 +124,7 @@ result_product = number_1 * number_2
 if number_2 != 0:
     result_quotient = number_1 / number_2
 else:
-    result_quotient = " nedefinováno (dělení nulou)"
+    result_quotient = " nedefinováno (dělení nulou)"   # pylint: disable=invalid-name
 
 # Získání výsledků jako seznam
 results = [
@@ -139,13 +139,12 @@ with open('calc_basics_vysledky.csv', 'w', newline='', encoding='utf-8') as file
     writer = csv.writer(file)
     writer.writerow(["Operace", "Výsledek"])
     for result in results:
-        writer.writerow([result.split(':')[0], result.split('=')[1].strip()])
+        writer.writerow([result.split(':', maxsplit=1)[0], result.split('=')[1].strip()])
 
 
 # Čtení CSV souboru
 with open('calc_basics_vysledky.csv', mode='r', newline='', encoding='utf-8') as file:
     reader = csv.DictReader(file)
-    
     # Zobrazení dat
     print("Operace a jejich výsledky - načteno z csv souboru:")
     for line in reader:
