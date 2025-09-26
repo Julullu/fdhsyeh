@@ -135,7 +135,7 @@ results = [
 ]
 
 # Uložení výsledků do CSV souboru - vždy jako nový soubor, smaže a zapíše
-with open('calc_basics_vysledky.csv', 'w', newline='') as file:
+with open('calc_basics_vysledky.csv', 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
     writer.writerow(["Operace", "Výsledek"])
     for result in results:
@@ -143,7 +143,7 @@ with open('calc_basics_vysledky.csv', 'w', newline='') as file:
 
 
 # Čtení CSV souboru
-with open('calc_basics_vysledky.csv', mode='r', newline='') as file:
+with open('calc_basics_vysledky.csv', mode='r', newline='', encoding='utf-8') as file:
     reader = csv.DictReader(file)
     
     # Zobrazení dat
