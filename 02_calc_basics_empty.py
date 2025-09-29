@@ -105,7 +105,7 @@ print("---------------")
 ### ** verze - uložení do csv, doplnit také přečtení ze souboru
 
 print("\nRozšířená verze - uložení do csv 02_calc_basics_vysledky.csv:")
-while true:
+while True:
     try
     a=float(input("Zadej první číslo"))
     b=float(input("Zadej druhé číslo"))
@@ -144,4 +144,40 @@ with open('kalkulacka_vysledky.csv','r') as file:
 # funkce compute_examples
 
 print("\nRozšířená verze - grafické rozhraní - otevře se okno!")
+
+def vypocet():
+    while True:
+        try:
+            a=float(entry_a.get())
+            b=float(entry_b.get())
+            operace= var_operace.get()
+            break
+        except ValueError:
+            messagebox.showerror("Chybný vstup", "zadejte znovu")
+
+     if operace=='+':
+                výsledek= a+b
+            elif operace=='-':
+                výsledek= a-b
+            elif operace=='*':
+                výsledek= a*b
+            elif operace == '/':
+                if b!=0:
+                    výsledek=a/b
+                else:
+                    messagebox.showerror("Nedefinováno","Dělíte nulou")
+            
+            messagebox.showinfo("Výsledek", {výsledek})
+
+root= tk.Tk()
+entry_a=tk.Entry(root)
+entry_b=tk.Entry(root)
+btn= tk.Button(root, text="vypočítej",command=vypocet)
+label_vysledek = tk.Label(root, text="")
+entry_a.pack()
+entry_b.pack()
+btn.pack()
+label_vysledek.pack()
+root.mainloop()
+    
 
