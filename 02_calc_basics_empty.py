@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Příliš žluťoučký kůň úpěl ďábelské ódy - testovací pangram
 """_summary_
-    02) calc_basics.py
+    02 calc_basics.py
 
     Vyžádej si na vstupu 2 čísla, proveď s nima základní operace, na výstupu vždy zobraz operaci a výsledek.
     * ošetři dělení nulou
@@ -27,8 +27,8 @@ os.system('cls')
 print("Jednoduchá verze bez kontroly")
 # Získání dvou čísel od uživatele
 
-    a=float(input("Zadej první číslo"))
-    b=float(input("Zadej druhé číslo"))
+a=float(input("Zadej první číslo"))
+b=float(input("Zadej druhé číslo"))
    
 
 
@@ -42,7 +42,7 @@ podil= a/b
 print(f"Sčítaní:{a}+{b}={soucet}")
 print(f"Odčítání:{a}-{b}={rozdil}")
 print(f"Násobení:{a}*{b}={soucin}")
-print(f"Dělení:{a}+{b}={podil}")
+print(f"Dělení:{a}/{b}={podil}")
 print("---------------")
 
 
@@ -67,7 +67,7 @@ else:
 print(f"Sčítaní:{a}+{b}={soucet}")
 print(f"Odčítání:{a}-{b}={rozdil}")
 print(f"Násobení:{a}*{b}={soucin}")
-print(f"Dělení:{a}+{b}={podil}")
+print(f"Dělení:{a}/{b}={podil}")
 print("---------------")
 
 
@@ -76,11 +76,11 @@ print("---------------")
 
 # Získání dvou čísel od uživatele
 print("\nRozšířená verze - kontrola dělení nulou, kontrola číselného vstupu:")
-while true:
-    try
-    a=float(input("Zadej první číslo"))
-    b=float(input("Zadej druhé číslo"))
-    break
+while True:
+    try:
+        a=float(input("Zadej první číslo"))
+        b=float(input("Zadej druhé číslo"))
+        break
     except ValueError:
         print("Neplatný vstup, zadej číslo znovu.")
 soucet= a+b
@@ -97,7 +97,7 @@ else:
 print(f"Sčítaní:{a}+{b}={soucet}")
 print(f"Odčítání:{a}-{b}={rozdil}")
 print(f"Násobení:{a}*{b}={soucin}")
-print(f"Dělení:{a}+{b}={podil}")
+print(f"Dělení:{a}/{b}={podil}")
 print("---------------")
 
 
@@ -106,10 +106,10 @@ print("---------------")
 
 print("\nRozšířená verze - uložení do csv 02_calc_basics_vysledky.csv:")
 while True:
-    try
-    a=float(input("Zadej první číslo"))
-    b=float(input("Zadej druhé číslo"))
-    break
+    try:
+        a=float(input("Zadej první číslo"))
+        b=float(input("Zadej druhé číslo"))
+        break
     except ValueError:
         print("Neplatný vstup, zadej číslo znovu.")
 soucet= a+b
@@ -146,36 +146,47 @@ with open('kalkulacka_vysledky.csv','r') as file:
 print("\nRozšířená verze - grafické rozhraní - otevře se okno!")
 
 def vypocet():
-    while True:
-        try:
-            a=float(entry_a.get())
-            b=float(entry_b.get())
-            operace= var_operace.get()
-            break
-        except ValueError:
-            messagebox.showerror("Chybný vstup", "zadejte znovu")
+    
+    try:
+        a=float(entry_a.get())
+        b=float(entry_b.get())
+        operace= var_operace.get()
+        
+    except ValueError:
+        messagebox.showerror("Chybný vstup", "zadejte znovu")
+        return
 
-     if operace=='+':
-                výsledek= a+b
-            elif operace=='-':
-                výsledek= a-b
-            elif operace=='*':
-                výsledek= a*b
-            elif operace == '/':
-                if b!=0:
-                    výsledek=a/b
-                else:
-                    messagebox.showerror("Nedefinováno","Dělíte nulou")
+    if operace=='+':
+        výsledek= a+b
+    elif operace=='-':
+        výsledek= a-b
+    elif operace=='*':
+        výsledek= a*b
+    elif operace == '/':
+        if b!=0:
+            výsledek=a/b
+        else:
+            messagebox.showerror("Nedefinováno","Dělíte nulou")
+            return
             
-            messagebox.showinfo("Výsledek", {výsledek})
+    messagebox.showinfo("Výsledek", str(výsledek))
 
 root= tk.Tk()
+root.title("Kalkulačka")
 entry_a=tk.Entry(root)
 entry_b=tk.Entry(root)
-btn= tk.Button(root, text="vypočítej",command=vypocet)
-label_vysledek = tk.Label(root, text="")
 entry_a.pack()
 entry_b.pack()
+
+var_operace=tk.StringVar(value='+')
+tk.Radiobutton(root,text="+",variable=var_operace, value='+').pack()
+tk.Radiobutton(root,text="-",variable=var_operace, value='-').pack()
+tk.Radiobutton(root,text="*",variable=var_operace, value='*').pack()
+tk.Radiobutton(root,text="/",variable=var_operace, value='/').pack()
+
+btn= tk.Button(root, text="vypočítej",command=vypocet)
+label_vysledek = tk.Label(root, text="")
+
 btn.pack()
 label_vysledek.pack()
 root.mainloop()
