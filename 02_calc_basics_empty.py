@@ -185,10 +185,10 @@ tk.Radiobutton(root,text="*",variable=var_operace, value='*').pack()
 tk.Radiobutton(root,text="/",variable=var_operace, value='/').pack()
 
 btn= tk.Button(root, text="vypočítej",command=vypocet)
-label_vysledek = tk.Label(root, text="")
+
 
 btn.pack()
-label_vysledek.pack()
+
 root.mainloop()
     
 

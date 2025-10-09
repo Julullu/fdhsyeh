@@ -62,8 +62,8 @@ print(Pozdrav_se_seed)
 ### *verze - pozdrav podle denní doby
 
 import datetime
-Hodina= datetime.datetime.now().hour
-Datum= datetime.date.today()
+Hodina= datetime.now().hour
+Datum= datetime.now().date
 
 if 6<= Hodina<12:
     Pozdrav_podle_času=f"Dobré ráno, dneska je{Datum} a právě je {Hodina} hodin. "
