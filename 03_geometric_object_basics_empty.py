@@ -64,6 +64,17 @@ while True:
 ### Verze s ověřením vstupu - obvod a obsah trojúhelníku
 ### Funkce side_input_verification
 def je_trojuhelnik(a,b,c):
+    """Funkce ověřující, zda se dá trojúhelník sestrojit.
+    
+    Využívá trojúhelníkovou nerovnost. Ověřuje zda platí pro všechny strany zadané uživatelem.
+    Args:
+        a(float):první strana zadaná uživatelem
+        b(float):druhá strana zadaná uživatelem
+        c(float):třetí strana zadaná uživatelem
+    Returns:
+        bool: pravdivý pokud jsou nerovnosti splněny
+    Raises:
+        False: V případě, že podmínky nejsou splněny, vypíše uživateli zprávu, že trojúhelník nejde sestrojit"""
     return (a+b>c) and (b+c>a) and (a+c>b)
 if not je_trojuhelnik(a,b,c):
     print("Tyto strany netvoří trojúhelník.")
@@ -115,6 +126,17 @@ while True:
         print("Zadejte číslo.")
 
 def je_trojuhelnik(a,b,c):
+    """Funkce ověřující, zda se dá trojúhelník sestrojit.
+    
+    Využívá trojúhelníkovou nerovnost. Ověřuje zda platí pro všechny strany zadané uživatelem.
+    Args:
+        a(float):první strana zadaná uživatelem
+        b(float):druhá strana zadaná uživatelem
+        c(float):třetí strana zadaná uživatelem
+    Returns:
+        bool: pravdivý pokud jsou nerovnosti splněny
+    Raises:
+        False: V případě, že podmínky nejsou splněny, vypíše uživateli zprávu, že trojúhelník nejde sestrojit"""
     return (a+b>c) and (b+c>a) and (a+c>b)
 if not je_trojuhelnik(a,b,c):
     print("Tyto strany netvoří trojúhelník.")
@@ -149,7 +171,7 @@ else:
     print("Proto nemůžeme spočítat obvod/obsah.")
 
 
-
+print("\n-------\n")
 ##############################################################
 ### Verze s vykreslením, už nic nepočítám - výpočty viz předchozí
 # je potřeba rozšíření: python extension pack
@@ -185,6 +207,17 @@ while True:
         print("Zadejte číslo.")
 
 def je_trojuhelnik(a,b,c):
+    """Funkce ověřující, zda se dá trojúhelník sestrojit.
+    
+    Využívá trojúhelníkovou nerovnost. Ověřuje zda platí pro všechny strany zadané uživatelem.
+    Args:
+        a(float):první strana zadaná uživatelem
+        b(float):druhá strana zadaná uživatelem
+        c(float):třetí strana zadaná uživatelem
+    Returns:
+        bool: pravdivý pokud jsou nerovnosti splněny
+    Raises:
+        False: V případě, že podmínky nejsou splněny, vypíše uživateli zprávu, že trojúhelník nejde sestrojit"""
     return (a+b>c) and (b+c>a) and (a+c>b)
 if not je_trojuhelnik(a,b,c):
     print("Tyto strany netvoří trojúhelník.")
@@ -216,6 +249,21 @@ else:
 
 
 def ctverec():
+    """Funkce pro výpočet obvodu a obsahu čtverce
+    
+    Funkce vypočítá obsah a obvod čtverce pomocí vložené hodnoty strany, kterou si na začátku vyžádá. Obsahuje i kontrolu vstupu.
+    
+    Args: 
+    strana_ctverce (float): délka strany zadaná uživatelem
+    
+    Returns: 
+    obvod_ctverce(float): Spočítaný obvod čtverce
+    obsah_ctverce(float): Spočítaný obsah čtverce
+
+    Raises:
+    Podmínka, že vstup musí být kladný. Při nesplnění se vyžádá vstup znovu.
+    ValueError: V případě zadání něčeho jiného než čísla.
+    """
     while True:
         try:
             strana_ctverce=float(input("Zadejte stranu čtverce:"))
@@ -231,6 +279,21 @@ def ctverec():
     print(f"Obsah čtverce je {obsah_ctverce}")
 
 def obdelnik():
+    """Funkce pro výpočet obvodu a obsahu obdélníku
+    
+    Funkce vypočítá obsah a obvod obdélníku pomocí vložených hodnot stran, které si na začátku vyžádá. Obsahuje i kontrolu vstupu.
+    
+    Args: 
+    strana_a (float): délka první strany zadaná uživatelem
+    strana_b (float): délka druhé strany zadaná uživatelem
+    Returns: 
+    obvod_obdelniku(float): Spočítaný obvod obdélníku
+    obsah_obdelniku(float): Spočítaný obsah obdélníku
+
+    Raises:
+    Podmínka, že vstup musí být kladný. Při nesplnění se vyžádá vstup znovu.
+    ValueError: V případě zadání něčeho jiného než čísla.
+    """
     while True:
         try:
             strana_a=float(input("Zadejte první stranu obdelníku:"))
@@ -247,6 +310,22 @@ def obdelnik():
     print(f"Obsah ondélníku je {obsah_obdelniku}")
 
 def trojúhelník():
+    """Funkce pro výpočet obvodu a obsahu trojúhelníku
+    
+    Funkce vypočítá obsah a obvod trojúhelníku pomocí vložených hodnot stran, které si na začátku vyžádá. Obsahuje i kontrolu vstupu a kontrolu existence trojúhelníku
+    
+    Args: 
+    strana_a (float): délka první strany zadaná uživatelem
+    strana_b (float): délka druhé strany zadaná uživatelem
+    strana_c (float): délka třetí strany zadaná uživatelem
+    Returns: 
+    obvod_trojuhelniku(float): Spočítaný obvod trojúhelníku
+    obsah_trojuhelniku(float): Spočítaný obsah trojúhelníku
+
+    Raises:
+    je_trojuhelnik: V případě, že zadané strany netvoří trojúhelník, nedojde ke spočítání obvodu a obsahu.
+    Podmínka, že vstup musí být kladný. Při nesplnění se vyžádá vstup znovu.
+    ValueError: V případě zadání něčeho jiného než čísla."""
     while True:
         try:
             strana_a=float(input("Zadejte první stranu trojúhelníku:"))
@@ -271,6 +350,22 @@ def trojúhelník():
         print(f"Obsah trojúhelníku je {obsah_trojuheniku}")
 
 def kosoctverec():
+    """Funkce pro výpočet obvodu a obsahu kosočtverce
+    
+    Funkce vypočítá obsah a obvod kosočtverce pomocí vložených hodnot strany a úhlopříček, které si na začátku vyžádá. Obsahuje i kontrolu vstupu.
+    
+    Args: 
+    strana_kosoctverce (float): délka strany zadaná uživatelem
+    prvni_uhlopricka(float): délka první úhlopříčky zadaná uživatelem
+    druha_uhlopricka(float): délka druhé úhlopříčky zadaná uživatelem
+    
+    Returns: 
+    obvod_kosoctverce(float): Spočítaný obvod kosočtverce
+    obsah_kosoctverce(float): Spočítaný obsah kosočtverce
+
+    Raises:
+    Podmínka, že vstup musí být kladný. Při nesplnění se vyžádá vstup znovu.
+    ValueError: V případě zadání něčeho jiného než čísla."""
     while True:
         try:
             strana_kosoctverce=float(input("Zadejte stranu kosočtverce:"))
@@ -288,6 +383,20 @@ def kosoctverec():
     print(f"Obsah kosočtverce je {obsah_kosoctverce}")
 
 def kruh():
+    """Funkce pro výpočet obvodu a obsahu kruhu
+    
+    Funkce vypočítá obsah a obvod kruhu pomocí vložené hodnoty poloměru, kterou si na začátku vyžádá. Obsahuje i kontrolu vstupu.
+    
+    Args: 
+    polomer_kruhu (float): délka poloměru kruhu zadaná uživatelem
+    
+    Returns: 
+    obvod_ctverce(float): Spočítaný obvod kruhu
+    obsah_ctverce(float): Spočítaný obsah kruhu
+
+    Raises:
+    Podmínka, že vstup musí být kladný. Při nesplnění se vyžádá vstup znovu.
+    ValueError: V případě zadání něčeho jiného než čísla."""
     while True:
         try:
             polomer_kruhu=float(input("Zadejte poloměr kruhu:"))
@@ -328,7 +437,7 @@ while True:
     else:
         print("Neplatná volba, zkuste znova.")
     
-    print("\n------------------\n")
+    print("\n-----------------\n")
 
 
 
