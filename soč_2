@@ -1,0 +1,54 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parametry
+y0 = 1
+t_end = 1
+t_change = 0.15
+
+
+
+t_exact = np.linspace(0, t_end, 400)
+y_exact = (np.exp(-15*t_exact) * (-15 * np.sin(t_exact) - np.cos(t_exact))) / 226
+
+
+def euler(f, y0, t):
+    y = np.zeros(len(t))
+    y[0] = y0
+    for n in range(len(t)-1):
+        y[n+1] = y[n] + (t[n+1]-t[n]) * f(t[n], y[n])
+    return y
+
+
+def backward_euler(y0, t, k=15):
+    y = np.zeros(len(t))
+    y[0] = y0
+    for n in range(len(t)-1):
+        h = t[n+1]-t[n]
+        y[n+1] = y[n] / (1 + h * k)  # lineární implicitní krok pro y'=-k*y
+    return y
+
+# Definice derivace y' = -15y
+def f(t, y):
+    return -15 * y
+
+# Časové body
+t = np.arange(0, t_end+t_change, t_change)
+
+
+# Výpočty numerických řešení
+y_euler = euler(f, y0, t)
+
+y_backward = backward_euler(y0, t, k=15)
+
+# Vykreslení
+plt.figure(figsize=(8,5))
+plt.plot(t_exact, y_exact, color='red', label='Přesné řešení')
+plt.plot(t, y_euler, 'blue', label='Euler ∆t=0,15')
+plt.plot(t, y_backward, 'green', label='Backward Euler ∆t=0,15')
+plt.xlabel('t')
+plt.ylabel('y(t)')
+plt.title("Řešení pro y(t) = (e^{-15t}(-15sin(t)-cos(t)))/226")
+plt.legend()
+plt.grid(True)
+plt.show()
