@@ -22,20 +22,29 @@ os.system("cls")
 ### Základní verze - vždy stejná odpověď
 
 # Získání jména a příjmení od uživatele
+<<<<<<< HEAD
 jméno=input("Jak se jmenuješ?")
 oslovení= input("A jak ti mám říkat (uveď jméno v 5. pádu)")
 příjmení= input("A jaké máš příjmení?")
+=======
+
+>>>>>>> 9136545 (prepare lesson)
 
 
 # Generování pozdravu bez náhodného prvku a zobrazení v terminálu
 
+<<<<<<< HEAD
 greetings=f"Čau, moc mě těší, {oslovení}!"
 print(greetings)
+=======
+
+>>>>>>> 9136545 (prepare lesson)
 ##############################################################
 ### Rozšířená verze - pseudonáhodný výběr bez zamíchání
 # vytvořit greetings jako list pozdravů
 
 import random
+<<<<<<< HEAD
 Pozdravy=[f"01 Ahoj, {oslovení}, jak se daří?",
 f"02 Čus my favourite Bro, {oslovení}, jak to jde?",
 f"03 Zdravíčko,{oslovení}, máme se?",
@@ -43,11 +52,15 @@ f"04 Dobrý den přeji {oslovení}!"
 f"05 Čau, {oslovení}, jsem ráda, že tě vidím"]
 
 print(random.choice(Pozdravy))
+=======
+
+>>>>>>> 9136545 (prepare lesson)
 
 
 ##############################################################
 ### Rozšířená verze - random seed()
 
+<<<<<<< HEAD
 
 # zamíchání, někdy se také používá s knihovnou time: inicializace seed pomocí time: random.seed(time.time())
 # side effect provedení v této části kódu má za následek i zamíchání volby při opětovném volání
@@ -56,12 +69,20 @@ print(random.choice(Pozdravy))
 random.seed(12345)
 Pozdrav_se_seed= random.choice(Pozdravy)
 print(Pozdrav_se_seed)
+=======
+# zamíchání, někdy se také používá s knihovnou time: inicializace seed pomocí time: random.seed(time.time())
+# side effect provedení v této části kódu má za následek i zamíchání volby při opětovném volání
+
+random.seed()
+
+>>>>>>> 9136545 (prepare lesson)
 
 
 ##############################################################
 ### *verze - pozdrav podle denní doby
 
 import datetime
+<<<<<<< HEAD
 Hodina= datetime.now().hour
 Datum= datetime.now().date
 
@@ -92,3 +113,6 @@ elif Angličtina == "ne":
     print(f"Dobře")
 else:
     print(f"Neplatná volba")
+=======
+
+>>>>>>> 9136545 (prepare lesson)
