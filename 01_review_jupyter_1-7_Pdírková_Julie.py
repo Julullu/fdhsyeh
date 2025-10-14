@@ -240,7 +240,7 @@ print(f"Číslo {element_to_find} má v tuplu pořadí {my_tuple.index(element_t
     # b) dokáže zachytit tuto chybu a informovat uživatele o chybě
 
 # a) Vytvoření tuple
-t=(1,2,3)
+t=(1,2,4)
 print(f"Máme tuple {t} a pokusíme se ho změnit.")
 # b) Pokus o změnu prvku
 t[0]=5
