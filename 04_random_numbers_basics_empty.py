@@ -28,6 +28,15 @@ os.system("cls")
 ### Generátor příkladu - 2 čísla a operace, ověření výsledku, zodpovězení, opakování dokud q
 # fce generate_example, celková funkce example_generator_2numbers
 def generate_example():
+    """Funkce generuje náhodný příklad z dvou čísel.
+
+    Funkce napřed vygeneruje dvě náhodná čísla a náhodnou operaci (+,-,/,*). Tyto proměnné uspořádá do příkladu a ten zobrazí. 
+    Dále určí hodnotu výsledku vygenerovaného příkladu
+
+     Returns: 
+     str: Zadání příkladu
+     float:výsledek příkladu """
+    
     number1= random.randint(1,10)
     number2= random.randint(1,10)
     random_operation=random.choice(["+","-","/","*"])
@@ -45,7 +54,21 @@ def generate_example():
     
     return vysledek
 
+
 def example_generator_2numbers():
+    """Funkce si vyžádá výsledek od uživatele na zadaný příklad a výsledek ohodnotí.
+    
+    Pomocí funkce generate_example určí správnou hodnotu příkladu (výsledek). Vyžádá od uživatele odpověď na příklad a dále mu napíše,
+    zda je jeho odpověď správná či ne.
+    
+    Args:
+    float: (odpoved):výsledek zadaný uživatelem
+    
+    Returns:
+    str: Oznámení, zda je výsledek správný
+    
+    Raises:
+    ValueError: V případě, že uživatel zadá něco jiného než číslo"""
 
     while True:
         vysledek=generate_example()
@@ -79,9 +102,22 @@ def numbers_generator(pocet_cisel):
     return numbers
 
 def example_generator_advance():
+    """Funkce si vyžádá počet čísel v příkladu.
+    
+    Taky dá možnost uživateli ukončit program pomocí zadání velkého nebo malého q, v případě zadání čísla ověří, zda je možné vygenerovat
+    příklad s daným počtem čísel, jestliže uživatel zadá něco jiného než celé číslo, opakuje požadavek, jinak uloží hodnotu počtu čísel 
+    v příkladu pod proměnnou pocet_cisel.
+    
+    Returns:
+    int:pocet_cisel: Kolik čísel si přeje uživatel mít v příkladu
+
+    Raises:
+    pocet_cisel<2: Opakování požadavku, jestliže není možné sestrojit příklad s daným počtem čísel
+    ValueError: V případě zadání něčeho jiného než celého čísla
+    """
     while True:
-            pocet_cisel=input("Zadejte počet čísel v příkladu")
-            if pocet_cisel=="q":
+            pocet_cisel=input("Zadejte počet čísel v příkladu (nebo q pro ukončení):")
+            if pocet_cisel.lower=="q":
                 print("Program končí")
                 return None, None
 
@@ -100,7 +136,7 @@ def example_generator_advance():
     priklad=str(numbers[0])
     vysledek=numbers[0]
     for idx in range (1,len(numbers)):
-        priklad +=f"{operace[idx-1]} {numbers[idx]}"
+        priklad +=f"{ operace[idx-1]} {numbers[idx]}"
         if operace[idx-1]=="+":
             vysledek += numbers[idx]
         else:
@@ -108,9 +144,23 @@ def example_generator_advance():
 
     
 
-    return(vysledek, priklad)
+    return(priklad, vysledek)
 
 def user_statistics(odpoved,vysledek,tolerance):
+    """Funkce updatuje a ukáže aktuální skóre na základě zadané odpovědi.
+    
+    U konkrétního příkladu porovná funkce výsledek se zadanou odpovědí pomocí určené tolerance a určí zda se přičte bod ke 
+    hodnotě správných odpovědí nebo špatných odpovědí.
+    
+    Args:
+    odpoved(float):Hodnota zadaná uživatelem
+    vysledek(integer):Hodnota vyhodnocená jako správný výsledek pomocí funkce example_generator_advance
+    tolerance(float):Míra do jaké se může odpověď lišit od výsledku pro uznání za správný
+    
+    Returns:
+    CORRECT_ANSWERS(integer):Aktualizovaný počet správných odpovědí
+    WRONG_ANSWERS(integer):Aktualizovaný počet špatných odpovědí
+    str:Vypsání aktuálního skóre"""
     global CORRECT_ANSWERS,WRONG_ANSWERS
     if abs(odpoved-vysledek)<tolerance:
         CORRECT_ANSWERS+=1
@@ -120,25 +170,43 @@ def user_statistics(odpoved,vysledek,tolerance):
     print(f"Počet správných odpovědí:{CORRECT_ANSWERS} počet špatných odpovědí:{WRONG_ANSWERS}")
     
 def example_generator_processor():
-    priklad,vysledek=example_generator_advance()
-    if priklad is None:
-        return
+    """Funkce zobrazí vygenerovaný příklad, vyptá odpověď od uživatele, vyhodnotí, zda je správně a ukáže aktualizované skóre.
     
-    print(f"Vypočítej {priklad}")
+    Příklad je generovaný pomocí funkce example_generator_advance. Funkce vypíše příklad a od uživatele vyžádá zadat odpověď,
+    je ošetřena situace, že by uživatel zadal něco jiného než číslo, v takovém případě se opakuje požadavek na zadání výsledku. 
+    Kdyby uživatel zadal q, může program ukončit, ale v této části programu není výzva k ukončení. Pokud uživatel zadá číselnou hodnotu
+    je porovnána s výsledkem a program oznámí, zda je výsledek správný. Dále dojde k aktualizaci skóre pomocí funkce user_statistics
+    
+    Returns:
+    str: string oznamující, zda je výsledek správný.
+    user_statistics: ukáže aktuální skóre
+    
+    Raises:
+    ValueErro: V případě, že uživatel zadá něco jiného než číslo."""
+
+    tolerance=0.00001
     while True:
+        priklad,vysledek=example_generator_advance()
+        if priklad is None:
+            print("Program ukončen")
+            return
+        print(f"Vypočítej {priklad}")
         odpoved=input("Zadej výsledek")
-        if odpoved=="q":
+        if odpoved.lower=="q":
             print("Program končí")
             break
         else:
             try:
                 odpoved=float(odpoved)
-                tolerance=0.00001
                 if abs(odpoved-vysledek)<tolerance:
                     print("Ano, správně")
+                    user_statistics(odpoved,vysledek,tolerance)
+                
                 else:
                     print(f"Špatně, výsledek je {vysledek}")
-                user_statistics(odpoved,vysledek)
+                    user_statistics(odpoved,vysledek,tolerance)
+                
+                
             except ValueError:
                 print("Výsledek musí být číslo")
     
