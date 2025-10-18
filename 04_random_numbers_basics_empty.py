@@ -117,7 +117,7 @@ def example_generator_advance():
     """
     while True:
             pocet_cisel=input("Zadejte počet čísel v příkladu (nebo q pro ukončení):")
-            if pocet_cisel.lower=="q":
+            if pocet_cisel.lower()=="q":
                 print("Program končí")
                 return None, None
 
@@ -192,7 +192,7 @@ def example_generator_processor():
             return
         print(f"Vypočítej {priklad}")
         odpoved=input("Zadej výsledek")
-        if odpoved.lower=="q":
+        if odpoved.lower()=="q":
             print("Program končí")
             break
         else:
