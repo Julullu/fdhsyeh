@@ -1,6 +1,7 @@
 # PEP8 (Python Enhancement Proposal) 
+### **Autor:** Jiří Smílek 3.A
 ### Oficiální stránka PEP8:
-![pepwebsite](image.png)
+![pepwebsite](pics/pep_url.png)
 ## Obsah:
 ###     
 1. **Co je to PEP8?**
@@ -8,6 +9,8 @@
 2. **Pojmenovávací konvence**
 ###     
 3. **Typy formátování (komentáře, odsazení, apod.)**
+### 
+4. **Nástroje pro kontrolu formátování**
 ###
 ## **Co je PEP8?**
 ### 
@@ -67,7 +70,7 @@ MAX_RETRIES = 5
 DEFAULT_TIMEOUT = 30
 API_URL = "https://github.com/mgvsetin/PythonWork2027_01"
 ```
-**Poznámka:** Podle PEP8 platí, že konstanty by se měli psát s **CAPS LOCKEM** a mezery mezi slovy oddělovat podtržítkem **_**. Zároveň platí, že konstanty by se měli definovat hned na začátku programu (hned pod zahrnutím všech potřebných knihoven), abychom dali najevo že se jejich hodnoty nemají měnit. **pozn: Python technicky žádné konstanty nemá, protože je to dynamický jazyk. (kromě klíčových slov jako jsou True, False či None, které mají chráněné hodnoty**
+**Poznámka:** Podle PEP8 platí, že konstanty by se měli psát s **CAPS LOCKEM** a mezery mezi slovy oddělovat podtržítkem **_**. Zároveň platí, že konstanty by se měli definovat hned na začátku programu (hned pod zahrnutím všech potřebných knihoven), abychom dali najevo že se jejich hodnoty nemají měnit.
 
 
 ### 5. Moduly a Soubory
@@ -123,7 +126,6 @@ import numpy as np
 import pandas as pd
 
 from mujmodul import mujmdl
-
 ```
 ### 4) Řádky a Mezery stručně
 #### 
@@ -134,6 +136,47 @@ from mujmodul import mujmdl
  - **a) Kolem operátorů:** a + b = c, *nikoliv a+b=c*
  - **b) Po čárce:** funkce(x, y), *nikoliv funkce(x,y)*
  - **c) Uvnitř závorek:** list[1], *nikoliv list[ 1 ]*
+
+
+##  Nástroje na kontrolu formátování
+####
+-  Dodržování PEP8 se dá snadno zkontrolovat pomocí nástrojů jako je např: **flake8**, **black** nebo **pylint**.
+###    Stručně k uvedeným nástrojům:
+###
+###  `flake8:` kontroluje chyby proti PEP8 a varuje na nečistý kód.
+###  
+- **Příklad:**
+ ```python
+ #Nejdřív pomocí terminálu nainstalujeme flake8
+ pip install flake8
+ #Po úspěšné instalaci spustíme kontrolu flake8 následovně:
+ flake8 mujsoubor.py
+ #použije flake8 ke kontrole vámi vybraného souboru ('mujsoubor.py')
+ ```
+ ###  `black:` automaticky formátuje kód podle standardu (PEP8)
+###  
+- **Příklad:**
+ ```python
+ #Nejdřív pomocí terminálu nainstalujeme black
+ pip install black
+ #Po úspěšné instalaci spustíme kontrolu black následovně:
+ black mujsoubor.py
+ #použije black ke kontrole vámi vybraného souboru ('mujsoubor.py')
+ ```
+
+###  `pylint:` kromě stylu kontroluje i logiku a kvalitu kódu (pokročilejší)
+###  
+- **Příklad:**
+ ```python
+ #Nejdřív pomocí terminálu nainstalujeme pylint
+ pip install pylint
+ #Po úspěšné instalaci spustíme kontrolu pylint následovně:
+ pylint mujsoubor.py
+ #použije pylint ke kontrole vámi vybraného souboru ('mujsoubor.py')
+ ```
+### 
+**Poznámka:** Používání nástrojů pro kontrolu vašeho kódu proti průmyslovému standardu je rozhodně dobrý nápad, protože vám to ušetří čas i nervy při **Code Review**
+
 ## Závěr:
 #### 
 - **Dozvěděli** jste se něco o PEP8 a jeho pravidlech co se psaní kódu v jazyce python týče. Hlavní cíl PEP8 je zlepšit čitelnost a srozumitelnost kódu na univerzální úrovní, aby každý Python programátor mohl co nejrychleji porozumnět kódu někoho jiného. PEP8 není nutné striktně následovat kvůli samotnému syntaxu (program vám poběží tak či tak) ale spíše kvůli kolegialitě a vzájemnému porozumnění mezi programátory.

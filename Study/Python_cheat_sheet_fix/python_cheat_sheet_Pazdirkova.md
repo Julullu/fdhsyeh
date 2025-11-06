@@ -9,8 +9,7 @@ Každá sekce obsahuje krátké příklady a komentáře.
 
 1. [Importy modulů](#importy-modulů)
 2. [Vyčištění terminálu](#vyčištění-terminálu)
-3. [Komentáře](#jednořádkový-komentář)
-   - [Víceřádkový komentář / Docstring](#víceřádkový-komentář)
+3. [Komentáře](#komentáře)
 4. [Typy proměnných](#typy-proměnných)
 5. [Operace se stringem](#operace-se-stringem)
    - [Slicing](#slicing)
@@ -54,8 +53,12 @@ Provádíme na začátku programu.
 import math
 from os import path
 
-print(math.sqrt(16))
-print(path.exists("data.txt"))
+print(math.sqrt(16))              #4- viz kapitola o číslech a operátorech
+
+print(path.exists("data.txt"))    
+"""
+ověřuje, zda soubor data.txt existuje ve stejném adresáři --> True pokud ne --> False
+"""
 ```
 ## Vyčištění terminálu
 ```python
@@ -67,8 +70,10 @@ os.system('cls')
 # Pro macOS a Linux
 os.system('clear')
 ```
-## Jednořádkový komentář
+## Komentáře
 ```python
+# Příklad jednořádkového komentáře
+
 """
 Víceřádkový komentář
 nebo docstring pro funkce
@@ -220,6 +225,16 @@ a / b     # 3.3333
 a // b    # celočíselné dělení -> 3
 a % b     # zbytek po dělení -> 1
 a ** b    # mocnina -> 1000
+
+# Pro pokročilé matematické funkce musíme importovat modul math
+
+import math
+
+print(math.sqrt(16))      # odmocnina → 4.0
+print(math.pow(2, 3))     # mocnina → 8.0
+print(math.factorial(5))  # faktoriál → 120
+print(math.pi)            # konstanta π → 3.141592653589793
+print(math.sin(math.pi/2))# sinus → 1.0
 ```
 ## Podmínka
 ```python
@@ -396,7 +411,7 @@ else:
 finally:
     print("Toto se provede vždy.")
 ```
-💡 Shrnutí:
+💡 *Shrnutí:*
 
 try – pokouší se provést riskantní kód.
 
@@ -406,13 +421,15 @@ else – provede se, pokud žádná chyba nenastane.
 
 finally – provede se vždy, ideální pro úklid (např. zavření souboru, uvolnění zdrojů).
 ## Obrázky v Markdownu
-V mnoha Markdown editorech (např. VS Code, Obsidian) můžeš obrázek vložit z clipboardu jednoduše pomocí Ctrl + V.
+V mnoha Markdown editorech (např. VS Code, Obsidian) můžeš obrázek vložit z clipboardu jednoduše pomocí Ctrl + V. Aby si obrázek zobrazil i někdo na jiném počítači, musíme obrázek vložit do zipu s markdownem. Bývá zvykem vytvořit složku pro obrázky ("images") a dané obrázky slušně pojmenovat.
 ```python
-![alt text](image.png)
+![alt text](images/priklad_obrazku.png)
 ```
-![alt text](image.png)
+![alt text](images/priklad_obrazku.png)
 
 #### Pokročilejší verze pomocí HTML a CSS
+
+Obrázek je sourcovaný z jiné stránky- odkaz.
 ```python
 <p align="center">
   <img src="https://www.python.org/static/community_logos/python-logo.png" alt="Python logo" width="200" />

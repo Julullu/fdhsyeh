@@ -1,4 +1,5 @@
 # Hash
+![alt text](pic/image.png)
 ## Co je to Hash funkce?
 - Hash je jednosměrný matematický algoritmus, který převádí vstupní data libovolé délky do čísla vygenerovaného podle algoritmu
 - Hash můžeme používat například pro ukládání hesel, pro kryptografické operace, rychlé vyhledávání hledání stejných úseků DNA, nebo hledání malware antivirem.
@@ -13,7 +14,7 @@
 ## Hash tabulka
 ### Co to je?
 Datová struktura, která ukládá dvojice klíč a hodnota a následně používa hash klíčů k rychlému vyhledávání.
-![alt text](image.png)
+![alt text](pic/image-2.png)
 
 #### Souvislost s dictionary
 Ti bystřejší si mohli všimnout, že Hash tabulka je podobná dictionary. A je to proto, protože dictionary využívá Hash tab.
@@ -22,22 +23,42 @@ Ti bystřejší si mohli všimnout, že Hash tabulka je podobná dictionary. A j
 
 ```python
 import hashlib
-import os
 
+# --- Uložení hesla ---
 heslo = "tajneheslo123".encode()
-salt = os.urandom(16)  # generuje 16 náhodných bajtů
-heslo_s_salt = salt + heslo
 
-hash_hesla = hashlib.sha256(heslo_s_salt).hexdigest()
+# vytvoříme hash pomocí SHA-256
+ulozeny_hash = hashlib.sha256(heslo).hexdigest()
 
-print("Salt:", salt.hex())
-print("Hash hesla se saltem:", hash_hesla)
+# simulace uložení do souboru / databáze
 with open("heslo.txt", "w") as f:
-    f.write(hash_hesla) #uloží hash do souboru
+    f.write(ulozeny_hash)
 ```
 - `.encode()` přemění heslo na bajty
 - `hashlib.sha256(heslo)` přepíše bajty podle SHA-256 algoritmu na pevný 256 bajtový hash
 - `.hexdigest()` přepíše 256 bajtový řetězec do hexadecimální řetězec 
+### Ověření hesla 
+Když se uživatel příště přihlásí, zadá své heslo znovu.
+Program ho opět zahashuje stejným algoritmem a porovná s uloženým hashem.
+```python
+import hashlib
+
+zadane_heslo = input("Zadej heslo: ").encode()
+
+# přečteme uložený hash
+with open("heslo.txt", "r") as f:
+    ulozeny_hash = f.read()
+
+# vytvoříme hash zadaného hesla
+hash_zadaneho = hashlib.sha256(zadane_heslo).hexdigest()
+
+# porovnání
+if hash_zadaneho == ulozeny_hash:
+    print("Heslo je správné ")
+else:
+    print("Špatné heslo ")
+```
+
 #### Salt 
 Salt je náhodný řetězec přidaný k heslu před hashováním pro zvýšení bezpečnosti.
 
@@ -54,4 +75,4 @@ Salt je náhodný řetězec přidaný k heslu před hashováním pro zvýšení 
 - Hesla nikdy neukládáme přímo – používáme hash + salt (náhodný řetězec), aby i stejná hesla měla různé hashe.
 
 - V Pythonu se pro hashování hesel používá například hashlib spolu se saltem.
-
+![alt text](pic/image3.png)
