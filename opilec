@@ -20,18 +20,16 @@ def drunkman_simulator(size,steps):
         print(plan)
         plan.pop(pozice)
         plan.insert(pozice,".")
-        now=datetime.datetime.now()
-        zbytek= now % 3
-        if zbytek==0:
+        
+        krok=randint(0,1)
+        if krok==0:
             pozice+=1
-        elif zbytek==1:
-            pozice=pozice
-        else:
+        elif krok==1:
             pozice-=1
         if pozice==0:
             print("Opilec došel domů")
             break
-        elif pozice==size:
+        elif pozice==size+2:
             print("Opilec došel do hospody")
             break
         else:
