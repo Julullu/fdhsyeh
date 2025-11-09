@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>python_cheat_sheet.txt</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%F0%9F%90%8D-python-cheat-sheet">🐍 Python Cheat Sheet</h1>
+<p>Rychlá referenční příručka pro Python (vhodná pro začátečníky i pokročilejší).
+Každá sekce obsahuje krátké příklady a komentáře.</p>
+<hr>
+<h1 id="obsah">Obsah</h1>
+<ol>
+<li><a href="#importy-modul%C5%AF">Importy modulů</a></li>
+<li><a href="#vy%C4%8Di%C5%A1t%C4%9Bn%C3%AD-termin%C3%A1lu">Vyčištění terminálu</a></li>
+<li><a href="#jedno%C5%99%C3%A1dkov%C3%BD-koment%C3%A1%C5%99">Komentáře</a>
+<ul>
+<li><a href="#v%C3%ADce%C5%99%C3%A1dkov%C3%BD-koment%C3%A1%C5%99">Víceřádkový komentář / Docstring</a></li>
+</ul>
+</li>
+<li><a href="#typy-prom%C4%9Bnn%C3%BDch">Typy proměnných</a></li>
+<li><a href="#operace-se-stringem">Operace se stringem</a>
+<ul>
+<li><a href="#slicing">Slicing</a></li>
+<li><a href="#form%C3%A1tov%C3%A1n%C3%AD">Formátování</a>
+<ul>
+<li><a href="#1%EF%B8%8F%E2%83%A3-modern%C3%AD-f-string-od-python-36">F-string</a></li>
+<li><a href="#2%EF%B8%8F%E2%83%A3-form%C3%A1tov%C3%A1n%C3%AD-pomoc%C3%AD-metody-format">.format()</a></li>
+<li><a href="#3%EF%B8%8F%E2%83%A3-star%C5%A1%C3%AD--formatov%C3%A1n%C3%AD-podobn%C3%A9-jako-v-c">% formátování</a></li>
+<li><a href="#4%EF%B8%8F%E2%83%A3-zarovn%C3%A1n%C3%AD-a-form%C3%A1tov%C3%A1n%C3%AD-%C4%8D%C3%ADsel-ve-f-stringu">Zarovnání a čísla</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#z%C3%A1klady-print-a-input-v-pythonu">Základy I/O</a>
+<ul>
+<li><a href="#print"><code>print()</code></a></li>
+<li><a href="#input"><code>input()</code></a></li>
+</ul>
+</li>
+<li><a href="#pr%C3%A1ce-s-%C4%8Dasem">Práce s časem</a></li>
+<li><a href="#pr%C3%A1ce-s-modulem-random">Práce s modulem random</a>
+<ul>
+<li><a href="#1%EF%B8%8F%E2%83%A3-randomchoice--vybere-n%C3%A1hodn%C3%BD-prvek-ze-seznamu">random.choice()</a></li>
+<li><a href="#2%EF%B8%8F%E2%83%A3-randomseed--nastav%C3%AD-po%C4%8D%C3%A1te%C4%8Dn%C3%AD-hodnotu-pro-gener%C3%A1tor-n%C3%A1hodn%C3%BDch-%C4%8D%C3%ADsel">random.seed()</a></li>
+</ul>
+</li>
+<li><a href="#%C4%8D%C3%ADsla-a-oper%C3%A1tory">Čísla a operátory</a></li>
+<li><a href="#podm%C3%ADnka">Podmínky</a>
+<ul>
+<li><a href="#zkr%C3%A1cen%C3%A1-forma">Zkrácená forma</a></li>
+</ul>
+</li>
+<li><a href="#smy%C4%8Dka">Smyčky</a>
+<ul>
+<li><a href="#for-smy%C4%8Dka">For smyčka</a></li>
+<li><a href="#while-smy%C4%8Dka">While smyčka</a></li>
+<li><a href="#pomoc%C3%AD-listu">For přes seznam</a></li>
+</ul>
+</li>
+<li><a href="#funkce">Funkce</a>
+<ul>
+<li><a href="#%F0%9F%A7%A0-co-je-docstring">Docstring a Google styl</a></li>
+</ul>
+</li>
+<li><a href="#list-seznam">List (seznam)</a></li>
+<li><a href="#dictionary-slovn%C3%ADk">Dictionary (slovník)</a></li>
+<li><a href="#tuply">Tupl</a></li>
+<li><a href="#mno%C5%BEina">Množina</a></li>
+<li><a href="#errory-v%C3%BDjimky">Errory (výjimky)</a></li>
+<li><a href="#obr%C3%A1zky-v-markdownu">Obrázky v Markdownu</a>
+<ul>
+<li><a href="#pokro%C4%8Dilej%C5%A1%C3%AD-verze-pomoc%C3%AD-html-a-css">HTML a CSS verze</a></li>
+</ul>
+</li>
+</ol>
+<pre class="hljs"><code><div>python              <span class="hljs-comment"># spustí interaktivní režim</span>
+python script.py    <span class="hljs-comment"># spustí skript</span>
+</div></code></pre>
+<h2 id="importy-modul%C5%AF">Importy modulů</h2>
+<pre class="hljs"><code><div>Provádíme na začátku programu.
+<span class="hljs-keyword">import</span> math
+<span class="hljs-keyword">from</span> os <span class="hljs-keyword">import</span> path
+
+print(math.sqrt(<span class="hljs-number">16</span>))
+print(path.exists(<span class="hljs-string">"data.txt"</span>))
+</div></code></pre>
+<h2 id="vy%C4%8Di%C5%A1t%C4%9Bn%C3%AD-termin%C3%A1lu">Vyčištění terminálu</h2>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> os
+
+<span class="hljs-comment"># Pro Windows</span>
+os.system(<span class="hljs-string">'cls'</span>)
+
+<span class="hljs-comment"># Pro macOS a Linux</span>
+os.system(<span class="hljs-string">'clear'</span>)
+</div></code></pre>
+<h2 id="jedno%C5%99%C3%A1dkov%C3%BD-koment%C3%A1%C5%99">Jednořádkový komentář</h2>
+<pre class="hljs"><code><div><span class="hljs-string">"""
+Víceřádkový komentář
+nebo docstring pro funkce
+"""</span>
+</div></code></pre>
+<h2 id="typy-prom%C4%9Bnn%C3%BDch">Typy proměnných</h2>
+<pre class="hljs"><code><div>x = <span class="hljs-number">5</span>               <span class="hljs-comment"># int</span>
+y = <span class="hljs-number">3.14</span>            <span class="hljs-comment"># float</span>
+name = <span class="hljs-string">"Python"</span>     <span class="hljs-comment"># string</span>
+is_fun = <span class="hljs-literal">True</span>       <span class="hljs-comment"># boolean</span>
+</div></code></pre>
+<h2 id="operace-se-stringem">Operace se stringem</h2>
+<pre class="hljs"><code><div>s = <span class="hljs-string">"Hello World"</span>
+
+len(s)              <span class="hljs-comment"># délka řetězce</span>
+s.lower()           <span class="hljs-comment"># "hello world"</span>
+s.upper()           <span class="hljs-comment"># "HELLO WORLD"</span>
+s.title()           <span class="hljs-comment"># "Hello World"</span>
+s.strip()           <span class="hljs-comment"># odstraní mezery na okrajích</span>
+s.replace(<span class="hljs-string">"World"</span>, <span class="hljs-string">"Python"</span>)
+<span class="hljs-string">"Python"</span> <span class="hljs-keyword">in</span> s       <span class="hljs-comment"># True</span>
+</div></code></pre>
+<h2 id="slicing">Slicing</h2>
+<pre class="hljs"><code><div>s[<span class="hljs-number">0</span>:<span class="hljs-number">5</span>]              <span class="hljs-comment"># "Hello"</span>
+s[<span class="hljs-number">-1</span>]               <span class="hljs-comment"># poslední znak -&gt; "d"</span>
+s[<span class="hljs-number">1</span>:]               <span class="hljs-comment"># vypíše znak a všechny za ním -&gt; "ello Python"</span>
+s[:<span class="hljs-number">3</span>]               <span class="hljs-comment"># vypíše znak a všechny před ním -&gt; "Hel"</span>
+</div></code></pre>
+<h2 id="form%C3%A1tov%C3%A1n%C3%AD">Formátování</h2>
+<pre class="hljs"><code><div>name = <span class="hljs-string">"Eva"</span>
+age = <span class="hljs-number">26</span>
+</div></code></pre>
+<h3 id="1%EF%B8%8F%E2%83%A3-modern%C3%AD-f-string-od-python-36">1️⃣ Moderní f-string (od Python 3.6)</h3>
+<pre class="hljs"><code><div>greeting = <span class="hljs-string">f"Ahoj, <span class="hljs-subst">{name}</span>!"</span>                <span class="hljs-comment"># Vloží hodnotu proměnné name</span>
+info = <span class="hljs-string">f"<span class="hljs-subst">{name}</span> má <span class="hljs-subst">{age}</span> let."</span>            <span class="hljs-comment"># Vloží více proměnných</span>
+print(greeting)  <span class="hljs-comment"># Ahoj, Eva!</span>
+print(info)      <span class="hljs-comment"># Eva má 26 let.</span>
+
+<span class="hljs-comment"># f-string může obsahovat i výrazy</span>
+calculation = <span class="hljs-string">f"10 + 5 = <span class="hljs-subst">{<span class="hljs-number">10</span> + <span class="hljs-number">5</span>}</span>"</span>        <span class="hljs-comment"># výsledek výrazu přímo v řetězci</span>
+print(calculation)  <span class="hljs-comment"># 10 + 5 = 15</span>
+</div></code></pre>
+<h3 id="2%EF%B8%8F%E2%83%A3-form%C3%A1tov%C3%A1n%C3%AD-pomoc%C3%AD-metody-format">2️⃣ Formátování pomocí metody .format()</h3>
+<pre class="hljs"><code><div>greeting2 = <span class="hljs-string">"Ahoj, {}!"</span>.format(name)
+info2 = <span class="hljs-string">"{} má {} let."</span>.format(name, age)
+print(greeting2)  <span class="hljs-comment"># Ahoj, Eva!</span>
+print(info2)      <span class="hljs-comment"># Eva má 26 let.</span>
+</div></code></pre>
+<h3 id="3%EF%B8%8F%E2%83%A3-star%C5%A1%C3%AD--formatov%C3%A1n%C3%AD-podobn%C3%A9-jako-v-c">3️⃣ Starší %-formatování (podobné jako v C)</h3>
+<pre class="hljs"><code><div>greeting3 = <span class="hljs-string">"Ahoj, %s!"</span> % name          <span class="hljs-comment"># %s jako string</span>
+info3 = <span class="hljs-string">"%s má %d let."</span> % (name, age)   <span class="hljs-comment"># %d jako decimal integer</span>
+print(greeting3)  <span class="hljs-comment"># Ahoj, Eva!</span>
+print(info3)      <span class="hljs-comment"># Eva má 26 let.</span>
+</div></code></pre>
+<h3 id="4%EF%B8%8F%E2%83%A3-zarovn%C3%A1n%C3%AD-a-form%C3%A1tov%C3%A1n%C3%AD-%C4%8D%C3%ADsel-ve-f-stringu">4️⃣ Zarovnání a formátování čísel ve f-stringu</h3>
+<pre class="hljs"><code><div>pi = <span class="hljs-number">3.1415926535</span>
+print(<span class="hljs-string">f"Pi na 2 desetinná místa: <span class="hljs-subst">{pi:<span class="hljs-number">.2</span>f}</span>"</span>)    <span class="hljs-comment"># Pi na 2 desetinná místa: 3.14</span>
+print(<span class="hljs-string">f"Zarovnání vlevo: <span class="hljs-subst">{name:&lt;<span class="hljs-number">10</span>}</span>!"</span>)          <span class="hljs-comment"># Eva       !</span>
+print(<span class="hljs-string">f"Zarovnání vpravo: <span class="hljs-subst">{name:&gt;<span class="hljs-number">10</span>}</span>!"</span>)         <span class="hljs-comment">#        Eva!</span>
+print(<span class="hljs-string">f"Zarovnání na střed: <span class="hljs-subst">{name:^<span class="hljs-number">10</span>}</span>!"</span>)       <span class="hljs-comment">#    Eva    !</span>
+</div></code></pre>
+<h2 id="z%C3%A1klady-print-a-input-v-pythonu">Základy: <code>print()</code> a <code>input()</code> v Pythonu</h2>
+<h3 id="print"><code>print()</code></h3>
+<ul>
+<li>Slouží k <strong>výpisu textu nebo hodnot na obrazovku (terminál).</strong></li>
+</ul>
+<h4 id="z%C3%A1kladn%C3%AD-pou%C5%BEit%C3%AD">Základní použití</h4>
+<pre class="hljs"><code><div>print(<span class="hljs-string">"Ahoj světe!"</span>)         <span class="hljs-comment"># Vypíše text</span>
+print(<span class="hljs-number">5</span> + <span class="hljs-number">3</span>)                 <span class="hljs-comment"># Vypíše výsledek výpočtu: 8</span>
+</div></code></pre>
+<h3 id="input"><code>input()</code></h3>
+<ul>
+<li>Slouží k <strong>získání vstupu od uživatele (čeká, dokud uživatel nezadá text a nepotvrdí Enter).</strong></li>
+</ul>
+<h4 id="z%C3%A1kladn%C3%AD-pou%C5%BEit%C3%AD">Základní použití</h4>
+<pre class="hljs"><code><div>name = input(<span class="hljs-string">"Zadej své jméno: "</span>)
+print(<span class="hljs-string">f"Ahoj, <span class="hljs-subst">{name}</span>!"</span>)
+age = int(input(<span class="hljs-string">"Zadej svůj věk: "</span>))
+print(<span class="hljs-string">f"Za rok ti bude <span class="hljs-subst">{age + <span class="hljs-number">1</span>}</span> let."</span>)
+</div></code></pre>
+<h1 id="pr%C3%A1ce-s-%C4%8Dasem">Práce s časem</h1>
+<pre class="hljs"><code><div><span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime, timedelta
+
+<span class="hljs-comment"># Získání aktuálního času</span>
+now = datetime.now()
+
+print(now)                     <span class="hljs-comment"># celý objekt datetime (např. 2025-10-23 14:37:52.123456)</span>
+print(type(now))               <span class="hljs-comment"># &lt;class 'datetime.datetime'&gt;</span>
+
+<span class="hljs-comment"># ---- Výpis jednotlivých částí ----</span>
+print(<span class="hljs-string">"Rok:"</span>, now.year)        <span class="hljs-comment"># 2025</span>
+print(<span class="hljs-string">"Měsíc:"</span>, now.month)     <span class="hljs-comment"># 10</span>
+print(<span class="hljs-string">"Den:"</span>, now.day)         <span class="hljs-comment"># 23</span>
+print(<span class="hljs-string">"Hodina:"</span>, now.hour)     <span class="hljs-comment"># 14</span>
+print(<span class="hljs-string">"Minuta:"</span>, now.minute)   <span class="hljs-comment"># 37</span>
+print(<span class="hljs-string">"Sekunda:"</span>, now.second)  <span class="hljs-comment"># 52</span>
+</div></code></pre>
+<h2 id="pr%C3%A1ce-s-modulem-random">Práce s modulem random</h2>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> random
+</div></code></pre>
+<h3 id="1%EF%B8%8F%E2%83%A3-randomchoice-%E2%80%93-vybere-n%C3%A1hodn%C3%BD-prvek-ze-seznamu">1️⃣ random.choice() – vybere náhodný prvek ze seznamu</h3>
+<pre class="hljs"><code><div>colors = [<span class="hljs-string">"červená"</span>, <span class="hljs-string">"modrá"</span>, <span class="hljs-string">"zelená"</span>, <span class="hljs-string">"žlutá"</span>]
+random_color = random.choice(colors)
+print(<span class="hljs-string">"Náhodná barva:"</span>, random_color)
+</div></code></pre>
+<h3 id="2%EF%B8%8F%E2%83%A3-randomseed-%E2%80%93-nastav%C3%AD-po%C4%8D%C3%A1te%C4%8Dn%C3%AD-hodnotu-pro-gener%C3%A1tor-n%C3%A1hodn%C3%BDch-%C4%8D%C3%ADsel">2️⃣ random.seed() – nastaví počáteční hodnotu pro generátor náhodných čísel</h3>
+<p>Díky tomu budou náhodná čísla <strong>opakovatelná</strong> při každém spuštění</p>
+<pre class="hljs"><code><div>random.seed(<span class="hljs-number">42</span>)
+
+<span class="hljs-comment"># Nastaví počáteční bod generátoru náhodných čísel.</span>
+
+<span class="hljs-comment"># Pokud použiješ stejný seed, dostaneš stejnou posloupnost náhodných čísel.</span>
+print(<span class="hljs-string">"Náhodné číslo 1:"</span>, random.randint(<span class="hljs-number">1</span>, <span class="hljs-number">10</span>))  <span class="hljs-comment"># 1. číslo</span>
+print(<span class="hljs-string">"Náhodné číslo 2:"</span>, random.randint(<span class="hljs-number">1</span>, <span class="hljs-number">10</span>))  <span class="hljs-comment"># 2. číslo</span>
+
+<span class="hljs-comment"># Další použití random.choice se seedem</span>
+random_choice_with_seed = random.choice(colors)
+print(<span class="hljs-string">"Náhodná barva se seedem:"</span>, random_choice_with_seed)
+</div></code></pre>
+<h2 id="%C4%8D%C3%ADsla-a-oper%C3%A1tory">čísla a operátory</h2>
+<pre class="hljs"><code><div>a, b = <span class="hljs-number">10</span>, <span class="hljs-number">3</span>
+
+a + b     <span class="hljs-comment"># 13</span>
+a - b     <span class="hljs-comment"># 7</span>
+a * b     <span class="hljs-comment"># 30</span>
+a / b     <span class="hljs-comment"># 3.3333</span>
+a // b    <span class="hljs-comment"># celočíselné dělení -&gt; 3</span>
+a % b     <span class="hljs-comment"># zbytek po dělení -&gt; 1</span>
+a ** b    <span class="hljs-comment"># mocnina -&gt; 1000</span>
+</div></code></pre>
+<h2 id="podm%C3%ADnka">Podmínka</h2>
+<pre class="hljs"><code><div>x = <span class="hljs-number">10</span>
+<span class="hljs-keyword">if</span> x &gt; <span class="hljs-number">0</span>:
+    print(<span class="hljs-string">"kladné"</span>)
+<span class="hljs-keyword">elif</span> x == <span class="hljs-number">0</span>:
+    print(<span class="hljs-string">"nula"</span>)
+<span class="hljs-keyword">else</span>:
+    print(<span class="hljs-string">"záporné"</span>)
+</div></code></pre>
+<h3 id="zkr%C3%A1cen%C3%A1-forma">Zkrácená forma</h3>
+<pre class="hljs"><code><div>status = <span class="hljs-string">"OK"</span> <span class="hljs-keyword">if</span> x &gt; <span class="hljs-number">0</span> <span class="hljs-keyword">else</span> <span class="hljs-string">"NOK"</span>
+</div></code></pre>
+<h2 id="smy%C4%8Dka">Smyčka</h2>
+<h3 id="for-smy%C4%8Dka">For smyčka</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">5</span>):      <span class="hljs-comment"># 0–4</span>
+    print(i)
+
+</div></code></pre>
+<h3 id="while-smy%C4%8Dka">While smyčka</h3>
+<pre class="hljs"><code><div>i = <span class="hljs-number">0</span>
+<span class="hljs-keyword">while</span> i &lt; <span class="hljs-number">3</span>:
+    print(i)
+    i += <span class="hljs-number">1</span>
+</div></code></pre>
+<h3 id="pomoc%C3%AD-listu">Pomocí listu</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> [<span class="hljs-string">"jablko"</span>, <span class="hljs-string">"banán"</span>]: 
+    print(item)                  <span class="hljs-comment"># Vypíše itemy z listu</span>
+</div></code></pre>
+<h2 id="funkce">Funkce</h2>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">greet</span><span class="hljs-params">(name=<span class="hljs-string">"světe"</span>)</span>:</span>          <span class="hljs-comment"># Hodnota default argumentu je "světe"</span>
+    <span class="hljs-string">"""Vrátí pozdrav"""</span>           <span class="hljs-comment"># Docstring</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Ahoj, <span class="hljs-subst">{name}</span>!"</span>
+
+print(greet(<span class="hljs-string">"Pepa"</span>))    <span class="hljs-comment"># Změnili jsme argument na "Pepa" -- Ahoj, Pepa</span>
+</div></code></pre>
+<h2 id="%F0%9F%A7%A0-co-je-docstring">🧠 Co je docstring?</h2>
+<p><strong>Docstring</strong> (documentation string) je speciální <strong>řetězec v trojitých uvozovkách <code>&quot;&quot;&quot; ... &quot;&quot;&quot;</code></strong>,<br>
+který slouží k dokumentaci funkcí, tříd, metod a modulů.</p>
+<p>📌 Umisťuje se <strong>hned za definici</strong> funkce, třídy nebo modulu — ne jako komentář, ale jako součást kódu.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">greet</span><span class="hljs-params">(name)</span>:</span>
+    <span class="hljs-string">"""Vrátí textový pozdrav pro zadané jméno."""</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"Ahoj, <span class="hljs-subst">{name}</span>!"</span>
+</div></code></pre>
+<h3 id="google-styl">Google styl</h3>
+<p>args: argumenty funkce (s čím funkce pracuje)</p>
+<p>returns: co funkce vrací</p>
+<p>raises: výjimky, co může funkce vyhodit</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">divide</span><span class="hljs-params">(a, b)</span>:</span>
+    <span class="hljs-string">"""
+    Vydělí první číslo druhým.
+
+    Args:
+        a (float): Dělenec.
+        b (float): Dělitel.
+
+    Returns:
+        float: Výsledek dělení.
+
+    Raises:
+        ZeroDivisionError: Pokud je dělitel nulový.
+    """</span>
+    <span class="hljs-keyword">if</span> b == <span class="hljs-number">0</span>:
+        <span class="hljs-keyword">raise</span> ZeroDivisionError(<span class="hljs-string">"Dělení nulou není povoleno."</span>)
+    <span class="hljs-keyword">return</span> a / b
+</div></code></pre>
+<h2 id="list-seznam">List (seznam)</h2>
+<pre class="hljs"><code><div>nums = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]    <span class="hljs-comment"># vytvoří seznam s prvky 1, 2 a 3</span>
+nums.append(<span class="hljs-number">4</span>)      <span class="hljs-comment"># přidá číslo 4 na konec seznamu</span>
+nums.remove(<span class="hljs-number">2</span>)      <span class="hljs-comment"># odstraní první výskyt čísla 2 ze seznamu</span>
+nums.sort()         <span class="hljs-comment"># seřadí prvky seznamu vzestupně</span>
+len(nums)           <span class="hljs-comment"># vrátí počet prvků v seznamu (v tomto případě 3)</span>
+</div></code></pre>
+<h2 id="dictionary-slovn%C3%ADk">Dictionary (slovník)</h2>
+<pre class="hljs"><code><div><span class="hljs-comment"># Vytvoření slovníku s klíči "name" a "age"</span>
+person = {<span class="hljs-string">"name"</span>: <span class="hljs-string">"Eva"</span>, <span class="hljs-string">"age"</span>: <span class="hljs-number">25</span>}
+
+<span class="hljs-comment"># Změna hodnoty přiřazené ke klíči "age" na 26</span>
+person[<span class="hljs-string">"age"</span>] = <span class="hljs-number">26</span>
+
+<span class="hljs-comment"># Přidání nového páru klíč–hodnota (např. město)</span>
+person[<span class="hljs-string">"city"</span>] = <span class="hljs-string">"Brno"</span>
+
+<span class="hljs-comment"># Přístup k hodnotě podle klíče</span>
+print(person[<span class="hljs-string">"name"</span>])     <span class="hljs-comment"># vypíše: Eva</span>
+
+<span class="hljs-comment"># Bezpečný přístup pomocí .get() – nevyvolá chybu, pokud klíč neexistuje, vypíše se výchozí hodnota "neznámý"</span>
+print(person.get(<span class="hljs-string">"email"</span>, <span class="hljs-string">"neznámý"</span>))   <span class="hljs-comment"># vypíše: neznámý</span>
+
+<span class="hljs-comment"># Odstranění páru s klíčem "city"</span>
+person.pop(<span class="hljs-string">"city"</span>)
+
+<span class="hljs-comment"># Výpis všech klíčů ve slovníku</span>
+print(person.keys())      <span class="hljs-comment"># dict_keys(['name', 'age'])</span>
+
+<span class="hljs-comment"># Výpis všech hodnot</span>
+print(person.values())    <span class="hljs-comment"># dict_values(['Eva', 26])</span>
+
+<span class="hljs-comment"># Výpis všech dvojic klíč–hodnota</span>
+print(person.items())     <span class="hljs-comment"># dict_items([('name', 'Eva'), ('age', 26)])</span>
+
+<span class="hljs-comment"># Cyklem lze procházet všechny položky</span>
+<span class="hljs-keyword">for</span> key, value <span class="hljs-keyword">in</span> person.items():
+    print(key, <span class="hljs-string">"="</span>, value)
+
+</div></code></pre>
+<h2 id="tuply">Tuply</h2>
+<pre class="hljs"><code><div><span class="hljs-comment"># Vytvoření tuplu se třemi prvky</span>
+point = (<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>)
+
+<span class="hljs-comment"># Přístup k jednotlivým prvkům podle indexu (indexování začíná od 0)</span>
+x = point[<span class="hljs-number">0</span>]   <span class="hljs-comment"># první prvek: 2</span>
+y = point[<span class="hljs-number">1</span>]   <span class="hljs-comment"># druhý prvek: 3</span>
+z = point[<span class="hljs-number">2</span>]   <span class="hljs-comment"># třetí prvek: 5</span>
+</div></code></pre>
+<p>Tupl je <strong>neměnný (immutable)</strong> – nelze měnit hodnoty jednotlivých prvků</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># point[0] = 10   # toto by vyvolalo chybu!</span>
+
+<span class="hljs-comment"># Délka tuplu</span>
+length = len(point)  <span class="hljs-comment"># 3</span>
+
+<span class="hljs-comment"># Tupl lze procházet v cyklu</span>
+<span class="hljs-keyword">for</span> coordinate <span class="hljs-keyword">in</span> point:
+   print(coordinate)
+
+<span class="hljs-comment"># Tupl může obsahovat různé typy hodnot</span>
+person = (<span class="hljs-string">"Eva"</span>, <span class="hljs-number">26</span>, <span class="hljs-string">"Brno"</span>)
+
+<span class="hljs-comment"># Přístup k hodnotám</span>
+name = person[<span class="hljs-number">0</span>]   <span class="hljs-comment"># Eva</span>
+age = person[<span class="hljs-number">1</span>]    <span class="hljs-comment"># 26</span>
+city = person[<span class="hljs-number">2</span>]   <span class="hljs-comment"># Brno</span>
+
+<span class="hljs-comment"># Tupl lze rozbalit do proměnných</span>
+name, age, city = person
+</div></code></pre>
+<h2 id="mno%C5%BEina">Množina</h2>
+<pre class="hljs"><code><div>a = {<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>}
+b = {<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>}
+a | b   <span class="hljs-comment"># sjednocení</span>
+a &amp; b   <span class="hljs-comment"># průnik</span>
+a - b   <span class="hljs-comment"># rozdíl</span>
+</div></code></pre>
+<h2 id="errory-v%C3%BDjimky">Errory (výjimky)</h2>
+<pre class="hljs"><code><div><span class="hljs-keyword">try</span>:
+    result = <span class="hljs-number">10</span> / <span class="hljs-number">0</span>
+<span class="hljs-keyword">except</span> ZeroDivisionError:
+    print(<span class="hljs-string">"Nelze dělit nulou!"</span>)
+<span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+    print(<span class="hljs-string">"Jiná chyba:"</span>, e)
+<span class="hljs-keyword">else</span>:
+    print(<span class="hljs-string">"Bez chyby"</span>)
+<span class="hljs-keyword">finally</span>:
+    print(<span class="hljs-string">"Toto se provede vždy."</span>)
+</div></code></pre>
+<p>💡 Shrnutí:</p>
+<p>try – pokouší se provést riskantní kód.</p>
+<p>except – zachytává konkrétní chyby a umožňuje reagovat.</p>
+<p>else – provede se, pokud žádná chyba nenastane.</p>
+<p>finally – provede se vždy, ideální pro úklid (např. zavření souboru, uvolnění zdrojů).</p>
+<h2 id="obr%C3%A1zky-v-markdownu">Obrázky v Markdownu</h2>
+<p>V mnoha Markdown editorech (např. VS Code, Obsidian) můžeš obrázek vložit z clipboardu jednoduše pomocí Ctrl + V.</p>
+<pre class="hljs"><code><div>![alt text](image.png)
+</div></code></pre>
+<p><img src="image.png" alt="alt text"></p>
+<h4 id="pokro%C4%8Dilej%C5%A1%C3%AD-verze-pomoc%C3%AD-html-a-css">Pokročilejší verze pomocí HTML a CSS</h4>
+<pre class="hljs"><code><div>&lt;p align=<span class="hljs-string">"center"</span>&gt;
+  &lt;img src=<span class="hljs-string">"https://www.python.org/static/community_logos/python-logo.png"</span> alt=<span class="hljs-string">"Python logo"</span> width=<span class="hljs-string">"200"</span> /&gt;
+&lt;/p&gt;
+</div></code></pre>
+<p align="center">
+  <img src="https://www.python.org/static/community_logos/python-logo.png" alt="Python logo" width="200" />
+</p>
+
+</body>
+</html>

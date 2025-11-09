@@ -1,0 +1,31 @@
+import time
+import os
+from random import randint, seed
+
+def drunkman_simulator (size,steps):
+    pozice=size//2
+    cil_1="domov"
+    cil_2="MGV"
+
+    for krok in range(steps):
+        cesta=['.']*size
+        cesta[pozice]='*'
+        print(f"{cil_1}{' '.join(cesta)} {cil_2}")
+        if pozice==0:
+            print("Opilec dorazil domů")
+            return
+        elif pozice==size-1:
+            print("Opilec došel na gympl")
+            return
+        
+        smer=randint(0,1)
+        if smer==1:
+            pozice+=1
+        elif smer==0:
+            pozice-=1
+    
+    print("Opilec usnul na cestě")
+
+
+if __name__ == "__main__":
+    drunkman_simulator(size=10, steps=15)
