@@ -32,7 +32,7 @@ def drunkman_simulator(size, steps):
     hospoda_popisek = "MGV"
     delka_cesty = size
 
-    for krok in range(steps):
+    for _ in range(steps):
         # Vytvoření reprezentace aktuální cesty jako seznam teček
         cesta = ['.'] * delka_cesty
         cesta[pozice] = '*'  # Značka, kde se opilec nachází
