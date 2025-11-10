@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 # Příliš žluťoučký kůň úpěl ďábelské ódy - testovací pangram
 """_summary_
-04) random3_horse_race.py
-
-
+-> horse_race(horse_count, steps_to_win)
+    -> horse_count (int): Počet závodících koní
+    -> steps_to_win (int): Počet kroků, které musí kůň ujít, aby vyhrál závod.
+Simuluje závod pomyslných koní od startu do cíle.
+Každý kůň může na každém kroku buď udělat krok dopředu (1) nebo zůstat stát (0), 
+náhodně určené. Výsledný stav závodu se vykresluje do terminálu, kde každý kůň 
+je zobrazen na jednom řádku s hvězdičkou na pozici, kde se aktuálně nachází.
 """
-
-
 
 import time
 import os

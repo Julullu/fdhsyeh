@@ -1,11 +1,11 @@
-# Lekce 3: Geometrické objekty v Pythonu – trojúhelník komplexně
+# Geometrické objekty v Pythonu – trojúhelník komplexně
 
 Tato lekce je zaměřena na praktické i teoretické zvládnutí výpočtů a analýzy různých geometrií – zejména trojúhelníku. Studenti nejen programují výpočet obvodu a obsahu, ale učí se validovat vstupy, analyzovat vlastnosti objektů (klasifikace trojúhelníku), vypočítávají úhly, poloměry kružnic, tvoří jednoduché menu a vyzkouší i grafické vykreslení se `matplotlib`.
 
 Ke studiu máte opět dva soubory:
 
-- `03_geometric_object_basics_empty.py` (doplnění řešení)
-- `03_geometric_object_basics.py` (vzorová řešení včetně komentářů)
+- `geometric_object_basics_empty.py` (doplnění řešení)
+- `geometric_object_basics.py` (vzorová řešení včetně komentářů)
 
 
 ## 1. Základ: Vstup délky stran trojúhelníku

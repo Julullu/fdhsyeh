@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # Příliš žluťoučký kůň úpěl ďábelské ódy - testovací pangram
 """_summary_
-03) geometric_object_basics.py
-
 Obvod a obsah trojúhelníku - na vstupu budou délky 3 stran
 * Doplňte o podmínky řešitelnosti - vstupní hodnoty (využij definici funkce), trojúhelníková nerovnost
 * Podle délek stran urči, zda se jedná o některý ze speciálních případů trojúhelníku.

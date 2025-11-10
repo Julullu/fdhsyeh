@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 # Příliš žluťoučký kůň úpěl ďábelské ódy - testovací pangram
 """_summary_
-04) random_numbers_basics.py
-
 Vygeneruj 2 náhodná čísla od 1 do 10, zvol náhodou operaci, zobraz, zeptej se na výsledek, zkontroluj.
 * Přidej opakování, dokud nebude stiknuto "q" nebo "Q"
 * Přidej statistiku - počet správných odpovědí / celkem příkladů
 ** Rozděl hlavní funkci na části tak, aby bylo možno generovat příklady i s více čísly (př.: 5+6-4), stačí operace + a -,
    volbu počtu čísel v příkladu ponech na uživateli
-
 """
 
 import random

@@ -1,6 +1,6 @@
-# Lekce 2: Kalkulačka v Pythonu – validace, podmínky, cykly a práce se soubory
+# Kalkulačka v Pythonu – validace, podmínky, cykly a práce se soubory
 
-Tato lekce je určena studentům středních škol, kteří ovládli základy Pythonu a chtějí své znalosti posunout dále: naučí se rozpoznávat a řešit chyby při vstupu, používat podmínky a cykly, pracovat se soubory a v pokročilejším modulu vyzkoušet i jednoduché grafické rozhraní. Lekce je strukturována tak, že studenti mají k dispozici dva soubory: **prázdný** (`02_calc_basics_empty.py`), do kterého dopisují vlastní kód podle zadání, a **vzorový** (`02_calc_basics.py`), který slouží k inspiraci, ověření správného postupu nebo nalezení chyby.
+Tato lekce je určena studentům středních škol, kteří ovládli základy Pythonu a chtějí své znalosti posunout dále: naučí se rozpoznávat a řešit chyby při vstupu, používat podmínky a cykly, pracovat se soubory a v pokročilejším modulu vyzkoušet i jednoduché grafické rozhraní. Lekce je strukturována tak, že studenti mají k dispozici dva soubory: **prázdný** (`calc_basics_empty.py`), do kterého dopisují vlastní kód podle zadání, a **vzorový** (`calc_basics.py`), který slouží k inspiraci, ověření správného postupu nebo nalezení chyby.
 
 ## Cíl a struktura lekce
 

@@ -1,9 +1,24 @@
 # -*- coding: utf-8 -*-
 # Příliš žluťoučký kůň úpěl ďábelské ódy - testovací pangram
 """_summary_
-04) random2_drunkman_simulator.py
+Opilec je na půli cesty mezi domovem a hospodou, každý krok udělá náhodně jedním směrem. 
+Napište funkci, která bude simulovat opilcův pohyb. Jejími parametry budou vzdálenost mezi 
+domovem a hospodou a počet kroků do opilcova usnutí (tj. maximální délka simulace). 
+Simulace skončí buď tehdy, když opilec dojede domů nebo do hospody, 
+případně po vyčerpání počtu kroků.
 
+-> drunkman_simulator(size, steps)
 
+V tomto příkladu tedy použijeme předchozí program pro jednoduchou analýzu, jak to dopadne, 
+když to zkusíme zopakovat vícekrát za sebou. Nejprve upravte funkci z předchozí příkladu tak, 
+aby nevypisovala stav opilce (například přidáním volitelného parametru output a zapodmínkováním 
+výpisu) a aby vracela True dojde-li opilec domů a False pokud ne. Následně napište funkci, 
+která provede simulaci opilce count krát a vypíše procentuální úspěšnost dojití domů.
+- přidej nepovinný parametr output (1/0),
+- nechej proběhnout 100 se zadanými parametry, nevykresluj do terminálu,
+- počítej statistiku, kolikrát došel do hospody, domů nebo zůstal na cestě,
+
+-> drunkman_analysis(size, steps, count)
 """
 
 

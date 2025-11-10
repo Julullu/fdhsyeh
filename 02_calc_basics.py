@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 # Příliš žluťoučký kůň úpěl ďábelské ódy - testovací pangram
 """_summary_
-    02) calc_basics.py
-
-    Vyžádej si na vstupu 2 čísla, proveď s nima základní operace, na výstupu vždy zobraz operaci a výsledek.
-    * ošetři dělení nulou
-    * ošetři číselný vstup
-    ** ukládání výstupů do souboru
-    *** GUI tkinter
+Vyžádej si na vstupu 2 čísla, proveď s nima základní operace, na výstupu vždy zobraz operaci a výsledek.
+* ošetři dělení nulou
+* ošetři číselný vstup
+** ukládání výstupů do souboru
+*** GUI tkinter
 """
 
 # import knihoven je zvykem definovat na začátku

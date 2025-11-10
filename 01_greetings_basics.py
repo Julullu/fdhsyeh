@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # Příliš žluťoučký kůň úpěl ďábelské ódy - testovací pangram
 """_summary_
-01) greetings_basics.py
-
 Na inputu jméno, příjmení. Na výstupu jeden ze 3 možných pozdravů včetně vstupních informací.
 * jak vyčistit terminál
 * jak skutečně zajistit náhodnost

@@ -1,11 +1,11 @@
-# Lekce 4: Počítáme s náhodou – generování a procvičování příkladů v Pythonu
+# Počítáme s náhodou – generování a procvičování příkladů v Pythonu
 
 Tato lekce zavádí studenty do světa **generování náhodných čísel** a procvičování základních aritmetických operací pomocí interaktivního programu. Studenti si procvičí nejen samotné počítání, ale poznají nové programovací koncepty: náhodnost, rozdělení programu na samostatné funkce, práci s cykly, správou statistik i pokročilejší vstup a ochranu proti chybám.
 
 K dispozici máte dva soubory:
 
-- `04_random_numbers_basics_empty.py` – prázdný, který vy sami doprogramujete,
-- `04_random_numbers_basics.py` – vzorové řešení s komentáři.
+- `random_numbers_basics_empty.py` – prázdný, který vy sami doprogramujete,
+- `random_numbers_basics.py` – vzorové řešení s komentáři.
 
 
 ## Cíle lekce
