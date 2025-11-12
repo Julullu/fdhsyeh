@@ -1,6 +1,6 @@
-![alt text](pics/image.png)
+![alt text](image.png)
 
-# Vlastní knihovna
+## Vlastní knihovna
 
 ### 🧠 Co to znamená
 
@@ -20,31 +20,31 @@ Použiješ funkce z knihovny ve svém programu.
 
 📘 Jednoduchý příklad
 1️⃣ Vytvoř vlastní knihovnu — soubor matematika.py
+*matematika.py*
 
+def secti(a, b):
+    """Vrátí součet dvou čísel"""
+    return a + b
 
-    def secti(a, b):
-        """Vrátí součet dvou čísel"""
-        return a + b
+def rozdil(a, b):
+    """Vrátí rozdíl dvou čísel"""
+    return a - b
 
-    def rozdil(a, b):
-        """Vrátí rozdíl dvou čísel"""
-        return a - b
-
-    def mocnina(a, n):
-        """Vrátí a^n"""
-        return a ** n
+def mocnina(a, n):
+    """Vrátí a^n"""
+    return a ** n
 
 2️⃣ Použij ji v jiném souboru — např. program.py
-    #program.py
+#program.py
 
-    import matematika  #import celé knihovny
+import matematika  #import celé knihovny
 
-    vysledek = matematika.secti(10, 5)
-    print("Součet:", vysledek)
+vysledek = matematika.secti(10, 5)
+print("Součet:", vysledek)
 
-    Nebo můžeš importovat jen konkrétní funkci
-    from matematika import mocnina
-    print("2 na třetí je:", mocnina(2, 3))
+Nebo můžeš importovat jen konkrétní funkci
+from matematika import mocnina
+print("2 na třetí je:", mocnina(2, 3))
 
 
 ✅ Výstup:
@@ -56,11 +56,11 @@ Součet: 15
 
 Pokud chceš knihovnu s více moduly:
 
-    moje_knihovna/
-    │
-    ├── __init__.py
-    ├── matematika.py
-    └── geometrie.py
+moje_knihovna/
+│
+├── __init__.py
+├── matematika.py
+└── geometrie.py
 
 
 Soubor __init__.py říká Pythonu, že tato složka je balíček.
@@ -69,8 +69,8 @@ Pak můžeš importovat např.:
 from moje_knihovna.matematika import secti
 
 ### 💡 Shrnutí
-    Krok	Popis
-    1	Vytvoř .py soubor s funkcemi
-    2	Ulož ho do stejné složky nebo balíčku
-    3	Použij import pro přístup k funkcím
-    4	(Volitelně) přidej __init__.py pro balíček
+Krok	Popis
+1	Vytvoř .py soubor s funkcemi
+2	Ulož ho do stejné složky nebo balíčku
+3	Použij import pro přístup k funkcím
+4	(Volitelně) přidej __init__.py pro balíček
