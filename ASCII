@@ -1,0 +1,37 @@
+import os
+
+
+print(ord("G"))
+print(chr(50))
+
+
+
+print(f"bin(65)[2:]")
+print(f"oct(65)[2:]")
+print(f"hex(65)[2:]")
+
+for i in range(32, 128):
+    print(f"{i:>5}{chr(i):>5}{bin(i)[2:]:>10}{oct(i)[2:]:>5}{hex(i)[2:].upper():>5}")
+
+def ascii_table(start=32, end=127):
+    print(f"Dec Char Bin Oct Hex")
+    for i in range (start, end+1):
+        print(f"{i:>5}{chr(i):>5}{bin(i)[2:]:>10}{oct(i)[2:]:>5}{hex(i)[2:].upper():>5}")
+
+ascii_table()
+
+def char_to_base (char,base):
+    value=ord(char)
+    if base == 'bin':
+        return bin(value)[2:]
+    elif base == 'oct':
+        return oct(value)[2:]
+    elif base == 'hex':
+        return hex(value)[2:].upper()
+    else:
+        return "Neplatný vstup"
+
+print(char_to_base("#","hex"))
+
+def ascii_table_multicolumn (start=32, end=127, cols=4):
+    print((f"Dec Char Bin Oct Hex")*cols)
