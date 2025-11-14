@@ -1,37 +1,66 @@
 import os
 
+print(ord("A"))
+print(chr(66))
 
-print(ord("G"))
-print(chr(50))
+print(bin(17)[2:])
+print(oct(52))
+print(hex(28))
 
 
 
-print(f"bin(65)[2:]")
-print(f"oct(65)[2:]")
-print(f"hex(65)[2:]")
-
-for i in range(32, 128):
-    print(f"{i:>5}{chr(i):>5}{bin(i)[2:]:>10}{oct(i)[2:]:>5}{hex(i)[2:].upper():>5}")
-
-def ascii_table(start=32, end=127):
-    print(f"Dec Char Bin Oct Hex")
+def ascii_table (start=0, end=50):
+    print("Dec char bin oct hex")
     for i in range (start, end+1):
-        print(f"{i:>5}{chr(i):>5}{bin(i)[2:]:>10}{oct(i)[2:]:>5}{hex(i)[2:].upper():>5}")
+        print(f"{i:<5}{chr(i):<5}{bin(i)[2:]:<5}{oct(i)[2:]:<5}{hex(i)[2:].upper():<5}")
 
-ascii_table()
 
-def char_to_base (char,base):
+
+def better_table (char, base):
     value=ord(char)
-    if base == 'bin':
+    if base =="bin":
         return bin(value)[2:]
-    elif base == 'oct':
+    elif base == "oct":
         return oct(value)[2:]
-    elif base == 'hex':
-        return hex(value)[2:].upper()
+    elif base == "hex":
+        return hex(value)[2:]
     else:
-        return "Neplatný vstup"
+        print("Neplatný vstup")
 
-print(char_to_base("#","hex"))
+print(f"{better_table("*","bin")}")
+print(f"{better_table("*","oct")}")
+print(f"{better_table("*","hex")}")
 
-def ascii_table_multicolumn (start=32, end=127, cols=4):
-    print((f"Dec Char Bin Oct Hex")*cols)
+def multicolumn (start=32, end=120, cols=4):
+    hlavicka=f"{'Dec':<5}{'Chr':<5}{'Bin':<10}{'Oct':<5}{'Hex':<5}|"
+    print(hlavicka*cols)
+    for i in range (start, end + 1, cols):
+        for j in range (i, min(i + cols, end + 1)):
+            print(f"{j:<5}{chr(j):<5}{bin(j)[2:]:<10}{oct(j)[2:]:<5}{hex(j)[2:].upper():<5}", end="|")
+        print()
+
+if __name__ == "__main__":
+    os.system("cls")
+    ascii_table()
+    print("____________________")
+    multicolumn()
+    while True:
+        try:
+            znak=input("Zadejte prosím jeden zvolený znak nebo q pro ukončení")
+            if znak=="q":
+                print("Program končí")
+                break
+
+            base=input("Zadejte v jaké soustavě ho chcete uvést (bin, oct, hex)")
+
+            if len(znak)==1 and ord(znak)>0 and ord(znak)<128:
+                if base != "bin" and base != "oct" and base != "hex":
+                    print(f"{better_table(znak,base)}")
+                else:
+                    print(f"Znak {znak} zapsaný v soustavě {base}:{better_table(znak,base)}")
+            else:
+                print("neplatný ASCII znak")
+        except ValueError:
+            print("neplatný vstup, zkus znovu")
+
+
