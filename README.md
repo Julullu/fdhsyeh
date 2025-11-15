@@ -1,3 +1,14 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+# fdhsyeh
+=======
+# PythonWork2027_01
+Uvodni cast studia, skupina 2025-2027 maturita, Valek
+>>>>>>> 49950e0 (Initial commit)
+=======
+>>>>>>> c26ec08676838e71e8b8ecc99ff35c9ee2852859
 # Úvodní informace k semináři programování v Pythonu
 
 Ahoj všichni,
@@ -75,6 +86,7 @@ Odměnou vám bude nejen znalost Pythonu, ale i rozvinuté analytické myšlení
 Těším se, co společně dokážeme!
 
 *P.S.: Pokud se vám někdy nebude dařit, nevzdávejte to. Všichni jsme začínali na „chybách“ – důležité je vytrvat a jít dál.*
+<<<<<<< HEAD
 
 ## Povídačka na závěr
 
@@ -96,3 +108,6 @@ V ideálním světě by to mohlo vypadat takto:
     
 
 **Závěrem - ve škole** si většinou řekneme nějaké další špeky nebo části teorie, které stojí za zmínku, nadefinujeme úkoly a společnou práci, pořešíme, zda někomu něco ne/jede, mrkneme na další nápady nebo zlepšováky, budeme řešit, kam dál... začneme se zabývat tématy, která souvisí s programováním a informatikou - příprava k maturitě, společné **maturitní otázky** vs. individuální vypracování.
+=======
+>>>>>>> 9136545 (prepare lesson)
+>>>>>>> c26ec08676838e71e8b8ecc99ff35c9ee2852859

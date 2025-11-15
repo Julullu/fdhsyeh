@@ -1,0 +1,40 @@
+import time
+import os
+from random import randint
+
+def kone(size, steps, pocet_konu):
+    """Simulace závodu dvou koní
+    
+    Funkce vytvoří závodní rovinku pro dva koně. Každý kůň se v jednom kroku buďto pohne (1) nebo stojí (0), 
+    Hra končí buď výhrou jednoho z koňů nebo vyčerpáním obou koňů.
+
+    Args: 
+    size(int)= Počet políček závodního plánku pro oba koně
+    steps(int)= Maximální počet kroků, po který simulace běží (než se koně unaví)
+
+    Returns: none
+    """
+    pocatek="start"
+    konec="cil"
+    pozice=[0]*pocet_konu
+    for krok in range(steps):
+        print(f"Krok {krok + 1}\n")
+        for i in range (pocet_konu):
+            pohyb_kone_i=randint(0,1)
+            
+            cesta_i=['.']*size
+            cesta_i[pozice[i]]='*'
+            print(f"{pocatek}{''.join(cesta_i)}{konec}")
+
+            if pozice[i]==size-1:
+                print(f"Kůň číslo {i+1} vyhrál")
+                return
+           
+            if pohyb_kone_i==1 and pozice[i] < size - 1:
+                pozice[i]+=1
+            time.sleep(0.1)
+       
+    print("Koně se unavili")
+
+if __name__=="__main__":
+    kone(size=10,steps=15,pocet_konu=5)

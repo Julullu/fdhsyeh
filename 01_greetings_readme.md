@@ -1,10 +1,18 @@
+<<<<<<< HEAD
 # Pozdrav uživatele v Pythonu – širší průvodce začátečníka
+=======
+# Lekce 1: Pozdrav uživatele v Pythonu – širší průvodce začátečníka
+>>>>>>> c26ec08676838e71e8b8ecc99ff35c9ee2852859
 
 Tato lekce slouží jako první skutečný kontakt s programováním v Pythonu. Díky úloze na pozdrav uživatele studenti procvičí práci s **vstupem, výstupem, proměnnými, seznamy, základními podmínkami, časem a módovými knihovnami**. Cílem je, aby student pochopil klíčové konstrukce v Pythonu, naučil se strukturovat kód a byl schopen pracovat s daty a prostředím, které Python nabízí.
 
 ## Výchozí situace
 
+<<<<<<< HEAD
 - **Dva soubory**: `greetings_basics_empty.py` (prázdný, určený k doplnění kódu) a `greetings_basics.py` (vzorový, s hotovým řešením).
+=======
+- **Dva soubory**: `01_greetings_basics_empty.py` (prázdný, určený k doplnění kódu) a `01_greetings_basics.py` (vzorový, s hotovým řešením).
+>>>>>>> c26ec08676838e71e8b8ecc99ff35c9ee2852859
 - **Student** může porovnat vlastní postup se vzorem, hledat inspiraci nebo se vrátit v případě chyb.
 - **AI asistenty** může využít k dalšímu vzdělávání a rychlé sebereflexi.
 

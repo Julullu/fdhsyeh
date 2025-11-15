@@ -1,0 +1,181 @@
+[33mcommit a0718e239eec2e9f5cabd96cf1c1516988f714aa[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Julullu <julie.pazdirkova@student.mgvsetin.cz>
+Date:   Sat Nov 15 10:18:38 2025 +0100
+
+    asdd
+
+[33mcommit 1c0ec65988dc5c69993e3611dba4f150cb675e0c[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Thu Nov 13 13:30:31 2025 +0100
+
+    ASCII lekce
+
+[33mcommit 5d8b3aa2e50995a2e036d3140c68a6fac57eba12[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Wed Nov 12 14:22:01 2025 +0100
+
+    updated 2025
+
+[33mcommit c47a51d687794f511abef6eaa48d3a61ec837aaa[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Mon Nov 10 09:19:40 2025 +0100
+
+    updated 2025
+
+[33mcommit bd0c5357a2e7e122da936fbab6cf14c9a52bea2f[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Mon Nov 10 07:58:15 2025 +0100
+
+    updated2025
+
+[33mcommit b37d9c39e7978371082b0c59046bbf5e91c9409b[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Thu Nov 6 14:46:19 2025 +0100
+
+    random extensions
+
+[33mcommit 56eaf9e069e3642684909d9ec0b1da2322cc71be[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Thu Nov 6 13:30:47 2025 +0100
+
+    updated2 2025
+
+[33mcommit e806a60baa3864ca3d387bd3ced5520302d702c3[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Thu Oct 30 13:28:51 2025 +0100
+
+    hw
+
+[33mcommit a9f26658bd77c8443b0ac69c685b1ba159801936[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Thu Oct 23 13:27:47 2025 +0200
+
+    prednasky
+
+[33mcommit 5bc615b0a6b6bab875d386dc400d337fb90cb8be[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Thu Oct 16 13:27:40 2025 +0200
+
+    random nr updated
+
+[33mcommit ca8a7dd690318145db95ed59dfd44cd9c957800d[m
+Merge: 591ad28 24bd6f6
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Thu Oct 9 15:35:45 2025 +0200
+
+    Merge branch 'main' of https://github.com/mgvsetin/PythonWork2027_01
+
+[33mcommit 591ad289b4f2c0cffbb8d329a589f7b63cf6c1f5[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Thu Oct 9 15:35:41 2025 +0200
+
+    deleted
+
+[33mcommit 24bd6f66dc32939ebd48af0a4b148365af026867[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Thu Oct 9 13:40:41 2025 +0200
+
+    reviews01
+
+[33mcommit 0e3036bbcfd1c11be12e11cef3e144f3a5c06474[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Thu Oct 9 13:26:33 2025 +0200
+
+    Random_numbers_added
+
+[33mcommit 13ee44a2b4d83b446a3432fd2f7c318cce6a494e[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Fri Sep 26 15:42:25 2025 +0200
+
+    korekce pylint
+
+[33mcommit 7db1c38d0693fa47842762a2249adb1882310144[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Fri Sep 26 15:28:14 2025 +0200
+
+    added encoding statement
+
+[33mcommit 484cbca7ab2ab86d076a6d5c399304570075061c[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Fri Sep 26 13:56:01 2025 +0200
+
+    Instalace - první nastavení - základní postup
+
+[33mcommit 03dbbe451d665fc0ed2a12e31f55f330f4e7fa0a[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Fri Sep 26 13:24:39 2025 +0200
+
+    GitHub update návod
+
+[33mcommit 4bd847190a2e8adfc317720c7daa6a80d9ed5212[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Fri Sep 26 12:12:52 2025 +0200
+
+    Markdown základy
+
+[33mcommit c55ee13c67022d3593e3bc20ca571ad77493165e[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Fri Sep 26 11:36:10 2025 +0200
+
+    Docstrings - návod, informace, procvičení
+
+[33mcommit 3e981de8d588977553506dcdee74987ac9450814[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Thu Sep 25 13:03:59 2025 +0200
+
+    rozšíření - vstupy, výstupy - natypování
+
+[33mcommit 5c7f6ca1506b1758f38cca53428201e74b563cf4[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Thu Sep 25 12:53:49 2025 +0200
+
+    GeometricsObjects added
+
+[33mcommit 565ac982abbf237051d336808b71d10d68d36091[m
+Merge: f63d5de 4c881d3
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Thu Sep 18 11:32:01 2025 +0200
+
+    Merge branch 'main' of https://github.com/mgvsetin/PythonWork2027_01
+
+[33mcommit f63d5de1d3b03616818dc10e9c3fa89a64f67a56[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Thu Sep 18 11:31:57 2025 +0200
+
+    calc_basics_update
+
+[33mcommit 4c881d34e27c3b89e4b540f860251e4ba414ab98[m
+Author: Vladislav Válek <67369740+vladislavvalek@users.noreply.github.com>
+Date:   Thu Sep 11 15:06:10 2025 +0200
+
+    Update Git_GitHub.md
+
+[33mcommit d082b504f99b303a806c210b66e71a0256a18800[m
+Author: Vladislav Válek <67369740+vladislavvalek@users.noreply.github.com>
+Date:   Tue Sep 9 10:55:22 2025 +0200
+
+    Create Git_GitHub.md
+
+[33mcommit b2d2e6a11ddae2a65776356f4dceb5244658df8a[m
+Author: Vladislav Válek <67369740+vladislavvalek@users.noreply.github.com>
+Date:   Thu Sep 4 15:55:17 2025 +0200
+
+    Update README.md
+
+[33mcommit 5ea893186d38edafb04de199f2703b038191845a[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Thu Sep 4 15:49:22 2025 +0200
+
+    books
+
+[33mcommit 913654517b4e3b316c1e4bd9f1c562899d99c505[m
+Author: vladislavvalek <vladislav.valek@mgvsetin.cz>
+Date:   Thu Sep 4 12:44:11 2025 +0200
+
+    prepare lesson
+
+[33mcommit 49950e0bf6341de31dc228f90079130c2b9da573[m
+Author: Vladislav Válek <67369740+vladislavvalek@users.noreply.github.com>
+Date:   Thu Sep 4 07:04:11 2025 +0200
+
+    Initial commit

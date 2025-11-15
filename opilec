@@ -1,0 +1,52 @@
+import random
+import os
+os.system("cls")
+import random
+from random import randint
+from datetime import datetime
+
+
+
+def drunkman_simulator(size,steps):
+    plan=["home"]
+    for size in range (size):
+        plan.append(".")
+    plan.append("pub")
+    pozice=random.randint(0,size)
+    krok=0
+    while True:
+        plan.pop(pozice)
+        plan.insert(pozice,"*")
+        print(plan)
+        plan.pop(pozice)
+        plan.insert(pozice,".")
+        
+        krok=randint(0,1)
+        if krok==0:
+            pozice+=1
+        elif krok==1:
+            pozice-=1
+        if pozice==0:
+            print("Opilec došel domů")
+            break
+        elif pozice==size+2:
+            print("Opilec došel do hospody")
+            break
+        else:
+            krok=+1
+            if krok==steps:
+                print("Vypršel čas")
+            else:
+                continue
+
+    
+    
+
+
+
+    
+     
+    pass
+
+
+drunkman_simulator(10,100)
