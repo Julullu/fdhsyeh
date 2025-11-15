@@ -26,6 +26,38 @@ def drunkman_simulator (size,steps):
     
     print("Opilec usnul na cestě")
 
+def drunkman_simulator_bez_vypisu (size,steps):
+    pozice=size//2
+    
+
+    for krok in range(steps):
+        
+        if pozice==0:
+            return True
+        elif pozice==size-1:
+            return False
+        
+        smer=randint(0,1)
+        if smer==1:
+            pozice+=1
+        elif smer==0:
+            pozice-=1
+    
+    return None
+
+def drunkman_analysis (count):
+    pocet_doma=0
+    pocet_hospoda=0
+    pocet_cesta=0
+    for i in range(count):
+        vysledek= drunkman_simulator_bez_vypisu(size=10, steps=15)
+        if vysledek==True:
+            pocet_doma+=1
+        elif vysledek==False:
+            pocet_hospoda+=1
+        else:
+            pocet_cesta+=1
+    print(f"Opilec došel domů: {pocet_doma}krát, do hospody: {pocet_hospoda}krát, na cestě zůstal:{pocet_cesta}krát")
 
 if __name__ == "__main__":
-    drunkman_simulator(size=10, steps=15)
+    drunkman_analysis(100)
