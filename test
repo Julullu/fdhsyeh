@@ -1,0 +1,67 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Hmotnosti planet
+M1, M2 = 1, 1
+
+# Počáteční pozice a rychlosti
+pocatecni_pozice_1 = [0.0, 0.0, 0.0]
+pocatecni_pozice_2 = [0.5, 0.0, 0.0]
+
+pocatecni_rychlost_1 = [0.0, 0.2, 0.0]
+pocatecni_rychlost_2 = [0.0, -0.2, 0.0]
+
+# Spojíme do jednoho vektoru
+pocatecni_podminky = np.array([pocatecni_pozice_1, pocatecni_pozice_2,
+                               pocatecni_rychlost_1, pocatecni_rychlost_2]).ravel()
+
+# Systém ODR
+def system_ode(t, S, M1, M2):
+    p1, p2 = S[0:3], S[3:6]
+    dp1_dt, dp2_dt = S[6:9], S[9:12]
+
+    f1, f2 = dp1_dt, dp2_dt
+
+    df1_dt = M2 * (p2 - p1) / np.linalg.norm(p2 - p1)**3
+    df2_dt = M1 * (p1 - p2) / np.linalg.norm(p1 - p2)**3
+
+    return np.array([f1, f2, df1_dt, df2_dt]).ravel()
+
+# Eulerova metoda
+def euler_method(fun, y0, t_points, args=()):
+    y = np.zeros((len(y0), len(t_points)))
+    y[:, 0] = y0
+
+    for i in range(1, len(t_points)):
+        h = t_points[i] - t_points[i-1]
+        y[:, i] = y[:, i-1] + h * fun(t_points[i-1], y[:, i-1], *args)
+    
+    return y
+
+# Parametry simulace
+time_s, time_e = 0, 1
+t_points = np.linspace(time_s, time_e, 1000)
+
+# Spočítáme trajektorie
+solution = euler_method(system_ode, pocatecni_podminky, t_points, args=(M1, M2))
+
+t_sol = t_points
+p1x_sol, p1y_sol, p1z_sol = solution[0], solution[1], solution[2]
+p2x_sol, p2y_sol, p2z_sol = solution[3], solution[4], solution[5]
+
+# Vykreslení
+fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+
+ax.plot(p1x_sol, p1y_sol, p1z_sol, 'green', label='Planet 1', linewidth=1)
+ax.plot(p2x_sol, p2y_sol, p2z_sol, 'red', label='Planet 2', linewidth=1)
+
+ax.plot([p1x_sol[-1]], [p1y_sol[-1]], [p1z_sol[-1]], 'o', color='green', markersize=7)
+ax.plot([p2x_sol[-1]], [p2y_sol[-1]], [p2z_sol[-1]], 'o', color='red', markersize=7)
+
+ax.set_title("Dvoup Planetární Pohyb (Eulerova metoda)")
+ax.set_xlabel("x")
+ax.set_ylabel("y")
+ax.set_zlabel("z")
+plt.grid()
+plt.legend()
+plt.show()
