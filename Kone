@@ -22,9 +22,9 @@ def kone(size, steps, pocet_konu):
     pocatek="start"
     konec="cil"
     pozice=[0]*pocet_konu
-    cas_v_cili=[0]
+    cas_v_cili=[0]*pocet_konu
+    pocet_shod=int(pocet_konu*(pocet_konu-1)/2)
     for krok in range(steps):
-        print(f"Krok {krok + 1}")
         clear_terminal()
         for i in range (pocet_konu):
             pohyb_kone_i=randint(0,1)
@@ -35,10 +35,35 @@ def kone(size, steps, pocet_konu):
             
             if pohyb_kone_i==1 and pozice[i] < size - 1:
                 pozice[i]+=1
-            elif pozice[i] < size-1:
+            elif pozice[i] == size-1:
                 cas_v_cili[i]+=1
+
             
             
+
+        if all (cas_v_cili[i]!=0 for i in range (pocet_konu)):
+            
+            for n in range (pocet_shod):
+                for i in range (pocet_konu):
+                    for j in range (i+1, pocet_konu):
+                        if cas_v_cili[i]==cas_v_cili[j]:
+                            nahoda=randint(0,1)
+                            if nahoda==0:
+                                cas_v_cili[j]+=1
+                            else:
+                                cas_v_cili[i]+=1
+
+            seznam_pozic=sorted(cas_v_cili, reverse=True)
+            for i in range (pocet_konu):
+                for j in range (len(seznam_pozic)):
+                    if seznam_pozic[j]==cas_v_cili[i]:
+                        print(f"Kůň číslo {i+1} se umístil na místě {j+1} ")
+                            
+            return
+                        
+                
+                
+                
         time.sleep(0.1)
     
        
