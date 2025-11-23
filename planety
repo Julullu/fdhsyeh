@@ -4,9 +4,11 @@ import numpy as np
 import time
 from scipy.integrate import solve_ivp
 
+ 
 # Hmotnosti planet
 M1, M2= 1,1
-d=1.0 # Vzdálenost mezi planetami
+# Vzdálenost mezi planetami
+d=1.0 
 
 # Počáteční pozice a rychlosti
 pocatecni_pozice_1= [0.5,0.0]
@@ -21,7 +23,12 @@ pocatecni_rychlost_2= [0.0, -1.0/(2**0.5)]
 pocatecni_podminky= np.array([pocatecni_pozice_1, pocatecni_pozice_2,
                               pocatecni_rychlost_1, pocatecni_rychlost_2]).ravel()
 
-#Měřenín času
+# Časové intervaly (začátek, konec) a velikost kroku
+time_s, time_e= 0, 10
+velikost_kroku=0.001
+t_points= np.arange(time_s, time_e+velikost_kroku, velikost_kroku)
+
+#Měření času metod (dekorátor)
 
 def measure_time(func):
     def wrapper(*args, **kwargs):
@@ -49,24 +56,124 @@ def system_ode(t, S, M1, M2):
 
     return np.array([f1, f2, df1_dt, df2_dt]).ravel()
 
-time_s, time_e= 0, 100
-velikost_kroku=0.01
-t_points= np.arange(time_s, time_e+velikost_kroku, velikost_kroku)
-
+#Numerické metody
 @measure_time
 def euler_method(fun, t_span, y0, t_eval=t_points, args=()):
+    y = np.zeros((len(y0), len(t_eval)))
+    y[:, 0] = y0
+    t_n = t_eval[i-1]
+    y_n = y[:, i-1]
+    h = t_eval[1] - t_eval[0]
+    for i in range(1, len(t_eval)):
+        y[:, i] = y_n + h * fun(t_n, y_n, *args)
+    
+    return y
+
+@measure_time
+def runge_kutta_4(fun, t_span, y0, t_eval=t_points, args=()):
     y = np.zeros((len(y0), len(t_eval)))
     y[:, 0] = y0
 
     for i in range(1, len(t_eval)):
         h = t_eval[i] - t_eval[i-1]
-        y[:, i] = y[:, i-1] + h * fun(t_eval[i-1], y[:, i-1], *args)
-    
+        t_n = t_eval[i-1]
+        y_n = y[:, i-1]
+
+        k1 = fun(t_n, y_n, *args)
+        k2 = fun(t_n + h/2, y_n + h/2 * k1, *args)
+        k3 = fun(t_n + h/2, y_n + h/2 * k2, *args)
+        k4 = fun(t_n + h, y_n + h * k3, *args)
+
+        y[:, i] = y_n + (h/6) * (k1 + 2*k2 + 2*k3 + k4)
+
+    return y
+@measure_time
+def backward_euler_method(fun, t_span, y0, t_eval=t_points, args=(), tol=1e-6, max_iter=100):
+
+    y = np.zeros((len(y0), len(t_eval)))
+    y[:, 0] = y0
+
+    for i in range(1, len(t_eval)):
+        h = t_eval[i] - t_eval[i-1]
+        t_n = t_eval[i-1]
+        y_n = y[:, i-1]
+
+        # Počáteční odhad pro y_{n+1}
+        y_next = y_n.copy()
+
+        for iteration in range(max_iter):
+            f_next = fun(t_n + h, y_next, *args)
+            y_new = y_n + h * f_next
+
+            if np.linalg.norm(y_new - y_next) < tol:
+                break
+
+            y_next = y_new
+
+        y[:, i] = y_next
+
+    return y
+
+@measure_time
+def symplectic_euler_method(fun, t_span, y0, t_eval=t_points, args=()):
+    y = np.zeros((len(y0), len(t_eval)))
+    y[:, 0] = y0
+
+    for i in range(1, len(t_eval)):
+        h = t_eval[i] - t_eval[i-1]
+        t_n = t_eval[i-1]
+        y_n = y[:, i-1]
+
+        # Rozdělení na pozice a rychlosti
+        p1, p2 = y_n[0:2], y_n[2:4]
+        dp1_dt, dp2_dt = y_n[4:6], y_n[6:8]
+
+        # Aktualizace rychlostí
+        df1_dt = M2 * (p2 - p1) / np.linalg.norm(p2 - p1)**3
+        df2_dt = M1 * (p1 - p2) / np.linalg.norm(p1 - p2)**3
+
+        dp1_dt_new = dp1_dt + h * df1_dt
+        dp2_dt_new = dp2_dt + h * df2_dt
+
+        # Aktualizace pozic
+        p1_new = p1 + h * dp1_dt_new
+        p2_new = p2 + h * dp2_dt_new
+
+        # Uložení nových hodnot
+        y[:, i] = np.array([p1_new[0], p1_new[1], p2_new[0], p2_new[1],
+                            dp1_dt_new[0], dp1_dt_new[1], dp2_dt_new[0], dp2_dt_new[1]])
+
+    return y
+
+@measure_time
+def verlet_integration(fun, t_span, y0, t_eval, args=()):
+    y = np.zeros((len(y0), len(t_eval)))
+    y[:,0] = y0
+    v0= fun(t_eval[0], y0, *args)  # počáteční rychlosti
+
+    h = t_eval[1] - t_eval[0]
+    f0 = fun(t_eval[0], y0, *args)
+
+
+    # první krok pomocí Taylorova rozvoje
+    y[:,1] = y0 + h*v0 + 0.5*h**2*f0
+
+    # hlavní cyklus
+    for i in range(1, len(t_eval)-1):
+        h = t_eval[i+1] - t_eval[i]
+        t_n = t_eval[i]
+        y_n = y[:,i]
+        f_n = fun(t_n, y_n, *args)
+        y[:,i+1] = 2*y_n - y[:,i-1] + h**2*f_n
+
     return y
 
 
+# Zde můžete vybrat jednu z numerických metod
+numericka_metoda= backward_euler_method
 
-solution= euler_method(fun=system_ode,t_span=(time_s, time_e), y0= pocatecni_podminky, t_eval=t_points, args=(M1, M2))
+#Řešení ODE
+solution= numericka_metoda(fun=system_ode,t_span=(time_s, time_e), y0= pocatecni_podminky, t_eval=t_points, args=(M1, M2))
 
 t_sol= t_points
 p1x_sol, p1y_sol= solution[0], solution[1]
@@ -85,8 +192,9 @@ planet2_dot, = ax.plot([p2x_sol[-1]], [p2y_sol[-1]], 'o', color='red', markersiz
 ax.set_title("The 2-Body Problem")
 ax.set_xlabel("x")
 ax.set_ylabel("y")
+plt.scatter([0],[0], color='black', s=20, label="Těžiště", marker='x')
 plt.grid()
-plt.legend()
+plt.legend(loc="center left", bbox_to_anchor=(1, 0.5))
 ax.set_aspect('equal')
 plt.show()
 
@@ -94,13 +202,11 @@ plt.show()
     
 
 def overeni_presnosti_energie(t_sol, pocatecni_rychlost_1, d):
-    # Počáteční energie (analytická)
+    # Počáteční energie
     presna_energie = -M1*M2/d + 0.5*M1*(pocatecni_rychlost_1[1]**2) + 0.5*M2*(pocatecni_rychlost_1[1]**2)
 
     # Pole pro energii v každém časovém bodě
     E = np.zeros(len(t_sol))
-
-    
 
     for i in range(len(t_sol)):
         r1 = np.array([solution[0,i], solution[1,i]])
@@ -153,7 +259,7 @@ def overeni_presnosti_chyba(solution, t_points):
         celkova_chyba_2[i] = chyba_poloha_2
         chyba_v_procentech[i]= (celkova_chyba_1[i] / np.linalg.norm(presna_poloha_1)) * 100+ (celkova_chyba_2[i] / np.linalg.norm(presna_poloha_2)) * 100
 
-    # vykreslení grafu
+    
     plt.figure()
     plt.plot(t_points, chyba_v_procentech, 'b')
     plt.xlabel("Čas")
@@ -162,6 +268,6 @@ def overeni_presnosti_chyba(solution, t_points):
     plt.grid()
     plt.show()
 
-# volání funkce
-overeni_presnosti_chyba(solution, t_points)  # nebo solution z solve_ivp
+# Zavolání funkce
+overeni_presnosti_chyba(solution, t_points)  
 

@@ -1,13 +1,52 @@
+
 import numpy as np
-def presne_reseni(t):
-    t_period = 2**0.5*np.pi
-    ubehly_cas = t % t_period
-    rychlost_1=1.0
-    d=1.0
-    uhel = rychlost_1 * ubehly_cas / (d * np.pi) * 360
+import matplotlib.pyplot as plt
+
+
+d = 1          
+rychlost_1=1.0  
+
+def poloha_planet(t):
+    """Vrací polohy obou planet v čase t."""
+    uhel = rychlost_1 * t / (d * np.pi) * 360
     uhel_rad = np.deg2rad(uhel)
 
-    presna_poloha_1 = np.array([d/2*np.cos(uhel_rad), d/2*np.sin(uhel_rad)])
-    presna_poloha_2 = np.array([-d/2*np.cos(uhel_rad), -d/2*np.sin(uhel_rad)])
+    x1 =  d/2*np.cos(uhel_rad)
+    y1 =  d/2*np.sin(uhel_rad)
+
+    x2 = -d/2 * np.cos(uhel_rad)
+    y2 = -d/2 * np.sin(uhel_rad)
+
+    return (x1, y1), (x2, y2)
+
+# Čas
+t = np.linspace(0, 10, 1000)
+
+# Uložení poloh
+x1_list, y1_list = [], []
+x2_list, y2_list = [], []
+
+for ti in t:
+    (x1, y1), (x2, y2) = poloha_planet(ti)
+    x1_list.append(x1)
+    y1_list.append(y1)
+    x2_list.append(x2)
+    y2_list.append(y2)
+
+# Vykreslení grafu
+plt.figure(figsize=(6,6))
+plt.scatter(x1_list[0], y1_list[0], s=100, color="green")
+plt.scatter(x2_list[0], y2_list[0], s=100, color="red")
+plt.plot(x1_list, y1_list, label="Planeta 1", color='black', zorder=2)
+plt.plot(x2_list, y2_list, label="Planeta 2", color='black', zorder=2)
+plt.scatter([0],[0], color='black', s=30, label="Těžiště")
+plt.gca().set_aspect("equal")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.title("Dvě planety obíhající po kružnici (m1=m2=1, d=1, G=1)")
+plt.legend(loc="center left", bbox_to_anchor=(1, 0.5))
+plt.show()
+
+
 
     
