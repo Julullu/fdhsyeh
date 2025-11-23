@@ -1,0 +1,13 @@
+import numpy as np
+def presne_reseni(t):
+    t_period = 2**0.5*np.pi
+    ubehly_cas = t % t_period
+    rychlost_1=1.0
+    d=1.0
+    uhel = rychlost_1 * ubehly_cas / (d * np.pi) * 360
+    uhel_rad = np.deg2rad(uhel)
+
+    presna_poloha_1 = np.array([d/2*np.cos(uhel_rad), d/2*np.sin(uhel_rad)])
+    presna_poloha_2 = np.array([-d/2*np.cos(uhel_rad), -d/2*np.sin(uhel_rad)])
+
+    

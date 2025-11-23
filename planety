@@ -5,26 +5,40 @@ import time
 from scipy.integrate import solve_ivp
 
 # Hmotnosti planet
-M1, M2= 1, 100
+M1, M2= 1,1
+d=1.0 # Vzdálenost mezi planetami
 
 # Počáteční pozice a rychlosti
-pocatecni_pozice_1= [0.0,0.0, 0.0]
-pocatecni_pozice_2= [1,0.0, 0.0]
+pocatecni_pozice_1= [0.5,0.0]
+pocatecni_pozice_2= [-0.5,0.0]
 
 
-pocatecni_rychlost_1= [0.0, 10, 0.0]
-pocatecni_rychlost_2= [0.0, 0.0, 0.0]
+pocatecni_rychlost_1= [0.0, 1.0/(2**0.5)]
+pocatecni_rychlost_2= [0.0, -1.0/(2**0.5)]
+
 
 
 pocatecni_podminky= np.array([pocatecni_pozice_1, pocatecni_pozice_2,
                               pocatecni_rychlost_1, pocatecni_rychlost_2]).ravel()
 
+#Měřenín času
+
+def measure_time(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()        # začátek měření
+        result = func(*args, **kwargs)  # volání funkce
+        end_time = time.time()          # konec měření
+        print(f"Funkce '{func.__name__}' běžela {end_time - start_time:.6f} s")
+        return result
+    return wrapper
+
+
 
 # Systém obyčejných diferenciálních rovnic
 def system_ode(t, S, M1, M2):
    
-    p1, p2= S[0:3], S[3:6], 
-    dp1_dt, dp2_dt= S[6:9], S[9:12]
+    p1, p2= S[0:2], S[2:4]
+    dp1_dt, dp2_dt= S[4:6], S[6:8]
 
     
     f1, f2= dp1_dt, dp2_dt
@@ -35,41 +49,119 @@ def system_ode(t, S, M1, M2):
 
     return np.array([f1, f2, df1_dt, df2_dt]).ravel()
 
-time_s, time_e= 0, 1
-t_points= np.linspace(time_s, time_e, 1000)
+time_s, time_e= 0, 100
+velikost_kroku=0.01
+t_points= np.arange(time_s, time_e+velikost_kroku, velikost_kroku)
 
-def euler_method(fun, y0, t_points, args=()):
-    y = np.zeros((len(y0), len(t_points)))
+@measure_time
+def euler_method(fun, t_span, y0, t_eval=t_points, args=()):
+    y = np.zeros((len(y0), len(t_eval)))
     y[:, 0] = y0
 
-    for i in range(1, len(t_points)):
-        h = t_points[i] - t_points[i-1]
-        y[:, i] = y[:, i-1] + h * fun(t_points[i-1], y[:, i-1], *args)
+    for i in range(1, len(t_eval)):
+        h = t_eval[i] - t_eval[i-1]
+        y[:, i] = y[:, i-1] + h * fun(t_eval[i-1], y[:, i-1], *args)
     
     return y
 
-solution= solve_ivp (fun=system_ode, t_span=(time_s, time_e), y0= pocatecni_podminky, t_eval=t_points, args=(M1, M2))
-
-t_sol= solution.t
-p1x_sol, p1y_sol, p1z_sol= solution.y[0], solution.y[1], solution.y[2]
-p2x_sol, p2y_sol, p2z_sol= solution.y[3], solution.y[4], solution.y[5]
 
 
-fig, ax = plt.subplots(subplot_kw={"projection":"3d"})
+solution= euler_method(fun=system_ode,t_span=(time_s, time_e), y0= pocatecni_podminky, t_eval=t_points, args=(M1, M2))
 
-planet1_plt, = ax.plot(p1x_sol, p1y_sol, p1z_sol, 'green', label='Planet 1', linewidth=1)
-planet2_plt, = ax.plot(p2x_sol, p2y_sol, p2z_sol, 'red', label='Planet 2', linewidth=1)
+t_sol= t_points
+p1x_sol, p1y_sol= solution[0], solution[1]
+p2x_sol, p2y_sol= solution[2], solution[3]
+fig, ax = plt.subplots()
+
+planet1_plt, = ax.plot(p1x_sol, p1y_sol, 'green', label='Planet 1', linewidth=1)
+planet2_plt, = ax.plot(p2x_sol, p2y_sol, 'red', label='Planet 2', linewidth=1)
 
 
-planet1_dot, = ax.plot([p1x_sol[-1]], [p1y_sol[-1]], [p1z_sol[-1]], 'o', color='green', markersize=7)
-planet2_dot, = ax.plot([p2x_sol[-1]], [p2y_sol[-1]], [p2z_sol[-1]], 'o', color='red', markersize=7)
+planet1_dot, = ax.plot([p1x_sol[-1]], [p1y_sol[-1]], 'o', color='green', markersize=7)
+planet2_dot, = ax.plot([p2x_sol[-1]], [p2y_sol[-1]], 'o', color='red', markersize=7)
 
 
 
-ax.set_title("The 3-Body Problem")
+ax.set_title("The 2-Body Problem")
 ax.set_xlabel("x")
 ax.set_ylabel("y")
-ax.set_zlabel("z")
 plt.grid()
 plt.legend()
+ax.set_aspect('equal')
 plt.show()
+
+
+    
+
+def overeni_presnosti_energie(t_sol, pocatecni_rychlost_1, d):
+    # Počáteční energie (analytická)
+    presna_energie = -M1*M2/d + 0.5*M1*(pocatecni_rychlost_1[1]**2) + 0.5*M2*(pocatecni_rychlost_1[1]**2)
+
+    # Pole pro energii v každém časovém bodě
+    E = np.zeros(len(t_sol))
+
+    
+
+    for i in range(len(t_sol)):
+        r1 = np.array([solution[0,i], solution[1,i]])
+        r2 = np.array([solution[2,i], solution[3,i]])
+        v1 = np.array([solution[4,i], solution[5,i]])
+        v2 = np.array([solution[6,i], solution[7,i]])
+
+        T = 0.5*M1*np.dot(v1,v1) + 0.5*M2*np.dot(v2,v2)
+        U = -M1*M2/np.linalg.norm(r1-r2)
+        E[i] = T + U
+
+    # Chyba energie
+    chyba_energie = np.abs(E - presna_energie)
+    chyba_energie_procenta= (chyba_energie / np.abs(presna_energie)) * 100
+
+    # Vykreslení grafu
+    plt.figure()
+    plt.plot(t_sol, chyba_energie_procenta, 'b')
+    plt.xlabel('Čas')
+    plt.ylabel('Chyba energie (%)')
+    plt.title('Chyba celkové energie v čase')
+    plt.grid()
+    plt.show()
+
+# Zavolání funkce
+overeni_presnosti_energie(t_sol, pocatecni_rychlost_1, d)
+
+
+def overeni_presnosti_chyba(solution, t_points):
+    celkova_chyba_1 = np.zeros(len(t_points))  # pole pro chybu v každém časovém bodě
+    celkova_chyba_2 = np.zeros(len(t_points))
+    chyba_v_procentech = np.zeros(len(t_points))
+    for i, t in enumerate(t_points):
+        t_period = 2**0.5*np.pi
+        ubehly_cas = t % t_period
+        uhel = pocatecni_rychlost_1[1] * ubehly_cas / (d * np.pi) * 360
+        uhel_rad = np.deg2rad(uhel)
+
+        presna_poloha_1 = np.array([d/2*np.cos(uhel_rad), d/2*np.sin(uhel_rad)])
+        presna_poloha_2 = np.array([-d/2*np.cos(uhel_rad), -d/2*np.sin(uhel_rad)])
+
+        r1 = np.array([solution[0,i], solution[1,i]])
+        r2 = np.array([solution[2,i], solution[3,i]])
+
+        chyba_poloha_1 = np.linalg.norm(r1 - presna_poloha_1)
+        chyba_poloha_2 = np.linalg.norm(r2 - presna_poloha_2)
+        
+
+        celkova_chyba_1[i] = chyba_poloha_1
+        celkova_chyba_2[i] = chyba_poloha_2
+        chyba_v_procentech[i]= (celkova_chyba_1[i] / np.linalg.norm(presna_poloha_1)) * 100+ (celkova_chyba_2[i] / np.linalg.norm(presna_poloha_2)) * 100
+
+    # vykreslení grafu
+    plt.figure()
+    plt.plot(t_points, chyba_v_procentech, 'b')
+    plt.xlabel("Čas")
+    plt.ylabel("Celková chyba pozice (%)")
+    plt.title("Celková chyba pozice v čase")
+    plt.grid()
+    plt.show()
+
+# volání funkce
+overeni_presnosti_chyba(solution, t_points)  # nebo solution z solve_ivp
+
