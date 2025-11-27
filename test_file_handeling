@@ -1,0 +1,64 @@
+from pathlib import Path
+import os
+import time
+
+#Domovský adresář
+Path.home()
+print(Path.cwd())
+
+#Tvorba cest
+Path('banan','kokos', 'jabko')
+print(str(Path('banan', 'kokos','jabko')))
+#Spojení cest
+print(Path('banan')/'kokos'/'jabko')
+
+#Aktuální adresář
+Path.cwd()
+os.chdir('C:\\Windows\\System32') #Změna adresáře
+print(Path.cwd())
+
+#Složky
+os.makedirs('C:\\jidlo\\ovoce\\banan', exist_ok=True)  #Vytvoření pomocí os
+Path('C:\\Users\\julie.pazdirkova\\fdhsyeh-4').mkdir(parents=True, exist_ok=True)   #Vytvoření pomocí path
+
+
+print(Path('C:\\Users\\julie.pazdirkova\\fdhsyeh-4').absolute())
+p=Path('C:\\Users\\julie.pazdirkova\\fdhsyeh-4')
+print(p.anchor)
+print(p.parent)
+print(p.name)
+print(p.stem)
+print(p.suffix)
+print(p.parts)
+
+#Velikost a časová razítka
+
+file=Path('C:\\Users\\julie.pazdirkova\\fdhsyeh-4')
+print(file.stat().st_size)
+print(file.stat().st_mtime)
+print(time.asctime(time.localtime(file.stat().st_mtime)))
+
+#Vyhledávání souborů (globů)
+
+list(p.glob('*.txt'))
+for name in p.glob('*'):
+    print(name)
+
+print(p.exists())
+print(p.is_file())
+print(p.is_dir())
+
+#otevírání souborů
+try:
+    hello_file=open(Path.home()/'hello.txt', encoding='UTF-8')
+except FileNotFoundError:
+    print("Soubor nenalezen")
+    
+#Čtení obsahu
+
+hello_content=hello_file.read()
+
+#Po řádcích
+hello_file.readlines()
+
+#
