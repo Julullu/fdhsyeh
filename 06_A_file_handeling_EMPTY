@@ -74,8 +74,18 @@ else:
 - Vytvoř ve složce `"test_soubory"` několik souborů různých typů (např. `"a.txt"`, `"b.csv"`, `"obrazek.png"`).
 - Najdi všechny textové soubory (`*.txt`) ve složce a vypiš jejich jména.
 """
+for item in test_dir.glob('*'):
+    print(item.name)
 
+# soubory ve složce test_soubory
 
+(test_dir/"a.txt").write_text("bla bla")
+(test_dir/"b.csv").write_text("23")
+(test_dir/"obrazek.png").write_text("neco")
+
+list(test_dir.glob('*.txt'))
+for name in test_dir.glob('*'):
+    print(name)
 
 ### 5. Zápis a čtení textových souborů
 """ 
@@ -84,19 +94,51 @@ else:
 - Soubor znovu načti a vypiš celý jeho obsah.
 - Pomocí metody `readlines()` získej seznam všech řádků ze souboru a vypiš počet řádků.
 """
+test_soubory= open('text_soubory/pokus.txt', 'w', encoding='UTF-8')
+test_soubory.write('Bla bla\n')
+test_soubory.close()
 
+test_soubory= open('text_soubory/pokus.txt', 'a', encoding='UTF-8')
+test_soubory.write('Přidaný řádek')
+test_soubory.close()
 
+test_soubory= open('text_soubory/pokus.txt','r', encoding='UTF-8')
+obsah= text_soubory.read()
+print(f"Obsah souboru{obsah}")
+test_soubory.close()
 
+test_soubory= open('text_soubory/pokus.txt','r', encoding='UTF-8')
+radky= test_soubory.readlines()
+print(f"Počet řádků je:{len(radky)}")
+test_soubory.close()
 ### 6. Bezpečná práce se soubory pomocí `with`
 """ 
 - Přepiš předchozí úlohu tak, aby otevření a zápis do souboru proběhl uvnitř konstrukce `with`.
 - Ověř, že soubor je po ukončení bloku zavřený (zkus zápis mimo blok – co se stane?).
 """
+with open ('text_soubory/pokus.txt, 'w', encoding='UTF-8') as file_obj:
+    file_obj.write('Bla bla\n')
 
+with open ('text_soubory/pokus.txt, 'a', encoding='UTF-8') as file_obj:
+    file_obj.write('Přidaný řádek')
 
+with open ('text_soubory/pokus.txt, encoding='UTF-8') as file_obj:
+    obsah=file_obj.read()
+    print(f"Obsah souboru:{obsah}")
 
+with open ('text_soubory/pokus.txt, encoding='UTF-8') as file_obj:
+    radky=file_obj.readlines()
+    print(f"Počet řádků je:{len(radky)}")
 ### 7. Domácí úkol (volitelný)
 """ 
 - Vytvoř program, který zadanou složku rekurzivně projde a vypíše názvy všech souborů s příponou `.py`.
 - Rozšiř: Ke každému souboru vypiš ještě datum poslední úpravy a velikost v KB.
 """
+def projiti_souboru (cesta):
+    cesta=Path(cesta)
+    for soubor in cesta.glob('*.py'):
+        velikost= soubor.stat().st_size/1024
+        cas_posledni_zmeny=time.asctime(soubor.stat().st_mtime)
+        print(f"soubor {soubor} má velikost {velikost}KB a naposledy byl změněn {cas_posledni_zmeny}")
+
+projiti_souboru(Path.home())
