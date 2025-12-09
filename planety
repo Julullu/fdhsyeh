@@ -10,14 +10,16 @@ from scipy.integrate import solve_ivp
 M1=M2= 1
 # Vzdálenost mezi planetami
 d=1.0 
-
+# Počáteční rychlost obou planet
+v1= 1.0/(2**0.5)
+v2=-v1
 # Počáteční pozice a rychlosti
-pocatecni_pozice_1= [0.5,0.0]
-pocatecni_pozice_2= [-0.5,0.0]
+pocatecni_pozice_1= [d/2,0.0]
+pocatecni_pozice_2= [-d/2,0.0]
 
 
-pocatecni_rychlost_1= [0.0, 1.0/(2**0.5)]
-pocatecni_rychlost_2= [0.0, -1.0/(2**0.5)]
+pocatecni_rychlost_1= [0.0, v1]
+pocatecni_rychlost_2= [0.0, v2]
 
 
 
@@ -25,8 +27,8 @@ pocatecni_podminky= np.array([pocatecni_pozice_1, pocatecni_pozice_2,
                               pocatecni_rychlost_1, pocatecni_rychlost_2]).ravel()
 
 # Časové intervaly (začátek, konec) a velikost kroku
-time_s, time_e= 0, 100
-velikost_kroku=0.01
+time_s, time_e= 0, 10
+velikost_kroku=0.1
 t_points= np.arange(time_s, time_e+velikost_kroku, velikost_kroku)
 
 #Měření času metod (dekorátor)
@@ -245,7 +247,7 @@ def overeni_presnosti_chyba(solution, t_points):
     celkova_chyba_2 = np.zeros(len(t_points))
     chyba_v_procentech = np.zeros(len(t_points))
     for i, t in enumerate(t_points):
-        t_period = 2**0.5*np.pi
+        t_period = (d/ v1)*np.pi
         ubehly_cas = t % t_period
         uhel = pocatecni_rychlost_1[1] * ubehly_cas / (d * np.pi) * 360
         uhel_rad = np.deg2rad(uhel)
