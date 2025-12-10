@@ -48,9 +48,27 @@ def caesar_cipher_with_shift(text,shift):
 ##############################################################
 ### Caesarova šifra s rozlišením malých a velkých písmen a české abecedy 
 # funkce caesar_cipher_cz_with_diacritics
+abeceda_mala="aábcčdďeéěfghijklmnňoópqrřsštťuůúvwxyzž"
+abeceda_velka="AÁBCČDĎEÉĚFGHIJKLMNŇOÓPQRŘSŠTŤUŮÚVWXYZŽ"
 
+def prepis_znaku(char, abeceda, shift):
+    if char in abeceda:
+        return(abeceda[(abeceda.index(char)+shift)% len(abeceda)])
+    else:
+        return(char)
 
-
+def caesar_cipher_cz_with_diacritics(text, shift):
+    vysledek=""
+    for char in text:
+        if char.isalpha() and char.islower():
+            sifrovane_pismeno=prepis_znaku(char, abeceda_mala, shift)
+            vysledek+=sifrovane_pismeno
+        elif char.isalpha() and char.isupper():
+            sifrovane_pismeno= prepis_znaku(char, abeceda_velka, shift)
+            vysledek+= sifrovane_pismeno
+        else:
+            vysledek+=char
+    return(vysledek)
 
 
 ##############################################################
