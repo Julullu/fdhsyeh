@@ -3,10 +3,11 @@ import numpy as np
 
 # Hmotnosti planet
 M1, M2 = 1, 1
-
+# Vzdálenost mezi planetami
+d=1.0  
 # Počáteční pozice a rychlosti
 pocatecni_pozice_1 = [0.0, 0.0, 0.0]
-pocatecni_pozice_2 = [0.5, 0.0, 0.0]
+pocatecni_pozice_2 = [d/2, 0.0, 0.0]
 
 pocatecni_rychlost_1 = [0.0, 0.2, 0.0]
 pocatecni_rychlost_2 = [0.0, -0.2, 0.0]

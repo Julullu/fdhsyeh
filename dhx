@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 
 d = 1          
-rychlost_1=1.0  
+rychlost_1= 1.0/(2**0.5)
 
 def poloha_planet(t):
     """Vrací polohy obou planet v čase t."""
@@ -43,7 +43,7 @@ plt.scatter([0],[0], color='black', s=30, label="Těžiště")
 plt.gca().set_aspect("equal")
 plt.xlabel("x")
 plt.ylabel("y")
-plt.title("Dvě planety obíhající po kružnici (m1=m2=1, d=1)")
+plt.title("Dvě planety obíhající po kružnici (m1=m2, d=1)")
 plt.legend(loc="center left", bbox_to_anchor=(1, 0.5))
 plt.show()
 
