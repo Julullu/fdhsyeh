@@ -1,0 +1,107 @@
+# -*- coding: utf-8 -*-
+# Příliš žluťoučký kůň úpěl ďábelské ódy - testovací pangram
+"""_summary_
+* Caesarova šifra - Rozšiřte Caesarovu šifru tak, aby pro každý následující znak v textu používala jiný posun. 
+  Například první znak posune o 3, druhý o 5, třetí o 7, a tak dále. Výstupem bude střing.
+  Cílem bude vymyslet logiku, kde se posuny střídají podle určitého vzoru (pevně daný, např. [3,5,7]).
+* Namísto posunu jednotlivých znaků implementujte variantu Caesarovy šifry, která bude pracovat s celými slovy. 
+  Místo posunu písmen posunete celé slovo (např. první slovo vyměníte za třetí, druhé za čtvrté, atd.).
+** Rozlouskněte následující větu po Caesarovi s využitím MY_ALPHABET:
+   MY_ALPHABET = "aábcčdďeéěfghijklmnňoópqrřsštťuůúvwxyzž0123456789.,-+?!AÁBCČDĎEÉĚFGHIJKLMNŇOÓPQRŘSŠTŤUŮÚVWXYZŽ"
+   SECRET_TEXT = "Vo 80 +trtx 8ňw0+o óňzrň ó04p, 6ú y.6í 204ňrú8 6s +7íy Pňs6ň40+ú ůňyóň"
+"""
+
+import os
+
+
+# Globální konstanty a proměnné
+MY_ALPHABET = "aábcčdďeéěfghijklmnňoópqrřsštťuůúvwxyzž0123456789.,-+?!AÁBCČDĎEÉĚFGHIJKLMNŇOÓPQRŘSŠTŤUŮÚVWXYZŽ"
+                    # Definujeme české znaky a jejich pořadí, protože v ASCII tabulce nejsou po sobě
+
+SECRET_TEXT = "Vo 80 +trtx 8ňw0+o óňzrň ó04p, 6ú y.6í 204ňrú8 6s +7íy Pňs6ň40+ú ůňyóň"
+                    # Caesarův tajný text pro odšifrování
+
+
+##############################################################
+### Caesar - rozšíření - posun každého znaku o jiný počet dle vzoru
+# fce shift_char, caesar_cipher_multi_shift 
+
+def shift_char(char, shift, decrypted=False):
+      if char in MY_ALPHABET:
+        if decrypted:
+            return MY_ALPHABET[(MY_ALPHABET.index(char)-shift)%len(MY_ALPHABET)]
+        else:
+            return MY_ALPHABET[(MY_ALPHABET.index(char)+shift)%len(MY_ALPHABET)]
+      return (char)
+
+def caesar_cipher_multi_shift (text, shifts, decrypted=False):
+    vysledek=""
+    for i, char in enumerate(text):
+          shift=shifts[i%len(shifts)]
+          vysledek+= shift_char(char,shift, decrypted)
+    return(vysledek)
+    
+
+##############################################################
+### Caesar - posun slov ve větě s shift
+# caesar_word_shift + rozmysli, zda by to šlo i bez Caesara (ideálně po splnění první části) - rearrange_sentence
+
+def caesar_word_shift(text,shift):
+    words= text.split()
+    shift %=len(text)
+    shifted_words=[words[(i+shift)%len(words)]for i in range(len(words))]
+    return ''.join(shifted_words)
+
+
+
+##############################################################
+### Caesar - odhalení původní zprávy, pokud známe abecedu
+# funkce decrypt_caesar - využijeme posléze v main()
+
+def descrypt_caesar (text, decrypted= True):
+    for i in range (len(MY_ALPHABET)):
+        vysledek=""
+        shift=i
+        for char in text:
+            vysledek+=shift_char(char,shift,decrypted)
+        print(vysledek)
+            
+
+
+
+##############################################################
+### Spuštění programu - MAIN
+
+if __name__ == "__main__":
+    os.system("cls")
+
+    # Caesar s posunem každého znaku o jiný počet dle šablony
+    print("Caesarova šifra s různým posunem znaků\n")
+    input_text = input("Zadejte text, ideálně větu nebo souvětí pro zašifrování: ")
+    
+    shifts = [1, 5, 13, 19, 8]  # Cyklus posunů
+    print("Vzor pro posun: ", shifts)
+    
+    encrypted_text = caesar_cipher_multi_shift(input_text, shifts)
+    print("Zašifrovaný text:", encrypted_text)
+    
+    decrypted_text = caesar_cipher_multi_shift(encrypted_text, shifts, True)
+    print("Odšifrovaný text:", decrypted_text)
+    print("------------------------------------------------")
+
+    # Caesar test s posunem celých slov - v1
+    print("Caesarova šifra s posunem slov - v1\n")
+    shift = int(input("Zadejte číslo pro posun slov v původní větě: "))
+    
+    encrypted_text = caesar_word_shift(input_text, shift)
+    print("Zašifrovaná věta:", encrypted_text)
+    
+    decrypted_text = caesar_word_shift(encrypted_text, -shift)
+    print("Odšifrovaná věta:", decrypted_text)
+    print("------------------------------------------------")
+
+    # Caesarova tajenka - vzkaz, Vzkoušíme všechny možné posuny a vypíšeme výsledky, manuálně hledáme smysluplnou větu
+    print("Caesar hrubou silou\n")
+    print(f"Zašifrovaná věta: {SECRET_TEXT}\n")
+
+    descrypt_caesar (SECRET_TEXT, decrypted= True)
