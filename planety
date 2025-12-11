@@ -28,7 +28,7 @@ pocatecni_podminky= np.array([pocatecni_pozice_1, pocatecni_pozice_2,
 
 # Časové intervaly (začátek, konec) a velikost kroku
 time_s, time_e= 0, 10
-velikost_kroku=0.1
+velikost_kroku=0.001
 t_points= np.arange(time_s, time_e+velikost_kroku, velikost_kroku)
 
 #Měření času metod (dekorátor)
@@ -177,7 +177,7 @@ def verlet_integration(fun, t_span, y0, t_eval, args=()):
 
 
 # Zde můžete vybrat jednu z numerických metod
-numericka_metoda= euler_method
+numericka_metoda= verlet_integration
 numericka_metoda_jmeno= numericka_metoda.__name__
 #Řešení ODE
 solution= numericka_metoda(fun=system_ode,t_span=(time_s, time_e), y0= pocatecni_podminky, t_eval=t_points, args=(M1, M2))
