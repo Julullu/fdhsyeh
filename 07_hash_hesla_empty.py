@@ -319,7 +319,29 @@ def main():
     print("   SYSTÉM SPRÁVY UŽIVATELSKÝCH ÚČTŮ")
     print("=" * 50)
     print()
-    
+    while True:
+        print("1- Registrace")
+        print("2-Přihlášení")
+        print("3- Ukončení")
+        user_choice=input("Zadejte vaši volbu (1,2,3):").strip()
+
+        if user_choice == "1":
+            email= input("Zadejte svůj mail:")
+            password= input("Zadejte svoje heslo (min. 8 znaků, alespoň jedno velké a jedno malé písmeno, alespoň jedno číslo)")
+            password_confirm=input("Zadejte heslo znova pro ověření")
+            register_user_advanced(email, password, password_confirm)
+
+        if user_choice == "2":
+            email= input("Zadejte svůj přihlašovací mail:")
+            password= input("Zadejte svoje heslo:")
+            login_user(email, password)
+        
+        if user_choice == "3":
+            print("program končí")
+            break
+
+        else:
+            print("Zadejte jednu z platných možností (1, 2, 3)")
     # TODO: Vytvořte nekonečnou smyčku while True
     # TODO: Vypište menu s možnostmi 1-3
     # TODO: Získejte volbu uživatele pomocí input().strip()
@@ -413,6 +435,8 @@ if __name__ == "__main__":
     print()
     print("TESTOVACÍ SEKCE:")
     print("-" * 50)
+
+    main()
     
     # Příklad testování hash funkce:
     # test_password = "testHeslo123"
