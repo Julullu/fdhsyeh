@@ -133,7 +133,7 @@ def register_user(email, password):
         return False
     hash=hash_password(password)
     with open("users.txt", "a", encoding="utf-8") as file:
-        file.write=(f"{email},{hash}\n")
+        file.write(f"{email},{hash}\n")
     print("Registrace proběhla v pořádku")
     return True
     # TODO: Zkontrolujte pomocí user_exists(), zda uživatel již neexistuje
@@ -178,10 +178,14 @@ def login_user(email, password):
                 
                 if stored_email == email:
                     if novy_hash== stored_password:
-                        print("Registrace je úspěšná")
+                        print("Přihlášení je úspěšná")
                         return True
                     else:
+                        print("Špatné heslo")
                         return False
+                
+            print("Email nebyl nalezen")
+            return False
             
     except FileNotFoundError:
         print("Nejste registrovaní")
@@ -323,7 +327,8 @@ def main():
         print("1- Registrace")
         print("2-Přihlášení")
         print("3- Ukončení")
-        user_choice=input("Zadejte vaši volbu (1,2,3):").strip()
+        print("4- Změna hesla")
+        user_choice=input("Zadejte vaši volbu (1,2,3,4):").strip()
 
         if user_choice == "1":
             email= input("Zadejte svůj mail:")
@@ -331,14 +336,22 @@ def main():
             password_confirm=input("Zadejte heslo znova pro ověření")
             register_user_advanced(email, password, password_confirm)
 
-        if user_choice == "2":
+        elif user_choice == "2":
             email= input("Zadejte svůj přihlašovací mail:")
             password= input("Zadejte svoje heslo:")
             login_user(email, password)
+            login_with_protection(email, password)
         
-        if user_choice == "3":
+        elif user_choice == "3":
             print("program končí")
             break
+
+        elif user_choice =="4":
+            email= input("Zadejte svůj přihlašovací mail:")
+            password= input("Zadejte svoje heslo:")
+            new_password= input("Zadejte nové heslo:")
+            if login_user(email, password) and validate_password(new_password):
+                change_password(email, password, new_password)
 
         else:
             print("Zadejte jednu z platných možností (1, 2, 3)")
@@ -375,6 +388,15 @@ def main():
 def list_users():
     """Zobrazí seznam všech registrovaných e-mailů."""
     # TODO: Implementujte
+    with open("users.txt", "r", encoding="utf-8") as file:
+        for line in file:
+            line=line.strip()
+            if not line:
+                continue
+
+            stored_mail, stored_password= line.split(',')
+            print(stored_mail)
+
     pass
 
 
@@ -395,6 +417,26 @@ def change_password(email, old_password, new_password):
     # TODO: Implementujte
     # Nápověda: Budete muset přečíst celý soubor, upravit příslušný
     # řádek a zapsat soubor znovu
+    if login_user(email, old_password):
+        new_lines=[]
+
+        with open ("users.txt", "r", encoding="utf-8") as file:
+            for line in file:
+                line= line.strip()
+                if not line:
+                    continue
+
+                stored_mail, stored_password= line.split(',')
+                if stored_mail == email:
+                    continue
+                else:
+                    new_lines.append(line)
+        
+        with open ("users.txt", "w", encoding="utf-8") as file:
+            for line in new_lines:
+                file.write(line + "\n")
+
+
     pass
 
 
@@ -416,6 +458,22 @@ def login_with_protection(email, password):
     """
     # TODO: Implementujte
     # Nápověda: Použijte globální slovník failed_login_attempts
+    global failed_login_attempts
+
+    if failed_login_attempts.get(email, 0)>3:
+        print("Účet je zablokovaný")
+        return False
+    
+    success=login_user(email,password)
+
+    if success:
+        failed_login_attempts[email]=0
+        return True
+    if not success:
+        failed_login_attempts[email]= failed_login_attempts.get(email, 0) +1
+        remaining_tries=3-failed_login_attempts.get(email, 0)
+        print(f"Zbývá Vám {remaining_tries} pokusů")
+        return False
     pass
 
 
@@ -437,6 +495,10 @@ if __name__ == "__main__":
     print("-" * 50)
 
     main()
+
+    list_users()
+
+
     
     # Příklad testování hash funkce:
     # test_password = "testHeslo123"
