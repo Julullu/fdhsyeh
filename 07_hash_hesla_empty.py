@@ -26,8 +26,13 @@ import re
 
 # Hashování je jednosměrný proces - z hashe nemůžeme získat původní heslo zpět
 # Použijeme algoritmus SHA-256 z knihovny hashlib
+def create_salt(email):
+    salt=hashlib.sha256(email.encode('utf-8')).hexdigest()
+    return salt
 
-def hash_password(password):
+pepper="Super_mega_tajný_pepper"
+
+def hash_password(email, password):
     """Vytvoří SHA-256 hash zadaného hesla.
     
     Funkce převede heslo na bytes a následně pomocí SHA-256 vytvoří hash.
@@ -45,7 +50,8 @@ def hash_password(password):
     """
     hash_bytes=password.encode('utf-8')
     hash_object=hashlib.sha256(hash_bytes)
-    hash_heslo=hash_object.hexdigest()
+    salt=create_salt(email)
+    hash_heslo=hash_object.hexdigest() + salt + pepper
     return hash_heslo
     # TODO: Převeďte heslo na bytes pomocí metody .encode('utf-8')
     # TODO: Vytvořte hash pomocí hashlib.sha256()
@@ -55,9 +61,9 @@ def hash_password(password):
 
 # TESTOVÁNÍ: Po implementaci funkce odkomentujte a vyzkoušejte:
 print("Testování:")
-print(hash_password("mojeheslo"))
-print(hash_password("moje heslo")) #stejné jako předchozí
-print(hash_password("Moje heslo")) #úplně jiné
+print(hash_password("email","mojeheslo"))
+print(hash_password("email", "moje heslo")) #stejné jako předchozí
+print(hash_password("email", "Moje heslo")) #úplně jiné
 # print("Test hashování:")
 # print(hash_password("testHeslo123"))
 # print(hash_password("testHeslo123"))  # Měl by být stejný
@@ -131,7 +137,7 @@ def register_user(email, password):
     if user_exists(email):
         print("Tento email je už registrovaný")
         return False
-    hash=hash_password(password)
+    hash=hash_password(email, password)
     with open("users.txt", "a", encoding="utf-8") as file:
         file.write(f"{email},{hash}\n")
     print("Registrace proběhla v pořádku")
@@ -167,7 +173,7 @@ def login_user(email, password):
         True pokud přihlášení bylo úspěšné (správný e-mail i heslo),
         False pokud přihlášení selhalo nebo uživatel neexistuje
     """
-    novy_hash= hash_password(password)
+    novy_hash= hash_password(email, password)
     try:
         with open("users.txt", "r", encoding="utf-8") as file:
             for line in file:
@@ -178,7 +184,7 @@ def login_user(email, password):
                 
                 if stored_email == email:
                     if novy_hash== stored_password:
-                        print("Přihlášení je úspěšná")
+                        print("Přihlášení je úspěšné")
                         return True
                     else:
                         print("Špatné heslo")
@@ -233,7 +239,7 @@ def validate_email(email):
         return True
     else:
         return False
-    pass
+    
 
 
 def validate_password(password):
@@ -325,16 +331,19 @@ def main():
     print()
     while True:
         print("1- Registrace")
-        print("2-Přihlášení")
+        print("2- Přihlášení")
         print("3- Ukončení")
         print("4- Změna hesla")
         user_choice=input("Zadejte vaši volbu (1,2,3,4):").strip()
 
         if user_choice == "1":
             email= input("Zadejte svůj mail:")
-            password= input("Zadejte svoje heslo (min. 8 znaků, alespoň jedno velké a jedno malé písmeno, alespoň jedno číslo)")
-            password_confirm=input("Zadejte heslo znova pro ověření")
-            register_user_advanced(email, password, password_confirm)
+            if validate_email(email):
+                password= input("Zadejte svoje heslo (min. 8 znaků, alespoň jedno velké a jedno malé písmeno, alespoň jedno číslo)")
+                password_confirm=input("Zadejte heslo znova pro ověření")
+                register_user_advanced(email, password, password_confirm)
+            else:
+                print("Neplatný formát mailu")
 
         elif user_choice == "2":
             email= input("Zadejte svůj přihlašovací mail:")
@@ -435,6 +444,7 @@ def change_password(email, old_password, new_password):
         with open ("users.txt", "w", encoding="utf-8") as file:
             for line in new_lines:
                 file.write(line + "\n")
+            file.write(f"{email}, {hash_password(email, new_password)} \n")
 
 
     pass
@@ -460,7 +470,7 @@ def login_with_protection(email, password):
     # Nápověda: Použijte globální slovník failed_login_attempts
     global failed_login_attempts
 
-    if failed_login_attempts.get(email, 0)>3:
+    if failed_login_attempts.get(email, 0)>=3:
         print("Účet je zablokovaný")
         return False
     
@@ -469,10 +479,11 @@ def login_with_protection(email, password):
     if success:
         failed_login_attempts[email]=0
         return True
-    if not success:
+    elif not success:
         failed_login_attempts[email]= failed_login_attempts.get(email, 0) +1
         remaining_tries=3-failed_login_attempts.get(email, 0)
-        print(f"Zbývá Vám {remaining_tries} pokusů")
+        if remaining_tries>0:
+            print(f"Zbývá Vám {remaining_tries} pokusů")
         return False
     pass
 
