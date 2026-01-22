@@ -30,7 +30,8 @@ def create_salt(email):
     salt=hashlib.sha256(email.encode('utf-8')).hexdigest()
     return salt
 
-pepper="Super_mega_tajný_pepper"
+pepper=hashlib.sha256("Super_mega_tajný_pepper".encode('utf-8')).hexdigest()
+
 
 def hash_password(email, password):
     """Vytvoří SHA-256 hash zadaného hesla.
@@ -348,7 +349,6 @@ def main():
         elif user_choice == "2":
             email= input("Zadejte svůj přihlašovací mail:")
             password= input("Zadejte svoje heslo:")
-            login_user(email, password)
             login_with_protection(email, password)
         
         elif user_choice == "3":

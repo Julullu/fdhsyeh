@@ -1,0 +1,100 @@
+import os 
+import random
+import time
+import re
+
+def validate_name(jmeno):
+    for c in jmeno:
+        if c.isdigit:
+            return False
+    return True
+
+
+
+def main():
+    jmeno=input("Zadejte svoje jméno:")
+    if validate_name(jmeno):
+        prijmeni=input("Zadejte své příjmení:")
+        if validate_name(prijmeni):
+            pocet_otazek=input("Zadejte počet otázek:")
+            if pocet_otazek.isdigit:
+                number_good_answer=0
+                number_bad_answer=0
+                number_question=int(pocet_otazek)
+                seznam_otazek=[]
+                with open ("testy_zdroj_otazek","r", encoding="utf-8") as file:
+                    for line in file:
+                        line=line.strip()
+                        if not line:
+                            continue
+                        options=[1,2]
+                        volba=random.choice(options)
+                        if volba == "1":
+                            seznam_otazek.append(line)
+
+                for line in seznam_otazek:
+                    otazka,odpoved_a,odpoved_b,odpoved_c,odpoved_d=line.strip.split('*')
+                    pattern=r'^[a-zA-Z0-9._%+-]+spravna_odpoved'
+                    if re.match(pattern, odpoved_a):
+                        spravna_odpoved= odpoved_a
+                    elif re.match(pattern, odpoved_b):
+                        spravna_odpoved= odpoved_b
+                    elif re.match(pattern, odpoved_c):
+                        spravna_odpoved= odpoved_c 
+                    elif re.match(pattern, odpoved_c):
+                        spravna_odpoved= odpoved_c   
+                    print(otazka)
+                    print(odpoved_a)
+                    print(odpoved_b)
+                    print(odpoved_c)
+                    print(odpoved_d)
+                    while True:
+                            odpoved=input("Zadejte svoji odpoved:")
+                            if odpoved == odpoved_a or odpoved_b or odpoved_c or odpoved_d:
+                                if spravna_odpoved == odpoved:
+                                    number_good_answer +=1
+                                    break
+                                else:
+                                    number_bad_answer +=1
+                                    break
+                            else:
+                                print("Zadejte prosím platnou možnost.")
+                    os.system('cls')
+                
+                print(f"Správně:{number_good_answer}")
+                print(f"Špatně:{number_bad_answer}")
+                success_rate= number_good_answer/number_question *100
+                print(f"Procentní úspěšnost:{success_rate}%")
+                if success_rate<= 100 and success_rate > 90:
+                    znamka= 1
+                elif success_rate<= 90 and success_rate > 75:
+                    znamka= 2
+                elif success_rate<= 75 and success_rate > 60:
+                    znamka= 3
+                elif success_rate<= 60 and success_rate > 45:
+                    znamka= 4
+                elif success_rate<= 45 and success_rate > 0:
+                    znamka= 5
+                print(f"Vaše známka je {znamka}")
+                print(f"Podle stupnice: 1 ... ⟨100, 90)% \n 2 ... ⟨90,75) \n 3 ... ⟨75, 60) \n 4 ... ⟨60, 45) \n 5 ... ⟨45, 0)")
+
+                print("1- spustit nový test")
+                print("2- nový test s jiným stdentem")
+                print("3- konec aplikace")
+
+                volba_2=input("Zadejte volbu (1,2,3):")
+
+            else:
+                print("Zadejte prosím platný počet otázek.")
+
+                      
+
+
+
+                        
+
+                        
+                        
+
+
+
