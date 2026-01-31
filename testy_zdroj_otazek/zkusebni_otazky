@@ -1,0 +1,106 @@
+Autor: Julie Pazdírková
+
+
+Otázka: Jak vytvoříme seznam v Pythonu?
+0; Použitím složených závorek {}
+0; Pomocí kulatých závorek ()
+1; Použitím hranatých závorek []
+0; Použitím příkazu list.create()
+
+
+Otázka: Který příkaz vypíše text na obrazovku?
+1; print("Hello")
+0; echo("Hello")
+0; display("Hello")
+0; write("Hello")
+
+
+Otázka: Jak označíme komentář v Pythonu?
+1; #
+0; //
+0; <!-- -->
+0; **
+
+
+Otázka: Který datový typ slouží pro pravdivostní hodnoty?
+0; int
+0; str
+1; bool
+0; list
+
+
+Otázka: Jak získáme délku seznamu?
+0; len.list(muj_seznam)
+1; len(muj_seznam)
+0; size(muj_seznam)
+0; count(muj_seznam)
+
+
+Otázka: Jak vytvoříme prázdný slovník?
+1; {}
+0; []
+0; ()
+0; dict()
+
+
+Otázka: Který operátor se používá pro násobení?
+0; +
+1; *
+0; /
+0; -
+
+
+Otázka: Co je správně pro spojení dvou řetězců?
+0; "A" - "B"
+1; "A" + "B"
+0; concat("A","B")
+0; "A" & "B"
+
+
+Otázka: Jak definujeme funkci v Pythonu?
+0; function moje_funkce(): 
+0; definice moje_funkce(): 
+1; def moje_funkce():
+0; fun moje_funkce():
+
+
+Otázka: Jak získáme hodnotu z klíče ve slovníku?
+1; slovnik["klic"]
+0; slovnik.klic
+0; slovnik.get_key("klic")
+0; slovnik.klic_value
+
+
+Otázka: Co dělá příkaz `break`?
+1; Ukončí nejbližší cyklus
+0; Přeskočí iteraci
+0; Zastaví program
+0; Nic nedělá
+
+
+Otázka: Jak označíme blok kódu v Pythonu?
+0; Složenými závorkami {}
+0; Kulatými závorkami ()
+1; Odsazením mezerami
+0; Pomocí závorek <>
+
+
+Otázka: Jak vytvoříme n-tici (tuple)?
+1; ()
+0; []
+0; {}
+0; tuple[]
+
+
+Otázka: Co znamená `None` v Pythonu?
+1; Žádná hodnota
+0; Nula
+0; False
+0; Null
+
+
+Otázka: Jak importujeme modul math?
+1; import math
+0; include math
+0; from math import all
+0; require math
