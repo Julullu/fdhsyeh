@@ -1,0 +1,45 @@
+Vypracoval/a: d d
+Počet otázek: 5
+Počet správně: 1
+Počet špatně: 4
+Procentní úspěšnost: 20.0
+Výsledná známka:5
+Hodnoceno pomocí škály:
+100 - 90 ...1
+90 - 75 ...2
+75 - 60 ...3
+60 - 45 ...4
+45 - 0 ...5
+Špatně zodpovězené otázky:
+1. Otázka: Který operátor se používá pro násobení?
+   A) +
+   B) -
+   C) *
+   D) /
+Správná odpověď: C
+Studentova odpověď: A
+
+2. Otázka: Co znamená `None` v Pythonu?
+   A) Nula
+   B) Null
+   C) False
+   D) Žádná hodnota
+Správná odpověď: D
+Studentova odpověď: A
+
+3. Otázka: Jak získáme délku seznamu?
+   A) count(muj_seznam)
+   B) size(muj_seznam)
+   C) len(muj_seznam)
+   D) len.list(muj_seznam)
+Správná odpověď: C
+Studentova odpověď: A
+
+4. Otázka: Jak importujeme modul math?
+   A) require math
+   B) import math
+   C) from math import all
+   D) include math
+Správná odpověď: B
+Studentova odpověď: A
+

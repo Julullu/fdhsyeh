@@ -60,7 +60,6 @@ def run_test(vybrane_otazky):
                 break
             else:
                 print("Neplatný vstup")
-                clear_screen()
                 continue
     return odpovedi_student
 
@@ -186,17 +185,17 @@ def main():
             vstup=input(f"Zadejte počet otázek (max.{celkovy_pocet_otazek}):")
             if not vstup.isdigit():
                 print("Zadejte prosím počet ve formě celého čísla")
-                clear_screen()
+                
                 continue
             pocet_otazek=int(vstup)
 
             if pocet_otazek <= 0:
                 print("Zadejte prosím kladné celé číslo")
-                clear_screen()
+                
                 continue
             elif pocet_otazek > celkovy_pocet_otazek:
                 print(f"Nedostatečný počet otázek, max. {celkovy_pocet_otazek}")
-                clear_screen()
+                
                 continue
             else:
                 break
@@ -228,7 +227,6 @@ def main():
                 return
             else:
                 print("Zadejte prosím platný vstup (a-c)")
-                clear_screen()
                 continue
 
 if __name__ == "__main__":

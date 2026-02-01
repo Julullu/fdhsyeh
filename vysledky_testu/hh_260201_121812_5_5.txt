@@ -1,0 +1,37 @@
+Vypracoval/a: h h
+Počet otázek: 5
+Počet správně: 2
+Počet špatně: 3
+Procentní úspěšnost: 40.0
+Výsledná známka:5
+Hodnoceno pomocí škály:
+100 - 90 ...1
+90 - 75 ...2
+75 - 60 ...3
+60 - 45 ...4
+45 - 0 ...5
+Špatně zodpovězené otázky:
+1. Otázka: Který operátor se používá pro násobení?
+   A) *
+   B) /
+   C) +
+   D) -
+Správná odpověď: A
+Studentova odpověď: D
+
+2. Otázka: Který datový typ slouží pro pravdivostní hodnoty?
+   A) int
+   B) bool
+   C) str
+   D) list
+Správná odpověď: B
+Studentova odpověď: D
+
+3. Otázka: Jak získáme délku seznamu?
+   A) count(muj_seznam)
+   B) size(muj_seznam)
+   C) len(muj_seznam)
+   D) len.list(muj_seznam)
+Správná odpověď: C
+Studentova odpověď: D
+
