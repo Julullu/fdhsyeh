@@ -14,6 +14,14 @@ skala=[(100,90), (90,75), (75,60), (60,45), (45,0)]
 
 
 def load_all_questions():
+    """
+    Projde všechny soubory ve složce "testy_zdroj_otazek" a vrátí list vsechny_otazky obsahující slovníky pro každou otázku v souboru. 
+     Tento slovník obsahuje otázku, slovník s odpovědmi, ve kterém jsou jednotlivé odpovědi a údaj o jejich správnosti, autor a
+      zdroj (název souboru). V případě, že nebyla nalezena cesta ke složce, bude to oznámeno a list vsechny_otazky se vrátí
+      prázdný.
+       
+    args: none
+    returns: vsechny_otazky """
     vsechny_otazky=[]
     if not os.path.exists(cesta_otazky):
         print("Adresář s otázkami neexistuje")
@@ -36,6 +44,12 @@ def load_all_questions():
     return vsechny_otazky
 
 def prepare_test(pocet_otazek):
+    """
+    Funkce promíchá list otazky, vytvoří prázdný list vybrane_otazky a vloží do něj promíchané otázky a promíchá u nich pořádí
+    odpovědí.
+    
+    args= pocet_otazek
+    returns= vybrane_otazky"""
     otazky= load_all_questions()
     random.shuffle(otazky)
     vybrane_otazky=[]
@@ -46,6 +60,13 @@ def prepare_test(pocet_otazek):
     return vybrane_otazky
 
 def run_test(vybrane_otazky):
+    """
+    Vytvorí prázdný list odpovedi_student, do něhož zaznamená input studenta na každou otázku z listu vybrane_otazky. 
+    Funkce kontroluje studentův vstup a zaznamená odpověď pouze, když je platná. Po každé otázce se vyčistí terminál.
+    
+    Error= neplatný vstup
+    Args= vybrane_otazky
+    returns= odpovedi_student"""
     odpovedi_student=[]
     for idx, otazka in enumerate(vybrane_otazky, start=1):
         print(f"Otázka č. {idx}: {otazka['otazka']}")
@@ -64,6 +85,10 @@ def run_test(vybrane_otazky):
     return odpovedi_student
 
 def spravne_odpovedi_f(vybrane_otazky):
+    """
+    Funkce vytvoří list spravne_odpovedi, kde se zaznamnejí písmena správných odpovědí na vybrane_otazky.
+    
+    returns= spravne_odpovedi"""
     spravne_odpovedi=[]
     pismena=["A","B","C","D"]
     for otazka in vybrane_otazky:
@@ -76,6 +101,13 @@ def spravne_odpovedi_f(vybrane_otazky):
    
 
 def evaluate_results(odpovedi_student, spravne_odpovedi, pocet_otazek, vybrane_otazky):
+    """
+    Funkce porovná list odpovedi_student s listem spravne_odpovedi, zaznamená počet shod (pocet_spravne) a počet neshod
+    (pocet_chybne). vytvoří list sptane_otazky, kam se zaznamenají špatně zodpovězené otázky. Dále spočítá procentní úspěšnost
+    a podle škály (skala) určí známku. Zaznamená čas vyhodnocení now.
+    
+    Args= odpovedi_student, spravne_odpovedi, pocet_otazek, vybrane_otazky
+    returns= pocet_chybne, pocet_spravne, procentni_uspesnost, znamka, spatne_otazky"""
     spatne_otazky=[]
     pocet_spravne=0
     pocet_chybne=0
@@ -111,12 +143,22 @@ def evaluate_results(odpovedi_student, spravne_odpovedi, pocet_otazek, vybrane_o
 
 
 def clear_screen():
+    """ 
+    Vyčistí terminál.
+    
+    args= none
+    retiurns= none"""
     if os.name == "nt":
         os.system("cls")
     else:
         os.system("clear")
 
 def normalize_name(jmeno, prijmeni):
+    """ Funkce převed jméno a príjmení studenta do tvaru, kdy odstraní diakritiku, převede vše na malá písmena, mezeru mezi jménem
+    a příjmením nahradí podtržítkem.
+    
+    args= jmeno, prijmeni
+    returns= spojene_jmeno"""
     spojene_jmeno=jmeno+prijmeni
     spojene_jmeno=spojene_jmeno.strip()
     spojene_jmeno=spojene_jmeno.lower()
@@ -126,6 +168,13 @@ def normalize_name(jmeno, prijmeni):
     return spojene_jmeno
 
 def save_results (cesta_vysledky, pocet_otazek, jmeno, prijmeni, znamka, pocet_spravne, pocet_chybne, skala, spatne_otazky, procentni_uspesnost):
+    """ 
+    Pokud neexistuje složka vysledky_testu, tak ji funkce vytvoří. Do této složky pak vloží soubor pojmenovaný ve formátu prijmeni_jmeno_YYYYMMDD_HHMMSS_pocetOtazek_znamka.txt
+    Do něj se uloží jméno a příjmení studenta, počet otázek, počet správně a šptaně zodpovězených otázek, procentní úspěšnost,
+    výsledná známka, škála hodnocení, čas vypracování, špatně zodpovezené otázky- jejich správné odpovědi a studentovi odpovědi.
+    
+    args= cesta_vysledky, pocet_otazek, jmeno, prijmeni, znamka, pocet_spravne, pocet_chybne, skala, spatne_otazky, procentni_uspesnost
+    """
     if not os.path.exists(cesta_vysledky):
         os.mkdir("vysledky_testu")
     now=datetime.now().strftime("%y%m%d_%H%M%S")
@@ -142,6 +191,7 @@ def save_results (cesta_vysledky, pocet_otazek, jmeno, prijmeni, znamka, pocet_s
         file.write(f"Hodnoceno pomocí škály:\n")
         for i, (max_procent, min_procent) in enumerate (skala, start=1):
             file.write(f"{max_procent} - {min_procent} ...{i}\n")
+        file.write (f"Vypracováno: {datetime.now().strftime("%d.%m.%y, %H:%M:%S")}\n")
         file.write("Špatně zodpovězené otázky:\n")
         for i, otazka in enumerate(spatne_otazky, start=1):
             pismena = ["A", "B", "C", "D"]
@@ -151,7 +201,26 @@ def save_results (cesta_vysledky, pocet_otazek, jmeno, prijmeni, znamka, pocet_s
             file.write(f"Správná odpověď: {otazka['spravna']}\n")
             file.write(f"Studentova odpověď: {otazka['student']}\n\n")
 
+def kontrola_jmena(jmeno):
+    """
+    Zkontroluje zda vložené jméno začíná velkým písmenem a zda obsahuje pouze písmena. Daný problém vypíše.
+    
+    args= jmeno
+    returns= bool (True- jestliže je jméno ve správném tvaru, False- jesliže není)"""
+    MY_ALPHABET = "aábcčdďeéěfghijklmnňoópqrřsštťuůúvwxyzžAÁBCČDĎEÉĚFGHIJKLMNŇOÓPQRŘSŠTŤUŮÚVWXYZŽ"
+    if not jmeno:
+        print("Jméno nesmí být prázdné")
+        return False
+    if jmeno[0].islower():
+        print("Jméno musí začínat velkým písmenem")
+        return False
+    for i in jmeno:
+        if i not in MY_ALPHABET:
+            print("Jméno nemůže obsahovat čísla ani znaky.")
+            return False
+    return True
 
+    
 def main():
     print("=" * 50)
     print("     Examinátor")
@@ -178,8 +247,14 @@ def main():
     if celkovy_pocet_otazek < minimum_otazek:
         print("Nedostatečný počet otázek")
         return
-    jmeno=input("Zadejte své křestní jméno:")
-    prijmeni=input("Zadejte své příjmení:")
+    while True:
+        jmeno=input("Zadejte své křestní jméno:")
+        if kontrola_jmena(jmeno):
+            break
+    while True:
+        prijmeni=input("Zadejte své příjmení:")
+        if kontrola_jmena(prijmeni):
+            break
     while True:
         while True:
             vstup=input(f"Zadejte počet otázek (max.{celkovy_pocet_otazek}):")

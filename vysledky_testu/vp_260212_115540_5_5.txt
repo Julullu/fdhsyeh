@@ -1,0 +1,37 @@
+Vypracoval/a: V P
+Počet otázek: 5
+Počet správně: 2
+Počet špatně: 3
+Procentní úspěšnost: 40.0
+Výsledná známka:5
+Hodnoceno pomocí škály:
+100 - 90 ...1
+90 - 75 ...2
+75 - 60 ...3
+60 - 45 ...4
+45 - 0 ...5
+Vypracováno: 12.02.26, 11:55:40Špatně zodpovězené otázky:
+1. Otázka: Co dělá příkaz `break`?
+   A) Zastaví program
+   B) Nic nedělá
+   C) Ukončí nejbližší cyklus
+   D) Přeskočí iteraci
+Správná odpověď: C
+Studentova odpověď: A
+
+2. Otázka: Co znamená `None` v Pythonu?
+   A) Nula
+   B) Žádná hodnota
+   C) False
+   D) Null
+Správná odpověď: B
+Studentova odpověď: A
+
+3. Otázka: Jak definujeme funkci v Pythonu?
+   A) fun moje_funkce():
+   B) def moje_funkce():
+   C) definice moje_funkce():
+   D) function moje_funkce():
+Správná odpověď: B
+Studentova odpověď: A
+

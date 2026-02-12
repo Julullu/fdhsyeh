@@ -1,0 +1,45 @@
+Vypracoval/a: G G
+Počet otázek: 5
+Počet správně: 1
+Počet špatně: 4
+Procentní úspěšnost: 20.0
+Výsledná známka:5
+Hodnoceno pomocí škály:
+100 - 90 ...1
+90 - 75 ...2
+75 - 60 ...3
+60 - 45 ...4
+45 - 0 ...5
+Vypracováno: 12.02.26, 11:56:22Špatně zodpovězené otázky:
+1. Otázka: Jak vytvoříme n-tici (tuple)?
+   A) []
+   B) {}
+   C) tuple[]
+   D) ()
+Správná odpověď: D
+Studentova odpověď: A
+
+2. Otázka: Který operátor se používá pro násobení?
+   A) /
+   B) -
+   C) +
+   D) *
+Správná odpověď: D
+Studentova odpověď: A
+
+3. Otázka: Který příkaz vypíše text na obrazovku?
+   A) write("Hello")
+   B) display("Hello")
+   C) echo("Hello")
+   D) print("Hello")
+Správná odpověď: D
+Studentova odpověď: A
+
+4. Otázka: Co dělá příkaz `break`?
+   A) Zastaví program
+   B) Přeskočí iteraci
+   C) Nic nedělá
+   D) Ukončí nejbližší cyklus
+Správná odpověď: D
+Studentova odpověď: A
+

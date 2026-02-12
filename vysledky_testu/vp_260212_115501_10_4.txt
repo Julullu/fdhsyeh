@@ -1,0 +1,53 @@
+Vypracoval/a: V P
+Počet otázek: 10
+Počet správně: 5
+Počet špatně: 5
+Procentní úspěšnost: 50.0
+Výsledná známka:4
+Hodnoceno pomocí škály:
+100 - 90 ...1
+90 - 75 ...2
+75 - 60 ...3
+60 - 45 ...4
+45 - 0 ...5
+Vypracováno: 12.02.26, 11:55:01Špatně zodpovězené otázky:
+1. Otázka: Který datový typ slouží pro pravdivostní hodnoty?
+   A) str
+   B) bool
+   C) int
+   D) list
+Správná odpověď: B
+Studentova odpověď: A
+
+2. Otázka: Jak získáme hodnotu z klíče ve slovníku?
+   A) slovnik.klic_value
+   B) slovnik.get_key("klic")
+   C) slovnik.klic
+   D) slovnik["klic"]
+Správná odpověď: D
+Studentova odpověď: A
+
+3. Otázka: Jak označíme komentář v Pythonu?
+   A) **
+   B) <!-- -->
+   C) #
+   D) //
+Správná odpověď: C
+Studentova odpověď: B
+
+4. Otázka: Jak vytvoříme seznam v Pythonu?
+   A) Pomocí kulatých závorek ()
+   B) Použitím hranatých závorek []
+   C) Použitím příkazu list.create()
+   D) Použitím složených závorek {}
+Správná odpověď: B
+Studentova odpověď: D
+
+5. Otázka: Jak označíme blok kódu v Pythonu?
+   A) Pomocí závorek <>
+   B) Odsazením mezerami
+   C) Kulatými závorkami ()
+   D) Složenými závorkami {}
+Správná odpověď: B
+Studentova odpověď: D
+
