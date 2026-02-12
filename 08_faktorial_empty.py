@@ -248,7 +248,16 @@ def factorial_memo(n):
         >>> MEMO
         {2: 2, 3: 6, 4: 24, 5: 120}
     """
-    
+    global MEMO
+
+    if n in MEMO:
+        return MEMO[n]
+    if n== 0 or n==1:
+        return 1
+    else:
+        result= n* factorial_memo(n-1)
+        MEMO[n]= result
+        return result
     # TODO: Deklarujte global MEMO
     # TODO: Zkontrolujte, zda n je již v MEMO — pokud ano, vraťte MEMO[n]
     # TODO: Bázový případ: n == 0 nebo n == 1 → vraťte 1
@@ -286,9 +295,13 @@ def time_consumption(funkce, n):
     Returns:
         Doba výpočtu v milisekundách jako float
     """
+    start= time.perf_counter()
+    funkce(n)
+    cas= (time.perf_counter()- start)*1000
+    return cas
     # TODO: Změřte čas pomocí time.perf_counter()
     # TODO: Vraťte výsledek v milisekundách (*1000)
-    pass
+    
 
 
 def graph_time_consumption(max_n=150):
@@ -304,6 +317,26 @@ def graph_time_consumption(max_n=150):
     Returns:
         None — zobrazí graf
     """
+    time_list_iteration=[]
+    time_list_recursion=[]
+    factorial_range= range(1, max_n +1)
+    for n in factorial_range:
+        cas_iterace= time_consumption(factorial, n)
+        time_list_iteration.append(cas_iterace)
+        try:
+            cas_rekurze= time_consumption(factorial_recurse, n)
+            time_list_recursion.append(cas_rekurze)
+        except ValueError:
+            time_list_recursion.append(None)
+    
+    plt.plot(factorial_range, time_list_iteration, label='Iterace', color='blue')
+    plt.plot(factorial_range, time_list_recursion, label='Rekurze', color='red')
+    plt.xlabel('n(velikost čísla)')
+    plt.ylabel('čas (ms)')
+    plt.title('Porovnání výkonu iterativní a rekurzivní verze výpočtu faktoriálu')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
     # TODO: Vytvořte prázdné seznamy time_list_iteracion a time_list_recursion
     # TODO: Vytvořte factorial_range = range(1, max_n + 1)
     # TODO: V cyklu pro každé n:
@@ -319,7 +352,7 @@ def graph_time_consumption(max_n=150):
     #       plt.legend()
     #       plt.grid(True)
     #       plt.show()
-    pass
+
 
 
 ##############################################################
