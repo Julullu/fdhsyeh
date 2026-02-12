@@ -15,9 +15,9 @@ skala=[(100,90), (90,75), (75,60), (60,45), (45,0)]
 
 def load_all_questions():
     """
-    Projde všechny soubory ve složce "testy_zdroj_otazek" a vrátí list vsechny_otazky obsahující slovníky pro každou otázku v souboru. 
+    Projde všechny soubory ve složce "testy_zdroj_otazek" a vrátí seznam vsechny_otazky obsahující slovníky pro každou otázku v souboru. 
      Tento slovník obsahuje otázku, slovník s odpovědmi, ve kterém jsou jednotlivé odpovědi a údaj o jejich správnosti, autor a
-      zdroj (název souboru). V případě, že nebyla nalezena cesta ke složce, bude to oznámeno a list vsechny_otazky se vrátí
+      zdroj (název souboru). V případě, že nebyla nalezena cesta ke složce, bude to oznámeno a seznam vsechny_otazky se vrátí
       prázdný.
        
     args: none
@@ -45,7 +45,7 @@ def load_all_questions():
 
 def prepare_test(pocet_otazek):
     """
-    Funkce promíchá list otazky, vytvoří prázdný list vybrane_otazky a vloží do něj promíchané otázky a promíchá u nich pořádí
+    Funkce promíchá seznam otazky, vytvoří prázdný seznam vybrane_otazky a vloží do něj promíchané otázky a promíchá u nich pořádí
     odpovědí.
     
     args= pocet_otazek
@@ -61,7 +61,7 @@ def prepare_test(pocet_otazek):
 
 def run_test(vybrane_otazky):
     """
-    Vytvorí prázdný list odpovedi_student, do něhož zaznamená input studenta na každou otázku z listu vybrane_otazky. 
+    Vytvorí prázdný seznam odpovedi_student, do něhož zaznamená input studenta na každou otázku z listu vybrane_otazky. 
     Funkce kontroluje studentův vstup a zaznamená odpověď pouze, když je platná. Po každé otázce se vyčistí terminál.
     
     Error= neplatný vstup
@@ -86,7 +86,7 @@ def run_test(vybrane_otazky):
 
 def spravne_odpovedi_f(vybrane_otazky):
     """
-    Funkce vytvoří list spravne_odpovedi, kde se zaznamnejí písmena správných odpovědí na vybrane_otazky.
+    Funkce vytvoří seznam spravne_odpovedi, kde se zaznamnejí písmena správných odpovědí na vybrane_otazky.
     
     returns= spravne_odpovedi"""
     spravne_odpovedi=[]
@@ -102,8 +102,8 @@ def spravne_odpovedi_f(vybrane_otazky):
 
 def evaluate_results(odpovedi_student, spravne_odpovedi, pocet_otazek, vybrane_otazky):
     """
-    Funkce porovná list odpovedi_student s listem spravne_odpovedi, zaznamená počet shod (pocet_spravne) a počet neshod
-    (pocet_chybne). vytvoří list sptane_otazky, kam se zaznamenají špatně zodpovězené otázky. Dále spočítá procentní úspěšnost
+    Funkce porovná seznam odpovedi_student se seznamem spravne_odpovedi, zaznamená počet shod (pocet_spravne) a počet neshod
+    (pocet_chybne). vytvoří seznam sptane_otazky, kam se zaznamenají špatně zodpovězené otázky. Dále spočítá procentní úspěšnost
     a podle škály (skala) určí známku. Zaznamená čas vyhodnocení now.
     
     Args= odpovedi_student, spravne_odpovedi, pocet_otazek, vybrane_otazky
