@@ -1,100 +1,319 @@
-import os 
+import os
+from datetime import datetime
 import random
+import unicodedata
 import time
-import re
 
-def validate_name(jmeno):
-    for c in jmeno:
-        if c.isdigit:
+
+cesta_otazky="testy_zdroj_otazek"
+cesta_vysledky="vysledky_testu"
+
+minimum_otazek=15
+
+skala=[(100,90), (90,75), (75,60), (60,45), (45,0)]
+
+
+def load_all_questions():
+    """
+    Projde všechny soubory ve složce "testy_zdroj_otazek" a vrátí list vsechny_otazky obsahující slovníky pro každou otázku v souboru. 
+     Tento slovník obsahuje otázku, slovník s odpovědmi, ve kterém jsou jednotlivé odpovědi a údaj o jejich správnosti, autor a
+      zdroj (název souboru). V případě, že nebyla nalezena cesta ke složce, bude to oznámeno a list vsechny_otazky se vrátí
+      prázdný.
+       
+    args: none
+    returns: vsechny_otazky """
+    vsechny_otazky=[]
+    if not os.path.exists(cesta_otazky):
+        print("Adresář s otázkami neexistuje")
+        return vsechny_otazky
+    for soubor in os.listdir(cesta_otazky):
+        cesta=os.path.join(cesta_otazky, soubor)
+        with open (cesta, "r", encoding="utf-8") as file:
+            lines=[line.strip() for line in file]
+            autor= lines[0].replace("Autor:","").strip()
+            i=3
+            while i<len(lines):
+                otazka=lines[i]
+                odpovedi=[]
+                for radek in lines[i+1:i+5]:
+                    spravne=radek.startswith("1;")
+                    text= radek[2:].strip()
+                    odpovedi.append({"text": text, "spravnost":spravne})
+                vsechny_otazky.append({"otazka": otazka, "odpovedi": odpovedi, "autor": autor, "zdroj": soubor})
+                i+=7
+    return vsechny_otazky
+
+def prepare_test(pocet_otazek):
+    """
+    Funkce promíchá list otazky, vytvoří prázdný list vybrane_otazky a vloží do něj promíchané otázky a promíchá u nich pořádí
+    odpovědí.
+    
+    args= pocet_otazek
+    returns= vybrane_otazky"""
+    otazky= load_all_questions()
+    random.shuffle(otazky)
+    vybrane_otazky=[]
+    for i in range (pocet_otazek):
+        vybrane_otazky.append(otazky[i])
+    for otazka in vybrane_otazky:
+        random.shuffle(otazka["odpovedi"])
+    return vybrane_otazky
+
+def run_test(vybrane_otazky):
+    """
+    Vytvorí prázdný list odpovedi_student, do něhož zaznamená input studenta na každou otázku z listu vybrane_otazky. 
+    Funkce kontroluje studentův vstup a zaznamená odpověď pouze, když je platná. Po každé otázce se vyčistí terminál.
+    
+    Error= neplatný vstup
+    Args= vybrane_otazky
+    returns= odpovedi_student"""
+    odpovedi_student=[]
+    for idx, otazka in enumerate(vybrane_otazky, start=1):
+        print(f"Otázka č. {idx}: {otazka['otazka']}")
+        pismena=["A","B","C","D"]
+        for i, odpoved in enumerate(otazka["odpovedi"]):
+            print(f"{pismena[i]}) {odpoved['text']} ")
+        while True:
+            odpoved_student=input("Zadejte svou odpověď (A-D):").upper()
+            if odpoved_student in ["A", "B", "C", "D"]:
+                odpovedi_student.append(odpoved_student)
+                clear_screen()
+                break
+            else:
+                print("Neplatný vstup")
+                continue
+    return odpovedi_student
+
+def spravne_odpovedi_f(vybrane_otazky):
+    """
+    Funkce vytvoří list spravne_odpovedi, kde se zaznamnejí písmena správných odpovědí na vybrane_otazky.
+    
+    returns= spravne_odpovedi"""
+    spravne_odpovedi=[]
+    pismena=["A","B","C","D"]
+    for otazka in vybrane_otazky:
+        for i, odpoved in enumerate(otazka["odpovedi"]):
+            if odpoved["spravnost"]:
+                spravne_odpovedi.append(pismena[i])
+                break
+    return spravne_odpovedi
+
+   
+
+def evaluate_results(odpovedi_student, spravne_odpovedi, pocet_otazek, vybrane_otazky):
+    """
+    Funkce porovná list odpovedi_student s listem spravne_odpovedi, zaznamená počet shod (pocet_spravne) a počet neshod
+    (pocet_chybne). vytvoří list sptane_otazky, kam se zaznamenají špatně zodpovězené otázky. Dále spočítá procentní úspěšnost
+    a podle škály (skala) určí známku. Zaznamená čas vyhodnocení now.
+    
+    Args= odpovedi_student, spravne_odpovedi, pocet_otazek, vybrane_otazky
+    returns= pocet_chybne, pocet_spravne, procentni_uspesnost, znamka, spatne_otazky"""
+    spatne_otazky=[]
+    pocet_spravne=0
+    pocet_chybne=0
+    for i, odpoved in enumerate(odpovedi_student):
+        if odpoved == spravne_odpovedi[i]:
+            pocet_spravne+=1
+        else:
+            pocet_chybne+=1
+            spatne_otazky.append({
+                "otazka": vybrane_otazky[i]["otazka"],
+                "odpovedi": vybrane_otazky[i]["odpovedi"],
+                "spravna": spravne_odpovedi[i],
+                "student": odpovedi_student[i]
+            })
+
+    
+    procentni_uspesnost=pocet_spravne/pocet_otazek *100
+    znamka=1
+    for i, (max_procent, min_procent) in enumerate (skala, start=1):
+        if min_procent <= procentni_uspesnost < max_procent:
+            znamka=i
+            break
+    print(f"Počet správných odpovědí:{pocet_spravne}")
+    print(f"Počet chybných odpovědí:{pocet_chybne}")
+    print(f"Procentní úspěšnost:{procentni_uspesnost} %")
+    print(f"Vaše známka:{znamka}")
+    print(f"Hodnoceno pomocí škály:")
+    for i, (max_procent, min_procent) in enumerate (skala, start=1):
+        print(f"{max_procent} - {min_procent} ...{i}")
+    now=datetime.now().strftime("%d.%m.%y, %H:%M:%S")
+    print(f"Datum a čas vyhodnocení: {now}")
+    return pocet_chybne, pocet_spravne, procentni_uspesnost, znamka, spatne_otazky
+
+
+def clear_screen():
+    """ 
+    Vyčistí terminál.
+    
+    args= none
+    retiurns= none"""
+    if os.name == "nt":
+        os.system("cls")
+    else:
+        os.system("clear")
+
+def normalize_name(jmeno, prijmeni):
+    """ Funkce převed jméno a príjmení studenta do tvaru, kdy odstraní diakritiku, převede vše na malá písmena, mezeru mezi jménem
+    a příjmením nahradí podtržítkem.
+    
+    args= jmeno, prijmeni
+    returns= spojene_jmeno"""
+    spojene_jmeno=jmeno+prijmeni
+    spojene_jmeno=spojene_jmeno.strip()
+    spojene_jmeno=spojene_jmeno.lower()
+    spojene_jmeno = unicodedata.normalize("NFKD", spojene_jmeno)
+    spojene_jmeno = "".join(c for c in spojene_jmeno if not unicodedata.combining(c))
+    spojene_jmeno=spojene_jmeno.replace(" ", "_")
+    return spojene_jmeno
+
+def save_results (cesta_vysledky, pocet_otazek, jmeno, prijmeni, znamka, pocet_spravne, pocet_chybne, skala, spatne_otazky, procentni_uspesnost):
+    """ 
+    Pokud neexistuje složka vysledky_testu, tak ji funkce vytvoří. Do této složky pak vloží soubor pojmenovaný ve formátu prijmeni_jmeno_YYYYMMDD_HHMMSS_pocetOtazek_znamka.txt
+    Do něj se uloží jméno a příjmení studenta, počet otázek, počet správně a šptaně zodpovězených otázek, procentní úspěšnost,
+    výsledná známka, škála hodnocení, čas vypracování, špatně zodpovezené otázky- jejich správné odpovědi a studentovi odpovědi.
+    
+    args= cesta_vysledky, pocet_otazek, jmeno, prijmeni, znamka, pocet_spravne, pocet_chybne, skala, spatne_otazky, procentni_uspesnost
+    """
+    if not os.path.exists(cesta_vysledky):
+        os.mkdir("vysledky_testu")
+    now=datetime.now().strftime("%y%m%d_%H%M%S")
+    normalizovane_jmeno=normalize_name(jmeno, prijmeni)
+    nazev_souboru=f"{normalizovane_jmeno}_{now}_{pocet_otazek}_{znamka}.txt"
+    cesta= os.path.join(cesta_vysledky, nazev_souboru)
+    with open (cesta, "w", encoding="utf-8") as file:
+        file.write(f"Vypracoval/a: {jmeno} {prijmeni}\n")
+        file.write(f"Počet otázek: {pocet_otazek}\n")
+        file.write(f"Počet správně: {pocet_spravne}\n")
+        file.write(f"Počet špatně: {pocet_chybne}\n")
+        file.write(f"Procentní úspěšnost: {procentni_uspesnost}\n")
+        file.write(f"Výsledná známka:{znamka}\n")
+        file.write(f"Hodnoceno pomocí škály:\n")
+        for i, (max_procent, min_procent) in enumerate (skala, start=1):
+            file.write(f"{max_procent} - {min_procent} ...{i}\n")
+        file.write (f"Vypracováno: {datetime.now().strftime("%d.%m.%y, %H:%M:%S")}\n")
+        file.write("Špatně zodpovězené otázky:\n")
+        for i, otazka in enumerate(spatne_otazky, start=1):
+            pismena = ["A", "B", "C", "D"]
+            file.write(f"{i}. {otazka['otazka']}\n")
+            for j, odpoved in enumerate(otazka["odpovedi"]):
+                file.write(f"   {pismena[j]}) {odpoved['text']}\n")
+            file.write(f"Správná odpověď: {otazka['spravna']}\n")
+            file.write(f"Studentova odpověď: {otazka['student']}\n\n")
+
+def kontrola_jmena(jmeno):
+    """
+    Zkontroluje zda vložené jméno začíná velkým písmenem a zda obsahuje pouze písmena. Daný problém vypíše.
+    
+    args= jmeno
+    returns= bool (True- jestliže je jméno ve správném tvaru, False- jesliže není)"""
+    MY_ALPHABET = "aábcčdďeéěfghijklmnňoópqrřsštťuůúvwxyzžAÁBCČDĎEÉĚFGHIJKLMNŇOÓPQRŘSŠTŤUŮÚVWXYZŽ"
+    if not jmeno:
+        print("Jméno nesmí být prázdné")
+        return False
+    if jmeno[0].islower():
+        print("Jméno musí začínat velkým písmenem")
+        return False
+    for i in jmeno:
+        if i not in MY_ALPHABET:
+            print("Jméno nemůže obsahovat čísla ani znaky.")
             return False
     return True
 
-
-
+    
 def main():
-    jmeno=input("Zadejte svoje jméno:")
-    if validate_name(jmeno):
+    print("=" * 50)
+    print("     Examinátor")
+    print("=" * 50)
+    print()
+    print(f"Načítám otázky z adresáře: 'testy_zdroj_otazek'")
+    time.sleep(2)
+    otazky=load_all_questions()
+    otazky_podle_souboru = {}
+
+    for otazka in otazky:
+        soubor = otazka["zdroj"]
+        if soubor not in otazky_podle_souboru:
+            otazky_podle_souboru[soubor] = 0
+        otazky_podle_souboru[soubor] += 1
+    
+    for soubor, pocet in otazky_podle_souboru.items():
+        print(f"Načteno: {pocet} otázek ze souboru: {soubor}")
+    
+    celkovy_pocet_otazek=len(otazky)
+
+    print(f"Celkově načeteno: {celkovy_pocet_otazek} otázek")
+
+    if celkovy_pocet_otazek < minimum_otazek:
+        print("Nedostatečný počet otázek")
+        return
+    while True:
+        jmeno=input("Zadejte své křestní jméno:")
+        if kontrola_jmena(jmeno):
+            break
+    while True:
         prijmeni=input("Zadejte své příjmení:")
-        if validate_name(prijmeni):
-            pocet_otazek=input("Zadejte počet otázek:")
-            if pocet_otazek.isdigit:
-                number_good_answer=0
-                number_bad_answer=0
-                number_question=int(pocet_otazek)
-                seznam_otazek=[]
-                with open ("testy_zdroj_otazek","r", encoding="utf-8") as file:
-                    for line in file:
-                        line=line.strip()
-                        if not line:
-                            continue
-                        options=[1,2]
-                        volba=random.choice(options)
-                        if volba == "1":
-                            seznam_otazek.append(line)
-
-                for line in seznam_otazek:
-                    otazka,odpoved_a,odpoved_b,odpoved_c,odpoved_d=line.strip.split('*')
-                    pattern=r'^[a-zA-Z0-9._%+-]+spravna_odpoved'
-                    if re.match(pattern, odpoved_a):
-                        spravna_odpoved= odpoved_a
-                    elif re.match(pattern, odpoved_b):
-                        spravna_odpoved= odpoved_b
-                    elif re.match(pattern, odpoved_c):
-                        spravna_odpoved= odpoved_c 
-                    elif re.match(pattern, odpoved_c):
-                        spravna_odpoved= odpoved_c   
-                    print(otazka)
-                    print(odpoved_a)
-                    print(odpoved_b)
-                    print(odpoved_c)
-                    print(odpoved_d)
-                    while True:
-                            odpoved=input("Zadejte svoji odpoved:")
-                            if odpoved == odpoved_a or odpoved_b or odpoved_c or odpoved_d:
-                                if spravna_odpoved == odpoved:
-                                    number_good_answer +=1
-                                    break
-                                else:
-                                    number_bad_answer +=1
-                                    break
-                            else:
-                                print("Zadejte prosím platnou možnost.")
-                    os.system('cls')
+        if kontrola_jmena(prijmeni):
+            break
+    while True:
+        while True:
+            vstup=input(f"Zadejte počet otázek (max.{celkovy_pocet_otazek}):")
+            if not vstup.isdigit():
+                print("Zadejte prosím počet ve formě celého čísla")
                 
-                print(f"Správně:{number_good_answer}")
-                print(f"Špatně:{number_bad_answer}")
-                success_rate= number_good_answer/number_question *100
-                print(f"Procentní úspěšnost:{success_rate}%")
-                if success_rate<= 100 and success_rate > 90:
-                    znamka= 1
-                elif success_rate<= 90 and success_rate > 75:
-                    znamka= 2
-                elif success_rate<= 75 and success_rate > 60:
-                    znamka= 3
-                elif success_rate<= 60 and success_rate > 45:
-                    znamka= 4
-                elif success_rate<= 45 and success_rate > 0:
-                    znamka= 5
-                print(f"Vaše známka je {znamka}")
-                print(f"Podle stupnice: 1 ... ⟨100, 90)% \n 2 ... ⟨90,75) \n 3 ... ⟨75, 60) \n 4 ... ⟨60, 45) \n 5 ... ⟨45, 0)")
+                continue
+            pocet_otazek=int(vstup)
 
-                print("1- spustit nový test")
-                print("2- nový test s jiným stdentem")
-                print("3- konec aplikace")
-
-                volba_2=input("Zadejte volbu (1,2,3):")
-
+            if pocet_otazek <= 0:
+                print("Zadejte prosím kladné celé číslo")
+                
+                continue
+            elif pocet_otazek > celkovy_pocet_otazek:
+                print(f"Nedostatečný počet otázek, max. {celkovy_pocet_otazek}")
+                
+                continue
             else:
-                print("Zadejte prosím platný počet otázek.")
+                break
+        print("Připravuji test...")
+        time.sleep(2)
+        input("Test je připraven, stiskněte enter...")
+        clear_screen()
+        vybrane_otazky=prepare_test(pocet_otazek)
+        odpovedi_student=run_test(vybrane_otazky)
+        spravne_odpovedi=spravne_odpovedi_f(vybrane_otazky)
+        pocet_chybne, pocet_spravne, procentni_uspesnost, znamka, spatne_otazky = evaluate_results(
+        odpovedi_student, spravne_odpovedi, pocet_otazek, vybrane_otazky)
+        input("Pro pokračování stiskněte enter...")
+        clear_screen()
 
-                      
+        save_results (cesta_vysledky, pocet_otazek, jmeno, prijmeni, znamka, pocet_spravne, pocet_chybne, skala, spatne_otazky, procentni_uspesnost)
+        clear_screen()
+        while True:
+            print("Spustit nový test- a")
+            print("Spustit nový test s novým studentem- b")
+            print("Ukončit aplikaci- c")
+            odpoved=input("Zadejte možnost (a-c):").lower()
+            if odpoved == "a":
+                break
+            elif odpoved == "b":
+                return main()
+            elif odpoved == "c":
+                print("Program končí")
+                return
+            else:
+                print("Zadejte prosím platný vstup (a-c)")
+                continue
+
+if __name__ == "__main__":
+    os.system("cls")
+    
+    main()
+
+    
 
 
 
-                        
 
-                        
-                        
 
 
 
