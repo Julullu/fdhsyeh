@@ -159,7 +159,7 @@ def factorial_safe_input(n=None):
     #       - Jinak spočítejte faktoriál cyklem for a vraťte výsledek
     # TODO: V bloku except TypeError:
     #       - Vraťte "Zadejte platné číslo."
-    pass
+    
 
 
 # TESTOVÁNÍ:
@@ -264,7 +264,7 @@ def factorial_memo(n):
     # TODO: Jinak: result = n * factorial_memo(n - 1)
     # TODO: Uložte výsledek: MEMO[n] = result
     # TODO: Vraťte result
-    pass
+    
 
 
 # TESTOVÁNÍ: Zkuste postupně zadat rostoucí čísla a sledujte časy
