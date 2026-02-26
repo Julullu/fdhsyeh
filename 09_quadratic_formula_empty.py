@@ -89,7 +89,7 @@ def calculate_discriminant(a, b, c):
     diskriminant=b**2-4*a*c
     return diskriminant
     # TODO: Vraťte b**2 - 4*a*c
-    pass
+    
 
 
 def solve_quadratic(a, b, c):
@@ -129,7 +129,7 @@ def solve_quadratic(a, b, c):
     # TODO: Pokud D < 0, vraťte (0, [])
     # TODO: Pokud D == 0, spočítejte x = -b / (2*a) a vraťte (1, [x])
     # TODO: Pokud D > 0, spočítejte x1 a x2 pomocí math.sqrt(D) a vraťte (2, [x1, x2])
-    pass
+    
 
 
 def factorize_quadratic(a, b, c):
@@ -401,31 +401,45 @@ def plot_quadratic():
 
 if __name__ == "__main__":
     os.system("cls")
+    prg_library.print_header(f"KVADRATICKÉ ROVNICE A NEROVNICE", char="♥", length=75, color="red")
 
-    # Řešení kvadratické rovnice
-    print("=== Řešení kvadratické rovnice ax² + bx + c = 0 ===\n")
-    a, b, c = get_coefficients()
+    volba=prg_library.run_menu(["Ano","Ne"], title="Přejete si vidět můj program", color="yellow")
+    if volba == 1:
+        prg_library.print_separator(char="♥", length=75, color="yellow")
 
-    count, roots = solve_quadratic(a, b, c)
-    if count == 0:
-        print("Rovnice nemá žádné reálné řešení.")
-    elif count == 1:
-        print(f"Rovnice má jedno dvojnásobné řešení: x = {roots[0]:.2f}")
+        # Řešení kvadratické rovnice
+        print("=== Řešení kvadratické rovnice ax² + bx + c = 0 ===\n")
+        a, b, c = get_coefficients()
+
+        prg_library.print_separator(char="♥", length=75, color="green")
+
+        count, roots = solve_quadratic(a, b, c)
+        if count == 0:
+            print("Rovnice nemá žádné reálné řešení.")
+            prg_library.print_separator(char="♥", length=75, color="cyan")
+        elif count == 1:
+            print(f"Rovnice má jedno dvojnásobné řešení: x = {roots[0]:.2f}")
+            prg_library.print_separator(char="♥", length=75, color="cyan")
+        else:
+            print(f"Rovnice má dvě řešení: x1 = {roots[0]:.2f}, x2 = {roots[1]:.2f}")
+            prg_library.print_separator(char="♥", length=75, color="cyan")
+
+        print(f"Rozklad: {factorize_quadratic(a, b, c)}")
+        prg_library.print_separator(char="♥", length=75, color="blue")
+
+        # Generátor rovnic
+        number_of_equations = int(input("Zadejte počet rovnic ke generování: "))
+        prg_library.print_separator(char="♥", length=75, color="magenta")
+        generate_equations(number_of_equations)
+        prg_library.print_separator(char="♥", length=75, color="black")
+
+        # Generátor nerovnic
+        number_of_inequalities = int(input("Zadejte počet nerovnic ke generování: "))
+        generate_inequalities(number_of_inequalities)
+        prg_library.print_separator(char="♥", length=75, color="white")
+
+        # Vykreslení grafu
+        plot_quadratic()
     else:
-        print(f"Rovnice má dvě řešení: x1 = {roots[0]:.2f}, x2 = {roots[1]:.2f}")
-
-    print(f"Rozklad: {factorize_quadratic(a, b, c)}")
-    print("------------------------------------------------\n")
-
-    # Generátor rovnic
-    number_of_equations = int(input("Zadejte počet rovnic ke generování: "))
-    generate_equations(number_of_equations)
-    print("------------------------------------------------\n")
-
-    # Generátor nerovnic
-    number_of_inequalities = int(input("Zadejte počet nerovnic ke generování: "))
-    generate_inequalities(number_of_inequalities)
-    print("------------------------------------------------\n")
-
-    # Vykreslení grafu
-    plot_quadratic()
+        print("Program končí")
+        prg_library.print_separator(char="(╥﹏╥)",length=75, color="black")
