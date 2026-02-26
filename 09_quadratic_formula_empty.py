@@ -442,4 +442,4 @@ if __name__ == "__main__":
         plot_quadratic()
     else:
         print("Program končí")
-        prg_library.print_separator(char="(╥﹏╥)",length=75, color="black")
+        prg_library.print_separator(char="(╥﹏╥)",length=17, color="black")
