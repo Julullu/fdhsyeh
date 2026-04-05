@@ -1,0 +1,38 @@
+{
+  "day": 0,
+  "gold": 50,
+  "plot": [
+    {
+      "crop": null,
+      "days_grown": 0,
+      "ready": false
+    },
+    {
+      "crop": null,
+      "days_grown": 0,
+      "ready": false
+    },
+    {
+      "crop": null,
+      "days_grown": 0,
+      "ready": false
+    },
+    {
+      "crop": null,
+      "days_grown": 0,
+      "ready": false
+    },
+    {
+      "crop": null,
+      "days_grown": 0,
+      "ready": false
+    },
+    {
+      "crop": null,
+      "days_grown": 0,
+      "ready": false
+    }
+  ],
+  "inventory": {},
+  "weather_today": "sunny"
+}
