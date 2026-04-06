@@ -87,7 +87,7 @@ def new_game():
     """
     inventory={}
     plots=[]
-    for d in range (1, STARTING_PLOTS+1):
+    for d in range (STARTING_PLOTS):
         plots.append(new_plot())
 
     game={"day":0, "gold":STARTING_GOLD, "plot": plots, "inventory":inventory, "weather_today":"sunny"}
@@ -122,7 +122,7 @@ def save_game(game):
         game: Slovnik s aktualnim stavem hry.
     """
     with open(SAVE_FILE, "w", encoding="utf-8") as file:
-        json.dump(game, file, indent=2)
+        json.dump(game, file,ensure_ascii=False, indent=2)
 
     # TODO: Otevri SAVE_FILE pro zapis (mod "w") s kodovanim utf-8.
     # TODO: Pouzij json.dump() pro ulozeni slovniku game. Nastav indent=2.
@@ -139,12 +139,9 @@ def generate_weather():
     Returns:
         Retezec – ID pocasi (napr. "sunny", "storm").
     """
-    pocasi_ids=WEATHER.keys()
-    vahy=[]
-    for n in pocasi_ids:
-        vahy.append(WEATHER[n]["weight"])
-    pocasi=random.choices(pocasi_ids, weights=[float(w) for w in vahy], k=1)[0]
-    return pocasi
+    ids = list(WEATHER.keys())
+    weights = [WEATHER[w]["weight"] for w in ids]
+    return random.choices(ids, weights=weights, k=1)[0]
     # TODO: Ziskej seznam ID pocasi a seznam jejich vah z WEATHER.
     # TODO: Pouzij random.choices(ids, weights=vahy, k=1)[0] a vrat vysledek.
     
@@ -168,7 +165,8 @@ def advance_day(game):
     Returns:
         Seznam dvojic (cislo_parcely, nazev_plodiny) plodin, ktere zahynuly.
     """
-    pocasi=game["weather_today"]
+    pocasi=generate_weather()
+    game["weather_today"]=pocasi
     growth= WEATHER[pocasi]["growth"]
     seznam_zahynu=[]
 
@@ -191,7 +189,7 @@ def advance_day(game):
                     parcel["ready"]=True
     
     game["day"] += 1
-    save_game()
+    save_game(game)
     return seznam_zahynu
             
 
@@ -218,7 +216,7 @@ def harvest(game):
     """
     gained={}
     for parcel in game["plot"]:
-        if parcel["ready"] == True and parcel["crop"]!= None:
+        if parcel["ready"] and parcel["crop"] is not None:
             crop_id=parcel["crop"]
             gained[crop_id]=gained.get(crop_id,0) + 1
 
@@ -262,19 +260,23 @@ def print_farm(game):
     """
     clear()
     w = WEATHER[game["weather_today"]]
+    print("="*50)
     print(f"DEN: {game['day']} | ZLATO: {game['gold']} | POCASI: {w['name']} ")
+    print("="*50)
+    print("\n")
     print("PARCELY")
     for cislo, parcela in enumerate (game["plot"], start=1):
         if parcela["crop"]!= None and parcela["ready"]!= True:
-            print(f"  {cislo}# {parcela['crop']['name']} roste {parcela['days_grown']}/{CROPS[parcela['crop']]['days']} ")
+            print(f"  {cislo}# {CROPS[parcela['crop']]["name"]} roste {parcela['days_grown']}/{CROPS[parcela['crop']]['days']} ")
         elif parcela["crop"] == None:
             print(f" {cislo}# prazdna")
-        elif parcela["crop"]!= None and parcela["ready"] == True:
+        elif parcela["crop"]!= None and parcela["ready"]:
             print(f"  {cislo}# ***pripravena ke sklizni*** ")
     print("\n")
     print("INVENTAR")
-    for crop in game["inventory"]:
-        print(f"{game['inventory'][crop]}")
+    for crop, kus in game["inventory"].items():
+        nazev= CROPS[crop]["name"]
+        print(f"{nazev:<10}:{kus}ks")
     if game["inventory"]== {}:
         print("Inventář je prázdný")
     
@@ -310,44 +312,62 @@ def plant_crop(game):
             prazdne.append(index)
     
     if len(prazdne) == 0:
-        return("Žádné parcely nejsou prázdné")
+        print("Žádné parcely nejsou prázdné")
+        input()
+        return
+    
     
     else:
         print("Prázdné parcely")
         print(f"{prazdne}")
     
     while True:
-        volba=input("Vyberte číslo parcely")
+        volba=input("Vyberte číslo parcely (0 = zpět):")
         try:
             choice=int(volba)
             break
         except:
             ValueError ("Zadejte prosím platné číslo")
     
+    if choice == 0:
+        return
+    
     print("OBCHOD")
-    indexy=[]
+    crop_list = list(CROPS.keys())
     for index, crop in enumerate(CROPS, start=1):
-        print(f"{index}# Plodina: {crop["name"]} cena: {crop["seed_price"]}")
-        indexy.append(index)
+        print(f"{index}# Plodina: {CROPS[crop]["name"]} cena: {CROPS[crop]["seed_price"]}")
+        
     
     while True:
-        nakup=input("Zadejte číslo plodiny pro nákup")
+        nakup=input("Zadejte číslo plodiny pro nákup (0 = zpět):")
         try:
             nakup_choice=int(nakup)
-            if nakup_choice not in indexy:
-                print("Zadejte jednu z možností")
-            else:
-                if game["gold"]>= crop["seed_price"]:
-                    break
-                else:
-                    print("Nemáte dost peněz")
+            break
+            
         except:
             ValueError("Zadejte platný vstup")
     
-    game["gold"]-= crop["seed_price"]
+    if nakup_choice == 0:
+        return
+    if len(crop_list)<nakup_choice or nakup_choice<=0:
+        print("Zadejte jednu z možností")
+        input()
+        return
+    
+    if game["gold"]<= int(CROPS[crop]["seed_price"]):
+        print("Nemáte dost peněz")
+        input()
+        return
+
+    
+    game["gold"]-= int(CROPS[crop]["seed_price"])
+    game["plot"][choice]["crop"]= crop
+    game["plot"][choice]["days_grown"]= 0
+    game["plot"][choice]["ready"]= False
     parcela["days_grown"]=0
     parcela["ready"]= False
-    save_game()
+    print(f" Plodina: {crop} byla zasazena na parcelu {choice}")
+    save_game(game)
     # TODO: Zjisti seznam indexu prazdnych parcel (crop == None).
     #       Pokud zadna neni, vypis zpravy a vrat se (return).
     # TODO: Vypis seznam prazdnych parcel a nechej hrace vybrat cislo.
@@ -371,7 +391,10 @@ def do_harvest(game):
     if gained == {}:
         print("Není co sklidit")
     else:
-        print(f"Bylo sklizeno {gained} plodin")
+        print(f"Bylo sklizeno:")
+        for crop, kus in gained.keys():
+            print(f" {CROPS[crop]["name"]}: {kus}ks")
+                          
     save_game(game)
     input()
     # TODO: Zavolej harvest(game) a uloz vysledek do gained.
@@ -474,7 +497,7 @@ def next_day(game):
         print("Počasí urychlilo růst")
     elif growth == 0:
         print("Počasí zpomalilo růst")
-    if witherred!= None:
+    if witherred:
         print(f"Zahynuly plodiny {witherred}")
     input()
     # TODO: Zavolej advance_day(game) a uloz seznam witherred.
@@ -493,6 +516,7 @@ def next_day(game):
 def main():
     """Hlavni smycka hry – nacte hru, opakuje: zobraz -> menu -> akce."""
     game=load_game()
+
     while True:
         print_farm(game)
         print("MOŽNOSTI")
@@ -502,23 +526,25 @@ def main():
         print("  4- nakoupit parcely")
         print("  5- pokračovat")
         print("  6- ukončit hru")
-        while True:
-            moznost=input("Vaše volba:")
-            if moznost == "1":
-                do_harvest(game)
-            elif moznost == "2":
-                sell_crops(game)
-            elif moznost == "3":
-                plant_crop(game)
-            elif moznost == "4":
-                buy_plot(game)
-            elif moznost =="5":
-                advance_day(game)
-            elif moznost == "6":
-                print("Konec hry")
-                break
-            else:
-                print("Zadejte platnou možnost")
+
+        moznost=input("Vaše volba:")
+        if moznost == "1":
+            do_harvest(game)
+        elif moznost == "2":
+            sell_crops(game)
+        elif moznost == "3":
+            plant_crop(game)
+        elif moznost == "4":
+            buy_plot(game)
+        elif moznost =="5":
+            advance_day(game)
+        elif moznost == "6":
+            print("Konec hry")
+            save_game(game)
+            break
+        else:
+            print("Zadejte platnou možnost")
+            input()
 
     # TODO: Zavolej load_game() a uloz vysledek do game.
     # TODO: Spust nekonecnou smycku while True.

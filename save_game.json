@@ -1,6 +1,6 @@
 {
-  "day": 0,
-  "gold": 50,
+  "day": 1,
+  "gold": 10,
   "plot": [
     {
       "crop": null,
@@ -8,7 +8,7 @@
       "ready": false
     },
     {
-      "crop": null,
+      "crop": "sunflower",
       "days_grown": 0,
       "ready": false
     },
