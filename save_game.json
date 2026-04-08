@@ -1,6 +1,6 @@
 {
-  "day": 1,
-  "gold": 10,
+  "day": 28,
+  "gold": 202,
   "plot": [
     {
       "crop": null,
@@ -8,7 +8,12 @@
       "ready": false
     },
     {
-      "crop": "sunflower",
+      "crop": null,
+      "days_grown": 0,
+      "ready": false
+    },
+    {
+      "crop": null,
       "days_grown": 0,
       "ready": false
     },
@@ -33,6 +38,8 @@
       "ready": false
     }
   ],
-  "inventory": {},
-  "weather_today": "sunny"
+  "inventory": {
+    "wheat": 1
+  },
+  "weather_today": "rain"
 }

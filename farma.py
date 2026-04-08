@@ -27,11 +27,11 @@ SAVE_FILE = "save_game.json"
 ##############################################################
 ### CAST 1: Konstanty
 ##############################################################
-slovnik_1={"name":"psenice","days":"3","seed_price":"5","sell_price":"12","drought_risk":"False","storm_risk":"False"}
-slovnik_2={"name":"kukurice","days":"5","seed_price":"10","sell_price":"25","drought_risk":"True","storm_risk":"False"}
-slovnik_3={"name":"rajce","days":"4","seed_price":"15","sell_price":"40","drought_risk":"True","storm_risk":"True"}
-slovnik_4={"name":"brambor","days":"6","seed_price":"8","sell_price":"30","drought_risk":"False","storm_risk":"False"}
-slovnik_5={"name":"slunecnice","days":"7","seed_price":"20","sell_price":"65","drought_risk":"True","storm_risk":"True"}
+slovnik_1={"name":"psenice","days":3,"seed_price":5,"sell_price":12,"drought_risk":False,"storm_risk":False}
+slovnik_2={"name":"kukurice","days":5,"seed_price":10,"sell_price":25,"drought_risk":True,"storm_risk":False}
+slovnik_3={"name":"rajce","days":4,"seed_price":15,"sell_price":40,"drought_risk":True,"storm_risk":True}
+slovnik_4={"name":"brambor","days":6,"seed_price":8,"sell_price":30,"drought_risk":False,"storm_risk":False}
+slovnik_5={"name":"slunecnice","days":7,"seed_price":20,"sell_price":65,"drought_risk":True,"storm_risk":True}
 
 CROPS={"wheat":slovnik_1, "corn":slovnik_2,"tomato":slovnik_3, "potato":slovnik_4, "sunflower":slovnik_5}
 # TODO: Vytvor slovnik CROPS kde klic je ID plodiny (napr. "wheat")
@@ -46,11 +46,11 @@ CROPS={"wheat":slovnik_1, "corn":slovnik_2,"tomato":slovnik_3, "potato":slovnik_
 #       weight = pravdepodobnost (vsechny vahy dohromady musi dat 1.0)
 #       Pridej: sunny, rainy, cloudy, drought, storm
 
-pocasi_1={"name":"slunecno", "growth":"1", "weight":"0.40"}
-pocasi_2={"name":"dest", "growth":"2", "weight":"0.25"}
-pocasi_3={"name":"zatazeno", "growth":"1", "weight":"0.20"}
-pocasi_4={"name":"sucho", "growth":"0", "weight":"0.10"}
-pocasi_5={"name":"boure", "growth":"0", "weight":"0.05"}
+pocasi_1={"name":"slunecno", "growth":1, "weight":0.40}
+pocasi_2={"name":"dest", "growth":2, "weight":0.25}
+pocasi_3={"name":"zatazeno", "growth":1, "weight":0.20}
+pocasi_4={"name":"sucho", "growth":0, "weight":0.10}
+pocasi_5={"name":"boure", "growth":0, "weight":0.05}
 WEATHER = {"sunny":pocasi_1, "rain":pocasi_2, "cloudy":pocasi_3, "drought":pocasi_4, "storm":pocasi_5}
 
 # TODO: Definuj tyto konstanty se spravnymi hodnotami:
@@ -175,14 +175,14 @@ def advance_day(game):
             plodina=parcel["crop"]
             zahynuti=False
             if CROPS[plodina]["drought_risk"] and pocasi == "drought":
-                zahynuti=random.choices(True, False, weights=[WITHER_CHANCE, 1-WITHER_CHANCE], k=1 )[0]
+                zahynuti=random.choices([True, False], weights=[WITHER_CHANCE, 1-WITHER_CHANCE], k=1 )[0]
             if CROPS[plodina]["storm_risk"] and pocasi == "storm":
-                zahynuti=random.choices(True, False, weights=[WITHER_CHANCE, 1-WITHER_CHANCE], k=1 )[0]
+                zahynuti=random.choices([True, False], weights=[WITHER_CHANCE, 1-WITHER_CHANCE], k=1)[0]
             if zahynuti:
                 parcel["crop"]=None
                 parcel["days_grown"]=0
                 parcel["ready"]= False
-                seznam_zahynu.append(cislo, CROPS[plodina]["name"])
+                seznam_zahynu.append((cislo, CROPS[plodina]["name"]))
             else:
                 parcel["days_grown"] += growth
                 if parcel["days_grown"] >= CROPS[plodina]["days"]:
@@ -335,7 +335,7 @@ def plant_crop(game):
     print("OBCHOD")
     crop_list = list(CROPS.keys())
     for index, crop in enumerate(CROPS, start=1):
-        print(f"{index}# Plodina: {CROPS[crop]["name"]} cena: {CROPS[crop]["seed_price"]}")
+        print(f"{index}# Plodina: {CROPS[crop]['name']} cena: {CROPS[crop]['seed_price']}")
         
     
     while True:
@@ -347,6 +347,7 @@ def plant_crop(game):
         except:
             ValueError("Zadejte platný vstup")
     
+    crop = crop_list[nakup_choice - 1]
     if nakup_choice == 0:
         return
     if len(crop_list)<nakup_choice or nakup_choice<=0:
@@ -354,19 +355,19 @@ def plant_crop(game):
         input()
         return
     
-    if game["gold"]<= int(CROPS[crop]["seed_price"]):
+    if game["gold"]< int(CROPS[crop]["seed_price"]):
         print("Nemáte dost peněz")
         input()
         return
 
     
     game["gold"]-= int(CROPS[crop]["seed_price"])
-    game["plot"][choice]["crop"]= crop
-    game["plot"][choice]["days_grown"]= 0
-    game["plot"][choice]["ready"]= False
+    game["plot"][choice-1]["crop"]= crop
+    game["plot"][choice-1]["days_grown"]= 0
+    game["plot"][choice-1]["ready"]= False
     parcela["days_grown"]=0
     parcela["ready"]= False
-    print(f" Plodina: {crop} byla zasazena na parcelu {choice}")
+    print(f" Plodina: {crop} byla zasazena na parcelu {choice-1}")
     save_game(game)
     # TODO: Zjisti seznam indexu prazdnych parcel (crop == None).
     #       Pokud zadna neni, vypis zpravy a vrat se (return).
@@ -392,7 +393,7 @@ def do_harvest(game):
         print("Není co sklidit")
     else:
         print(f"Bylo sklizeno:")
-        for crop, kus in gained.keys():
+        for crop, kus in gained.items():
             print(f" {CROPS[crop]["name"]}: {kus}ks")
                           
     save_game(game)
@@ -417,8 +418,10 @@ def sell_crops(game):
         print("Nemáte nic v inventáři")
         return
     indexy=[]
-    for index,crop in enumerate(game["inventory"], start=1):
-        print(f"{index}# Plodina: {CROPS[crop]["name"]}, cena: {CROPS[crop]["sell_price"]}")
+    crop_list = list(game["inventory"].keys())
+
+    for index, crop in enumerate(crop_list, start=1):
+        print(f"{index}# Plodina: {CROPS[crop]['name']}, cena: {CROPS[crop]['sell_price']}")
         indexy.append(index)
     
     while True:
@@ -429,9 +432,10 @@ def sell_crops(game):
                 print("Zadejte platný index")
             else:
                 break
-        except:
-            ValueError("Zadejte platný vstup")
+        except ValueError:
+            print("Zadejte platný vstup")
     
+    crop = crop_list[choice - 1]
     available = game["inventory"][crop]
     while True:
         mnozstvi=input("Zadejte množství, které chcete prodat")
@@ -449,7 +453,7 @@ def sell_crops(game):
     if game["inventory"][crop]==0:
         del game["inventory"][crop]
     game["gold"]+= earned
-    save_game()
+    save_game(game)
     # TODO: Pokud je game["inventory"] prazdne, vypis zpravy a vrat se.
     # TODO: Vypis obsah skladu s cenami a nechej hrace vybrat plodinu.
     # TODO: Nechej hrace zadat mnozstvi. Over ze qty > 0 a qty <= available.
@@ -468,6 +472,7 @@ def buy_plot(game):
     """
     if len(game["plot"]) == MAX_PLOTS:
         print("Nemůžete si koupit víc parcel")
+        return
     if game["gold"]< PLOT_COST:
         print("Nemáte dost peněz")
         return
@@ -489,7 +494,6 @@ def next_day(game):
         game: Slovnik s aktualnim stavem hry.
     """
     witherred=advance_day(game)
-    game["weather_today"]=generate_weather()
     nazev_pocasi= WEATHER[game["weather_today"]]["name"]
     print(f"POČASÍ: {nazev_pocasi}")
     growth=WEATHER[game["weather_today"]]["growth"]
@@ -537,7 +541,7 @@ def main():
         elif moznost == "4":
             buy_plot(game)
         elif moznost =="5":
-            advance_day(game)
+            next_day(game)
         elif moznost == "6":
             print("Konec hry")
             save_game(game)
