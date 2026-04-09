@@ -416,6 +416,7 @@ def sell_crops(game):
     """
     if game["inventory"] == {}:
         print("Nemáte nic v inventáři")
+        input()
         return
     indexy=[]
     crop_list = list(game["inventory"].keys())
@@ -425,7 +426,9 @@ def sell_crops(game):
         indexy.append(index)
     
     while True:
-        volba=input("Zadejte číslo plodiny, kterou chcete prodat")
+        volba=input("Zadejte číslo plodiny, kterou chcete prodat (0= konec):")
+        if volba == "0":
+            return
         try:
             choice=int(volba)
             if choice not in indexy:
@@ -434,11 +437,13 @@ def sell_crops(game):
                 break
         except ValueError:
             print("Zadejte platný vstup")
-    
+
     crop = crop_list[choice - 1]
     available = game["inventory"][crop]
     while True:
-        mnozstvi=input("Zadejte množství, které chcete prodat")
+        mnozstvi=input("Zadejte množství, které chcete prodat (0= konec):")
+        if mnozstvi == "0":
+            return
         try:
             amount=int(mnozstvi)
             if amount <= available and amount>0:
@@ -448,6 +453,7 @@ def sell_crops(game):
                 print("Toto množství nemůžete prodat")
         except:
             ValueError("Zadejte platný vstup")
+
     
     game["inventory"][crop]-= amount
     if game["inventory"][crop]==0:
@@ -479,6 +485,7 @@ def buy_plot(game):
     game["gold"]-=PLOT_COST
     game["plot"].append(new_plot())
     print("Parcela byla přidána")
+    input()
     save_game(game)
     # TODO: Over ze pocet parcel < MAX_PLOTS, jinak vypis chybu.
     # TODO: Over ze game["gold"] >= PLOT_COST, jinak vypis chybu.
