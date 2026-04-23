@@ -1,0 +1,56 @@
+# -*- coding: utf-8 -*-
+# Příliš žluťoučký kůň úpěl ďábelské ódy - testovací pangram
+
+class Book:
+    """Třída reprezentující knihu v knihovně."""
+
+    def __init__(self, title: str, author: str, year: int):
+        self.title = title
+        self.author = author
+        self.year = year
+        self.available = True  # výchozí stav
+
+    def borrow(self):
+        if self.available:
+            self.available = False
+            print(f"Kniha '{self.title}' byla úspěšně vypůjčena.")
+        else:
+            print(f"Kniha '{self.title}' je již vypůjčená.")
+
+    def return_book(self):
+        if not self.available:
+            self.available = True
+            print(f"Kniha '{self.title}' byla úspěšně vrácena.")
+        else:
+            print(f"Kniha '{self.title}' již byla dostupná.")
+
+    def __str__(self):
+        stav = "Dostupná" if self.available else "Vypůjčená"
+        return f"{self.title} - {self.author} ({self.year}) | Stav: {stav}"
+
+
+# Seznam knih v knihovně
+library = [
+    Book("1984", "George Orwell", 1949),
+    Book("To Kill a Mockingbird", "Harper Lee", 1960),
+    Book("Mistr a Markétka", "Michail Bulgakov", 1967),
+    Book("Malý princ", "Antoine de Saint-Exupéry", 1943)
+]
+
+# Výpis knih v knihovně
+print("\nSeznam knih v knihovně:")
+for book in library:
+    print(book)
+
+
+# Simulace vypůjčení a vrácení knihy
+print("\n--- Test vypůjčení a vrácení knih ---\n")
+library[0].borrow()
+library[0].borrow()  # Pokus o vypůjčení již vypůjčené knihy
+library[0].return_book()
+library[0].return_book()  # Pokus o vrácení již dostupné knihy
+
+# Znovu vypíšeme knihovnu po změnách
+print("\nAktualizovaný seznam knih v knihovně:")
+for book in library:
+    print(book)
