@@ -154,7 +154,7 @@ def apply_event(game, event_id):
     if event_id == "pirates":
         loss = min(PIRATE_LOSS, game["credits"])
         game["credits"] -= loss
-        return f"Přepadli Vás piráti a ukradli Vám {loss} kr. Aktuální stav: {game['credits']} kr"
+        return f"Přepadli vás piráti a ukradli vám {loss} kr. Máte {game['credits']} kr"
 
     elif event_id == "asteroid":
         volne = CARGO_CAPACITY - cargo_used(game)
@@ -211,7 +211,7 @@ def travel(game):
 
     while True:
         try:
-            choice = int(input("Zadejte index planety, kam chcete cestovat: "))
+            choice = int(input("Zadejte index planety, kam chcete cestovat (0= zpět): "))
         except ValueError:
             print("Zadejte číslo")
             continue
@@ -225,14 +225,13 @@ def travel(game):
             game["day"] += 1
 
             event_id = generate_event()
-            text = apply_event(game, event_id)
-            print(text)
+            print(apply_event(game, event_id))
             input()
 
             save_game(game)
 
             if game["credits"] >= TARGET_CREDITS:
-                print("Gratulujeme, dosáhli jste vítězství!")
+                print("Dosáhli jste vítězství!")
                 input()
                 return
             break
@@ -279,7 +278,7 @@ def buy_goods(game):
 
     while True:
         try:
-            choice = int(input("Zadejte index zboží, které chcete koupit: "))
+            choice = int(input("Zadejte index zboží, které chcete koupit (0= zpět): "))
         except ValueError:
             print("Zadejte číslo")
             continue
@@ -299,23 +298,23 @@ def buy_goods(game):
 
             while True:
                 try:
-                    qty = int(input(f"Zadejte množství (max {max_buy}): "))
+                    pocet = int(input(f"Zadejte množství (max {max_buy}): "))
                 except ValueError:
                     print("Zadejte číslo")
                     continue
 
-                if 0 < qty <= max_buy:
+                if 0 < pocet <= max_buy:
                     break
                 else:
                     print(f"Zadejte číslo mezi 1 a {max_buy}")
 
-            game["credits"] -= qty * cena
-            game["cargo"][good_id] = game["cargo"].get(good_id, 0) + qty
+            game["credits"] -= pocet * cena
+            game["cargo"][good_id] = game["cargo"].get(good_id, 0) + pocet
 
             save_game(game)
 
-            print(f"Koupili jste {qty} kusů {GOODS[good_id]['name']} za {qty*cena} kr.")
-            print(f"Aktuální stav: {game['credits']} kr, {game['cargo'][good_id]} ks v nákladu.")
+            print(f"Koupili jste {pocet} ks {GOODS[good_id]['name']} za {pocet*cena} kr.")
+            print(f"Inventář: {game['credits']} kr, {game['cargo'][good_id]} ks")
             input()
             return
 
@@ -360,7 +359,7 @@ def sell_goods(game):
         try:
             choice = int(input("Zadejte index zboží, které chcete prodat: "))
         except ValueError:
-            print("Zadejte číslo")
+            print("Zadejte platný index")
             continue
 
         if choice == 0:
@@ -373,28 +372,28 @@ def sell_goods(game):
 
             while True:
                 try:
-                    qty = int(input(f"Zadejte množství (max {mnozstvi}): "))
+                    q = int(input(f"Zadejte množství (max {mnozstvi}): "))
                 except ValueError:
                     print("Zadejte číslo")
                     continue
 
-                if 0 < qty <= mnozstvi:
+                if 0 < q <= mnozstvi:
                     break
                 else:
                     print(f"Zadejte číslo mezi 1 a {mnozstvi}")
 
-            earned = qty * cena
+            earned = q * cena
             game["credits"] += earned
 
-            if mnozstvi == qty:
+            if mnozstvi == q:
                 del game["cargo"][good_id]
             else:
-                game["cargo"][good_id] -= qty
+                game["cargo"][good_id] -= q
 
             save_game(game)
 
-            print(f"Prodali jste {qty} kusů {GOODS[good_id]['name']} za {earned} kr.")
-            print(f"Aktuální stav: {game['credits']} kr, {game['cargo'].get(good_id, 0)} kusů v nákladu.")
+            print(f"Prodali jste {q} ks {GOODS[good_id]['name']} za {earned} kr.")
+            print(f"Inventář: {game['credits']} kr, {game['cargo'].get(good_id, 0)} ks")
             input()
             return
 
@@ -416,8 +415,10 @@ def sell_goods(game):
 
 def clear():
     """Vycisti terminal (funguje na Windows i Linux/Mac)."""
-    os.system("cls" if os.name == "nt" else "clear")
-
+    if os.name== "nt":
+        os.system("cls")
+    else:
+        os.system("clear")
     # TODO: Pouzij os.system() – na Windows prikaz "cls", jinde "clear".
     #       Tip: os.name == "nt" vraci True na Windows.
   
@@ -432,7 +433,7 @@ def print_status(game):
         game: Slovnik s aktualnim stavem hry.
     """
     clear()
-    print(f"Den {game['day']} | Kredity: {game['credits']} / {TARGET_CREDITS} | Planeta: {PLANETS[game['location']]['name']}")
+    print(f"DEN {game['day']} | KREDITY {game['credits']} / {TARGET_CREDITS} | PLANETA {PLANETS[game['location']]['name']}")
     print("Náklad:")
     if not game["cargo"]:
         print("(prazdny)")
@@ -467,7 +468,7 @@ def main():
         print("2) Nakoupit zboží")
         print("3) Prodat zboží")
         print("4) Ukončit hru")
-        choice = input("Zadejte číslo akce: ")
+        choice = input("Zadejte číslo volby: ")
         if choice == "1":
             travel(game)
         elif choice == "2":
@@ -475,10 +476,10 @@ def main():
         elif choice == "3":
             sell_goods(game)
         elif choice == "4":
-            print("Děkujeme za hraní!")
+            print("Program končí")
             break
         else:
-            print("Neplatná volba, zkuste znovu.")
+            print("Zadejte platnou možnost")
             input()
     # TODO: Zavolej load_game() a uloz vysledek do game.
     # TODO: Spust nekonecnou smycku while True.
