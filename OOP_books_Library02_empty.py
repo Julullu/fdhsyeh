@@ -303,22 +303,23 @@ def main():
                 else:
                     print("Neplatný rok vydání")
             elif volba == "3":
-                nazev=input("Zadejte jméno knihy, kterou chcete odstranit:")
+                nazev=input("Zadejte jméno knihy, kterou chcete vypůjčit:")
                 for book in lib.books:
                     if book.title== nazev:
                         book.borrow()
-                        return
-                print(f"Kniha {nazev} nebyla nalezena.")
+                        break
+                else:
+                    print(f"Kniha {nazev} nebyla nalezena.")
 
             elif volba == "4":
                 nazev= input("Název knihy, kterou chcete vrátit:")
                 for book in lib.books:
                     if book.title== nazev:
-                        if book.availability:
+                        if book.available:
                             print("Tuto knihu nemůžete vrátit, je v knihovně")
                             break
                         else:
-                            book.return_book(book)
+                            book.return_book()
                             break
                 else:
                     print(f"Kniha {nazev} nebyla nalezena.")
