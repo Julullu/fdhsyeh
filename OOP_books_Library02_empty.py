@@ -161,11 +161,9 @@ class Ebook(Book):
         file_format (str): Formát souboru elektronické knihy
     """
 
-    def __init__(self, title: str, author: str, year: int, file_format: str):
-        self.title=title
-        self.author= author
-        self.year= year
-        self.file_format= file_format
+    def __init__(self, title, author, year, file_format):
+        super().__init__(title, author, year)
+        self.file_format = file_format
 
     def __str__(self):
         return f"Kniha {self.title}, autor: {self.author}, rok: {self.year}, dostupná jako Ekniha ve formátu: {self.file_format}"
@@ -182,11 +180,9 @@ class AudioBook(Book):
         duration (int): Délka audioknihy v minutách
     """
 
-    def __init__(self, title: str, author: str, year: int, duration: int):
-        self.title=title
-        self.author= author
-        self.year= year
-        self.duration= duration
+    def __init__(self, title, author, year, duration):
+        super().__init__(title, author, year)
+        self.duration = duration
 
     def __str__(self):
         return f"Audiokniha {self.title}, autor: {self.author}, rok: {self.year}, délka: {self.duration}"
@@ -216,7 +212,7 @@ class Library:
 
     def remove_book(self, title: str):
         for book in self.books:
-            if book== title:
+            if book.title== title:
                 self.books.remove(book)
                 print(f"Kniha {title} byla odstraněna")
                 return
@@ -233,21 +229,109 @@ class Library:
         for book in self.books:
             book_data={
                 "type": type(book).__name__,
-                "název":self.title,
-                "autor": self.author,
-                "year": self.year
+                "název":book.title,
+                "autor": book.author,
+                "year": book.year
+                
             }
             if isinstance(book, Ebook):
                 book_data["book_format"]= book.file_format
+            
             data.append(book_data)
 
-        with open ("file", "w", encoding="utf-8") as file:
-            json.dump(data)
+        with open (filename, "w", encoding="utf-8") as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
         
 
 
     def load_from_file(self, filename: str = "books.json"):
-        ...
+        if not os.path.exists(filename):
+            print("Soubor nebyl nalezen")
+            return
+        
+        with open (filename, "r", encoding="utf-8") as file:
+            data=json.load(file)
+        self.books=[]
+        for kniha in data:
+            typ=kniha["type"]
+            if typ=="Ebook":
+                book=Ebook(kniha["název"], kniha["autor"], kniha["year"], kniha["book_format"])
+            elif typ == "AdioBook":
+                book=AudioBook(kniha["název"], kniha["autor"], kniha["year"], kniha["duration"])
+            else:
+                book=Book(kniha["název"], kniha["autor"], kniha["year"])
+            book.available = kniha.get("available", True)
+            self.books.append(book)
+        
+
+def main():
+    lib= Library("Knihovna Masarykova gymnázia Vsetín")
+    lib.add_book(Book("1984", "George Orwell", 1949))
+    lib.add_book(AudioBook("Bible", "Bůh", 0, 670))
+    lib.add_book(Ebook("Základy astronomie", "Široký a Široká", 1967, "PDF"))
+
+    print("[1] Zobrazit knihy")
+    print("[2] Přidat knihu")
+    print("[3] Vypůjčit knihu")
+    print("[4] Vrátit knihu")
+    print("[5] Uložit a ukončit program")
+    while True:
+        try:
+            volba=input("Zadejte vaši volbu:")
+            if volba =="1":
+                lib.list_books()
+            elif volba == "2":
+                nazev=input("Zadejte název nové knihy:")
+                autor=input("Zadejte autora:")
+                rok=input("Zadejte rok vydání:")
+                if rok.isdigit() and Book.is_valid_year(int(rok)):
+                    typ=input("Zadejte o jaký typ knihy se jedná (Book, Ebook, AudioBook):")
+                    if typ== "Book":
+                        lib.add_book(Book(nazev, autor, rok))
+                        print("Kniha byla přidána")
+                    elif typ == "Ebook":
+                        format=input("Zadejte format knihy:")
+                        lib.add_book(Ebook(nazev, autor, rok, format))
+                        print("Kniha byla přidána")
+                    elif typ == "AudioBook":
+                        delka=input("Zadejte délku audioknihy v minutách:")
+                        if delka.isdigit():
+                            lib.add_book(AudioBook(nazev, autor, rok, delka))
+                            print("Kniha byla přidána")
+                        else:
+                            print("Délka musí být celé číslo")
+                else:
+                    print("Neplatný rok vydání")
+            elif volba == "3":
+                nazev=input("Zadejte jméno knihy, kterou chcete odstranit:")
+                for book in lib.books:
+                    if book.title== nazev:
+                        book.borrow()
+                        return
+                print(f"Kniha {nazev} nebyla nalezena.")
+
+            elif volba == "4":
+                nazev= input("Název knihy, kterou chcete vrátit:")
+                for book in lib.books:
+                    if book.title== nazev:
+                        if book.availability:
+                            print("Tuto knihu nemůžete vrátit, je v knihovně")
+                            break
+                        else:
+                            book.return_book(book)
+                            break
+                else:
+                    print(f"Kniha {nazev} nebyla nalezena.")
+            elif volba == "5":
+                lib.save_to_file()
+                print("Program končí")
+                break
+            else:
+                print("Zadejte prosím platnou volbu")
+    
+        except ValueError:
+            print("Zadejte prosím číslo.")
+
 
 
 # =============================================================================
@@ -282,3 +366,5 @@ print("\n=== Test ukládání a načítání ===")
 library.save_to_file("books.json")
 library.load_from_file("books.json")
 library.list_books()
+
+main()

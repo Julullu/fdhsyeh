@@ -1,0 +1,15 @@
+[
+    {
+        "type": "Ebook",
+        "název": "Výzkum vesmíru",
+        "autor": "Carl Sagan",
+        "year": 1980,
+        "book_format": "PDF"
+    },
+    {
+        "type": "AudioBook",
+        "název": "Harry Potter a kámen mudrců",
+        "autor": "J. K. Rowling",
+        "year": 1997
+    }
+]
