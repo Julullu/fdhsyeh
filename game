@@ -1,0 +1,129 @@
+import os
+import random
+from abc import ABC, abstractmethod
+
+class Character:
+    def __init__ (self, name, health, mana, level):
+        self.name=name
+        self.health=health
+        self.mana=mana
+        self.level=level
+        self.inventory=[]
+
+    def __add__ (self, other):
+        if isinstance(other, Character):
+            novy_inventory= self.inventory +other.inventory
+            return novy_inventory
+        raise ValueError ("Můžeme kombinovat pouze inventáře")
+    def __str__(self):
+        return f"{self.name} (Level {self.level}) - HP: {self.health}, Mana: {self.mana}"
+
+def power_boost(funkce):
+    def wrapper(*args, **kwargs):
+        base_damage= funkce(args, kwargs)
+        boosted_damage= base_damage +10
+        print("Síla útoku byla zvýšena o 10 bodů")
+        return boosted_damage
+    return wrapper
+
+
+
+class Warrior (Character):
+    def __init__ (self, name, health, mana, level):
+        super().__init__(name, health, mana, level)
+        self.strength= level*5
+
+    def attack(self):
+        base_damage=5* self.strength
+        return round(base_damage)
+    
+    def level_up (self):
+        self.level+=1
+        return (f"Upgrade- nový level {self.level}")
+    
+
+class Mage(Character):
+    def __init__ (self, name, health, mana, level):
+        super().__init__(name, health, mana, level)
+        self.inteligence= level*5
+
+    def spell_cast(self):
+        mana_damage=self.inteligence* random.choice([1,2,3,4,5])
+        self.mana -=10
+        return round(mana_damage)
+    
+    def defend(self,damage):
+        nekryta_damage=damage*0.5
+        kryta_damage=damage- nekryta_damage
+        self.health-= (nekryta_damage)
+        return kryta_damage
+    
+    def level_up (self):
+        self.level+=1
+        return (f"Upgrade- nový level {self.level}")
+    
+
+
+class PlayableCharacter(ABC):
+    MAX_HEALTH = 100
+
+    def __init__(self, name, health, mana, level):
+        super().__init__(name, health, mana, level)
+
+
+    @property
+    def health(self):
+        return self._health
+
+    @health.setter
+    def health(self, value):
+        """Nastavení zdraví s kontrolou nula až max."""
+        if value > self.MAX_HEALTH:
+            self._health = self.MAX_HEALTH
+        elif value < 0:
+            self._health = 0
+        else:
+            self._health = value
+
+if __name__ == "__main__":
+    #zkouška
+    
+    os.system('clear' if os.name == 'posix' else 'cls')
+
+    # Vytvoření postav
+    hero1 = Warrior("Válek", 100, 20, 5)
+    hero2 = Mage("Hrnčiřík", 80, 50, 4)
+
+    # Základní operace
+    print(hero1)
+    print(hero2)
+    print ("-"*40)
+
+    # Útok a obrana
+    damage = hero1.attack()
+    print(f"{hero1.name} útočí a způsobuje {damage} poškození.")
+    hero2.defend(damage)
+    print(f"Po útoku má {hero2.name} {hero2.health} zdraví.")
+    print ("-"*40)
+
+    # Kombinace inventářů
+    hero1.inventory.append("Meč")
+    hero1.inventory.append("Kožená vesta")
+    hero2.inventory.append("Hůl")
+    print(f"Inventář {hero1.name}: {hero1.inventory}")
+    print(f"Inventář {hero2.name}: {hero2.inventory}")
+    print ("-"*40)
+    
+    combined_inventory = hero1 + hero2
+    print(f"Kombinovaný inventář: {combined_inventory}")
+
+    print ("-"*40)
+    print(f"Inventář {hero1.name}: {hero1.inventory}")
+    print(f"Inventář {hero2.name}: {hero2.inventory}")
+    print ("-"*40)
+    hero1.inventory = hero1 + hero2
+    print (f"Do inventáře {hero1.name} byl přidán inventář {hero2.name}.")
+    print(f"Inventář {hero1.name}: {hero1.inventory}")
+    print(f"Inventář {hero2.name}: {hero2.inventory}")
+    print ("-"*40)
+##############################################################
