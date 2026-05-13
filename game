@@ -1,6 +1,7 @@
 import os
 import random
 from abc import ABC, abstractmethod
+import time
 
 class Character:
     def __init__ (self, name, health, mana, level):
@@ -9,6 +10,8 @@ class Character:
         self.mana=mana
         self.level=level
         self.inventory=[]
+    
+    MAX_HEALTH = 1000
 
     def __add__ (self, other):
         if isinstance(other, Character):
@@ -18,15 +21,36 @@ class Character:
     def __str__(self):
         return f"{self.name} (Level {self.level}) - HP: {self.health}, Mana: {self.mana}"
 
-def power_boost(funkce):
-    def wrapper(*args, **kwargs):
-        base_damage= funkce(args, kwargs)
-        boosted_damage= base_damage +10
-        print("Síla útoku byla zvýšena o 10 bodů")
-        return boosted_damage
-    return wrapper
+    def power_boost(funkce):
+        def wrapper(*args, **kwargs):
+            base_damage= funkce(args, kwargs)
+            boosted_damage= base_damage +10
+            print("Síla útoku byla zvýšena o 10 bodů")
+            return boosted_damage
+        return wrapper
+
+    def use_mana(amount:int, self):
+        if self.__mana>=amount:
+            self.__mana-=amount
+            return True
+        return False
+
+class PlayableCharacter(ABC):
+    MAX_HEALTH = 1000
+
+    def __init__(self, name, health, mana, level):
+        super().__init__(name, health, mana, level)
 
 
+    @property
+    def health(self):
+        pass
+
+    @health.setter
+    def health(self, value):
+        pass
+
+    
 
 class Warrior (Character):
     def __init__ (self, name, health, mana, level):
@@ -41,9 +65,31 @@ class Warrior (Character):
         self.level+=1
         return (f"Upgrade- nový level {self.level}")
     
+    @property
+    def health(self):
+        return self._health
+    
+    @health.setter
+    def health(self, value):
+        if value > self.MAX_HEALTH:
+            self._health = self.MAX_HEALTH
+        elif value < 0:
+            self._health = 0
+        else:
+            self._health = value
+
+    @mana.setter
+    def mana(self, value):
+        if value > self.MAX_HEALTH:
+            self._mana = self.MAX_HEALTH
+        elif value < 0:
+            self._mana = 0
+        else:
+            self._mana = value
+    
 
 class Mage(Character):
-    def __init__ (self, name, health, mana, level):
+    def __init__ (self, name, health, mana, level ):
         super().__init__(name, health, mana, level)
         self.inteligence= level*5
 
@@ -62,28 +108,149 @@ class Mage(Character):
         self.level+=1
         return (f"Upgrade- nový level {self.level}")
     
-
-
-class PlayableCharacter(ABC):
-    MAX_HEALTH = 100
-
-    def __init__(self, name, health, mana, level):
-        super().__init__(name, health, mana, level)
-
-
     @property
     def health(self):
         return self._health
-
+    
     @health.setter
     def health(self, value):
-        """Nastavení zdraví s kontrolou nula až max."""
         if value > self.MAX_HEALTH:
             self._health = self.MAX_HEALTH
         elif value < 0:
             self._health = 0
         else:
             self._health = value
+
+    @mana.setter
+    def mana(self, value):
+        if value > self.MAX_HEALTH:
+            self._mana = self.MAX_HEALTH
+        elif value < 0:
+            self._mana = 0
+        else:
+            self._mana = value
+    
+
+def generate_random_character():
+    privlastky=["Chrabrý", "Veliký", "Spanilý"]
+    jmena=["Pepa", "Rostislav", "Spytihněv"]
+    random_jmeno= random.choice(jmena)+random.choice(privlastky)
+    level= random.randint(5, 20)
+    health= level*10+35
+    mana = random.randint(10,100)
+    typy_postav=["mag", "warrior"]
+    typ=random.choice(typy_postav)
+    if typ == "mag":
+        character=Mage(random_jmeno, health, mana, level)
+    elif typ == "warrior":
+        character=Warrior (random_jmeno, health, mana, level)
+    return character
+
+def battle_round (character1, character2):
+    postavy=[character1, character2]
+    volba=random.choice([0,1])
+    if volba == 0:
+        if type(character1) == Mage:
+            mana_damage= character1.spell_cast()
+            print(f"Postava {character1.name} používá kouzlo a způsobuje postavě {character2.name} {mana_damage} ztráty na maně")
+            character2.mana -=mana_damage
+            character2.mana()
+            print (50*"=")
+            print(f"Aktuální stav postav")
+            print(character1)
+            print(character2)
+        elif type(character1) == Warrior:
+            health_damage= character1.attack()
+            print(f"Postava {character1.name} útočí a způsobuje postavě {character2.name} {health_damage} zdracotní újmy")
+            print (50*"=")
+            print(f"Aktuální stav postav")
+            print(character1)
+            print(character2)
+            if type(character2) == Mage:
+                kryta_damage= character2.defend(health_damage)
+                character2.health()
+                print(f"Postava {character2.name} používá svoji schopnost a blokuje {kryta_damage} bodů útoku")
+                print (50*"=")
+                print(f"Aktuální stav postav")
+                print(character1)
+                print(character2)
+            else:
+                character2.health -=health_damage
+                character2.health()
+                print (50*"=")
+                print(f"Aktuální stav postav")
+                print(character1)
+                print(character2)
+    elif volba == 1:
+        if type(character2) == Mage:
+            mana_damage= character2.spell_cast()
+            character1.mana()
+            print(f"Postava {character2.name} používá kouzlo a způsobuje postavě {character1.name} {mana_damage} ztráty na maně")
+            print (50*"=")
+            print(f"Aktuální stav postav")
+            print(character1)
+            print(character2)
+            character1.mana -=mana_damage
+        elif type(character2) == Warrior:
+            health_damage= character2.attack()
+            print(f"Postava {character2.name} útočí a způsobuje postavě {character1.name} {health_damage} zdracotní újmy")
+            print (50*"=")
+            print(f"Aktuální stav postav")
+            print(character1)
+            print(character2)
+            if type(character1) == Mage:
+                kryta_damage= character1.defend(health_damage)
+                character1.health()
+                print(f"Postava {character1.name} používá svoji schopnost a blokuje {kryta_damage} bodů útoku")
+                print (50*"=")
+                print(f"Aktuální stav postav")
+                print(character1)
+                print(character2)
+            else:
+                character1.health -=health_damage
+                character1.health()
+                print (50*"=")
+                print(f"Aktuální stav postav")
+                print(character1)
+                print(character2)
+    if character1.health ==0:
+        vitez= character2
+        print(f"Postava {character1.name} umřela, zítězila postava {character2.name}")
+        return vitez
+    elif character2.health ==0:
+        vitez= character1
+        print(f"Postava {character2.name} umřela, zítězila postava {character1.name}")
+        return vitez
+    elif character1.mana ==0:
+        vitez= character2
+        print(f"Postava {character1.name} ztratila všchnu manu, zítězila postava {character2.name}")
+        return vitez
+    elif character2.mana ==0:
+        vitez= character1
+        print(f"Postava {character2.name} ztratila všechnu manu, zítězila postava {character1.name}")
+        return vitez
+
+
+
+def game_loop():
+    print("=== HERNÍ POLE===\n")
+    time.sleep(1)
+
+    character1 = generate_random_character()
+    character2 = generate_random_character()
+
+    print("Vygenerované postavy:")
+    print(character1)
+    print(character2)
+
+    # Hlavní smyčka
+    while True:
+        winner = battle_round(character1, character2)
+        if winner:
+            print(f"\n=== Hra skončila, vítězem je {winner.name} ===")
+            break
+        time.sleep(2)
+
 
 if __name__ == "__main__":
     #zkouška
@@ -127,3 +294,6 @@ if __name__ == "__main__":
     print(f"Inventář {hero2.name}: {hero2.inventory}")
     print ("-"*40)
 ##############################################################
+
+# souboj
+game_loop()
