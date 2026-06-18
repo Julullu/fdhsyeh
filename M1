@@ -1,0 +1,100 @@
+# Algoritmy: Teoretický základ a přehled
+
+## 1. Definice algoritmu
+**Algoritmus** je přesný návod nebo postup, kterým lze vyřešit daný typ úlohy. Skládá se z konečného počtu jednoznačně definovaných kroků, které vedou od výchozích dat k požadovanému výsledku.
+
+### Vlastnosti algoritmů
+Aby mohl být postup považován za algoritmus, musí splňovat následující základní vlastnosti:
+
+* **Konečnost (Finitnost):** Algoritmus musí vždy skončit po konečném počtu kroků.
+* **Determinovanost (Jednoznačnost):** V každém kroku musí být naprosto jasné, co se má udělat a jaký krok bude následovat. Pro stejné vstupy musí dát vždy stejné výstupy.
+* **Rezultativnost (Efektivnost):** Algoritmus musí po konečném počtu kroků vrátit správný výsledek (skončit úspěchem).
+* **Obecnost (Hromadnost):** Neřeší jeden konkrétní příklad (např. $2 + 3$), ale obecnou třídu úloh (např. $a + b$ pro libovolná čísla).
+* **Elementárnost:** Skládá se z jednoduchých, srozumitelných kroků (příkazů), které je realizátor schopen provést.
+
+---
+
+## 2. Deterministické a nedeterministické algoritmy
+
+* **Deterministický algoritmus:** V každém stavu má pouze *jednu* jasně definovanou možnost, jak pokračovat. Výsledná cesta výpočtu je pro daný vstup vždy unikátní.
+* **Nedeterministický algoritmus:** V některých krocích se může "rozhodnout" pro více možností najednou (teoreticky větví výpočet do více paralelních větví) nebo využívá náhodu (probabilistické/randomizované algoritmy). Pro praktické nasazení na běžných počítačích se často simulují.
+
+---
+
+## 3. Zápis algoritmu a modularita
+
+Algoritmus lze vyjádřit několika způsoby:
+1.  **Slovní vyjádření:** Krok za krokem v přirozeném jazyce.
+2.  **Vývojový diagram:** Grafické znázornění pomocí standardizovaných symbolů (obdélník = operace, kosočtverec = podmínka).
+3.  **Pseudokód:** Mezistupeň mezi lidskou řečí a programovacím jazykem.
+4.  **Zdrojový kód:** Zápis v konkrétním programovacím jazyce (Python, C++, Java).
+
+### Modularita
+Princip, kdy se složitý algoritmus rozloží na menší, samostatné a znovupoužitelné části (funkce, procedury, podprogramy). Zjednodušuje to čitelnost, testování a údržbu kódu.
+
+---
+
+## 4. Známé algoritmy a jejich princip
+
+### Eukleidův algoritmus
+Slouží k nalezení **největšího společného dělitele (NSD)** dvou celých čísel.
+* *Princip:* Opakovaně odečítáme menší číslo od většího (případně používáme zbytek po dělení — modulo), dokud se čísla nerovnají nebo jedno z nich není 0.
+
+### Eratosthenovo síto
+Efektivní algoritmus pro hledání všech **prvočísel** až do zvolené hodnoty $N$.
+* *Princip:* Napíšeme řadu čísel od 2 do $N$. Vezmeme první neškrtnuté číslo (2), prohlásíme ho za prvočíslo a vyškrtáme všechny jeho násobky. Postup opakujeme pro další neškrtnutá čísla.
+
+
+
+### Řadicí algoritmy (Sorting)
+* **Bubble Sort (Bublinkové řazení):** Prochází pole a porovnává sousední prvky. Pokud jsou v nesprávném pořadí, prohodí je. Větší prvky "probublávají" na konec pole. Je jednoduchý, ale pomalý.
+* **Quick Sort (Rychlé řazení):** Algoritmus typu *Rozděl a panuj*. Vybere se prvek zvaný **pivot**. Pole se rozdělí na dvě části — prvky menší než pivot a prvky větší než pivot. Tyto části se pak rekurzivně seřadí stejně.
+
+### Vyhledávací algoritmy
+* **Lineární vyhledávání:** Prochází pole prvek po prvku od začátku do konce. Funguje na neseřazených datech.
+* **Binární vyhledávání:** Funguje **pouze na seřazeném** poli. Skočí doprostřed, porovná hodnotu s hledanou a určí, zda se má pokračovat v levé nebo pravé polovině. V každém kroku zkrátí pole na polovinu.
+
+---
+
+## 5. Složitost algoritmů
+
+Složitost určuje, jak moc porostou nároky algoritmu v závislosti na velikosti vstupních dat ($n$).
+
+### Časová a paměťová složitost
+* **Časová složitost:** Množství času (resp. počtu operací) potřebných k dokončení algoritmu.
+* **Paměťová (prostorová) složitost:** Množství paměti, kterou algoritmus během svého běhu spotřebuje.
+
+### Značení (Asymptotická složitost)
+Používá se tzv. **Velká O notace** ($\mathcal{O}$), která popisuje chování algoritmu v nejhorším možném případě.
+
+| Třída složitosti | Název | Příklad algoritmu |
+| :--- | :--- | :--- |
+| $\mathcal{O}(1)$ | Konstantní | Přístup k prvku pole přes index |
+| $\mathcal{O}(\log n)$ | Logaritmická | Binární vyhledávání |
+| $\mathcal{O}(n)$ | Lineární | Lineární vyhledávání |
+| $\mathcal{O}(n \log n)$ | Linearitmická | Quick Sort (průměrný případ) |
+| $\mathcal{O}(n^2)$ | Kvadratická | Bubble Sort |
+| $\mathcal{O}(2^n)$ | Exponenciální | Hledání všech podmnožin, Fibonacci (rekurzivně) |
+
+---
+
+## 6. Co není algoritmus a hranice pojmu
+
+Ne každý postup je algoritmus. Mezi algoritmy nepatří:
+* Vaření podle kuchařky (kroky jsou často nejednoznačné: *"osolte podle chuti"*, *"míchejte do hněda"*).
+* Náhodné zkoušení variant bez jasného systému.
+
+### Heuristika versus přesný algoritmus
+* **Přesný algoritmus:** Vždy najde optimální (nejlepší možné) řešení, ale pro složité úlohy může běžet neúnosně dlouho (roky, staletí).
+* **Heuristika:** Postup, který nenabízí stoprocentní záruku nalezení ideálního řešení, ale v rozumném čase (rychle) najde řešení, které je "dostatečně dobré". Používá se např. u Problému obchodního cestujícího nebo v šachových počítačích.
+
+---
+
+## 7. Třídy složitosti úloh (P, NP, NP-úplné)
+
+Teoretická informatika rozděluje problémy do tříd podle toho, jak obtížné je pro ně najít řešení.
+
+* **Třída P:** Problémy, které lze **vyřešit** v polynomiálním čase (rychle, např. $\mathcal{O}(n^2)$). Sem patří řazení, vyhledávání nebo Eukleidův algoritmus.
+* **Třída NP:** Problémy, u kterých sice neumíme řešení v polynomiálním čase rychle najít, ale pokud nám někdo řešení nabídne, dokážeme v polynomiálním čase **ověřit**, zda je správné (např. luštění šifry, Sudoku).
+* **NP-úplné úlohy (NP-complete):** Nejtěžší úlohy ve třídě NP. Pokud by se pro jakoukoli jednu NP-úplnou úlohu našel rychlý (polynomiální) algoritmus, znamenalo by to, že lze rychle vyřešit *všechny* NP úlohy.
+* **Problém P vs. NP:** Jeden z největších nevyřešených problémů matematiky. Otázka zní, zda platí $P = NP$ (tedy zda vše, co lze rychle ověřit, lze i rychle vyřešit). Většina vědců předpokládá, že $P \neq NP$.

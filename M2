@@ -1,0 +1,149 @@
+# Algoritmy, třídění a vyhledávání: Komplexní přehled
+
+## 1. Definice algoritmu a jeho vlastnosti
+**Algoritmus** je přesný návod nebo postup, kterým lze vyřešit daný typ úlohy. Skládá se z konečného počtu jednoznačně definovaných kroků, které vedou od výchozích dat k požadovanému výsledku.
+
+### Vlastnosti algoritmů
+Aby mohl být postup považován za algoritmus, musí splňovat následující základní vlastnosti:
+
+* **Konečnost (Finitnost):** Algoritmus musí vždy skončit po konečném počtu kroků.
+* **Determinovanost (Jednoznačnost):** V každém kroku musí být naprosto jasné, co se má udělat a jaký krok bude následovat. Pro stejné vstupy musí dát vždy stejné výstupy.
+* **Rezultativnost (Efektivnost):** Algoritmus musí po konečném počtu kroků vrátit správný výsledek (skončit úspěchem).
+* **Obecnost (Hromadnost):** Neřeší jeden konkrétní příklad (např. $2 + 3$), ale obecnou třídu úloh (např. $a + b$ pro libovolná čísla).
+* **Elementárnost:** Skládá se z jednoduchých, srozumitelných kroků (příkazů), které je realizátor schopen provést.
+
+---
+
+## 2. Deterministické a nedeterministické algoritmy
+
+* **Deterministický algoritmus:** V každém stavu má pouze *jednu* jasně definovanou možnost, jak pokračovat. Výsledná cesta výpočtu je pro daný vstup vždy unikátní.
+* **Nedeterministický algoritmus:** V některých krocích se může "rozhodnout" pro více možností najednou (teoreticky větví výpočet do více paralelních větví) nebo využívá náhodu (probabilistické/randomizované algoritmy).
+
+---
+
+## 3. Zápis algoritmu a modularita
+
+Algoritmus lze vyjádřit několika způsoby:
+1.  **Slovní vyjádření:** Krok za krokem v přirozeném jazyce.
+2.  **Vývojový diagram:** Grafické znázornění pomocí standardizovaných symbolů.
+3.  **Pseudokód:** Mezistupeň mezi lidskou řečí a programovacím jazykem.
+4.  **Zdrojový kód:** Zápis v konkrétním programovacím jazyce (Python, C++, Java).
+
+### Modularita
+Princip, kdy se složitý algoritmus rozloží na menší, samostatné a znovupoužitelné části (funkce, procedury, podprogramy). Zjednodušuje to čitelnost, testování a údržbu kódu.
+
+---
+
+## 4. Třídicí algoritmy (Sorting)
+
+Třídicí algoritmy uspořádávají prvky v kolekci (nejčastěji v poli) podle určeného klíče.
+
+### Selection Sort (Řazení výběrem)
+* **Princip:** Rozdělí pole na seřazenou a neseřazenou část. Postupně prochází neseřazenou část, najde v ní nejmenší prvek a ten zamění s prvním prvkem neseřazené části.
+* **Složitost:** $\mathcal{O}(n^2)$
+
+### Bubble Sort (Bublinkové řazení)
+* **Princip:** Opakovaně prochází pole a porovnává dva sousední prvky. Pokud jsou v nesprávném pořadí, prohodí je. Tento proces se opakuje, dokud není celé pole seřazené.
+* **Složitost:** $\mathcal{O}(n^2)$
+
+### Merge Sort (Řazení sléváním)
+* **Princip:** Strategie *Rozděl a panuj*. Rozdělí pole na poloviny, ty rekurzivně dělí až na jednoprvková pole a následně je slévá zpět dohromady v seřazeném pořadí.
+* **Složitost:** $\mathcal{O}(n \log n)$
+
+### Quick Sort (Rychlé řazení)
+* **Princip:** Strategie *Rozděl a panuj*. Zvolí prvek zvaný **pivot**. Pole přerovná tak, že prvky menší než pivot jsou vlevo a větší vpravo. Na tyto části se algoritmus aplikuje rekurzivně.
+* **Složitost:** Průměrná $\mathcal{O}(n \log n)$, nejhorší $\mathcal{O}(n^2)$.
+
+---
+
+## 5. Rekurze
+
+**Rekurze** je programovací technika, kdy funkce v rámci svého těla volá samu sebe. Aby rekurze neskončila pádem programu, musí obsahovat **bázový případ (ukončující podmínku)**.
+
+### Princip rekurze
+Každé rekurzivní volání ukládá aktuální stav funkce na **systémový zásobník (stack)**. Po dosažení bázového případu se funkce ze zásobníku postupně vracejí a skládají výsledek.
+
+### Faktoriál ($n!$)
+* *Bázový případ:* $1! = 1$
+* *Rekurzivní krok:* $n! = n \cdot (n-1)!$
+
+```python
+def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
+
+### Fibonacciho posloupnost
+Řada čísel, kde každé další číslo je součtem dvou předchozích ($0, 1, 1, 2, 3, 5, 8, \dots$).
+* **Bázový případ:** $F(0) = 0$, $F(1) = 1$
+* **Rekurzivní krok:** $F(n) = F(n-1) + F(n-2)$
+
+---
+
+## 6. Vyhledávací algoritmy
+
+### Lineární vyhledávání (Linear Search)
+* **Princip:** Prochází prvky sekvenčně jeden po druhém od začátku do konce.
+* **Použití:** Na neseřazená data.
+* **Složitost:** $\mathcal{O}(n)$
+
+### Binární vyhledávání (Binary Search)
+* **Princip:** Funguje na principu půlení intervalu. **Vyžaduje seřazené pole.** Podívá se na prostřední prvek a podle výsledku porovnání zahodí buď levou, nebo pravou polovinu pole.
+* **Použití:** Rychlé vyhledávání ve velkých seřazených sadách.
+* **Složitost:** $\mathcal{O}(\log n)$
+
+---
+
+## 7. Speciální známé algoritmy
+
+### Eukleidův algoritmus
+Slouží k nalezení **největšího společného dělitele (NSD)** dvou celých čísel. Opakovaně se využívá zbytek po dělení (modulo), dokud jedno z čísel není 0.
+
+### Eratosthenovo síto
+Efektivní algoritmus pro vyhledání všech **prvočísel** až do zvolené hodnoty $N$ postupným vyškrtáváním násobků již nalezených prvočísel.
+
+---
+
+## 8. Složitost algoritmů a značení
+
+Složitost určuje, jak moc porostou nároky algoritmu v závislosti na velikosti vstupních dat ($n$). K zápisu se používá asymptotická **Velká O notace** ($\mathcal{O}$).
+
+* **Časová složitost:** Počet operací (čas) potřebný k dokončení.
+* **Paměťová složitost:** Množství dodatečné paměti, kterou algoritmus spotřebuje.
+
+### Porovnání složitosti v Big O
+
+| Algoritmus | Časová složitost (Průměrná) | Časová složitost (Nejhorší) | Paměťová složitost |
+| :--- | :--- | :--- | :--- |
+| **Selection Sort** | $\mathcal{O}(n^2)$ | $\mathcal{O}(n^2)$ | $\mathcal{O}(1)$ |
+| **Bubble Sort** | $\mathcal{O}(n^2)$ | $\mathcal{O}(n^2)$ | $\mathcal{O}(1)$ |
+| **Merge Sort** | $\mathcal{O}(n \log n)$ | $\mathcal{O}(n \log n)$ | $\mathcal{O}(n)$ |
+| **Quick Sort** | $\mathcal{O}(n \log n)$ | $\mathcal{O}(n^2)$ | $\mathcal{O}(\log n)$ |
+| **Lineární vyhledávání** | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ |
+| **Binární vyhledávání** | $\mathcal{O}(\log n)$ | $\mathcal{O}(\log n)$ | $\mathcal{O}(1)$ |
+
+---
+
+## 9. Co není algoritmus a hranice pojmu
+
+* **Běžný postup (např. kuchařka):** Obsahuje nejednoznačnosti (*"osolte podle chuti"*), proto není algoritmem.
+* **Heuristika:** Na rozdíl od přesného algoritmu negarantuje nalezení nejlepšího (optimálního) řešení. Používá se tam, kde by přesný algoritmus běžet příliš dlouho. Najde "dostatečně dobré" řešení v rozumném čase (např. Problém obchodního cestujícího).
+
+---
+
+## 10. Třídy složitosti úloh (P versus NP)
+
+* **Třída P:** Problémy, které lze **vyřešit** v polynomiálním (rychlém) čase (např. řazení, vyhledávání).
+* **Třída NP:** Problémy, u kterých řešení neumíme rychle najít, ale pokud ho dostaneme, dokážeme ho v polynomiálním čase **ověřit** (např. Sudoku, většina šifer).
+* **NP-úplné úlohy:** Nejtěžší úlohy třídy NP. Pokud by se pro jednu z nich našel rychlý algoritmus, daly by se rychle vyřešit všechny NP úlohy.
+
+---
+
+## 11. Volba vhodného algoritmu v praxi (Inženýrský kompromis)
+
+Volba algoritmu je vždy kompromisem (*trade-off*) mezi několika protichůdnými požadavky:
+
+* **Velikost dat ($n$):** Pro malé sady dat stačí jednoduchý algoritmus (např. Selection Sort). Pro velká data jsou algoritmy se složitostí $\mathcal{O}(n^2)$ nepoužitelné.
+* **Požadavky na výkon vs. jednoduchost:** Složité algoritmy se hůře píší a ladí. Pokud kód běží minimálně a nad malými daty, dává se přednost čitelnosti a jednoduchosti.
+* **Paměťová omezení:** V embedded systémech nebo zařízeních s malou RAM nelze použít Merge Sort (který paměť zdvojuje), raději se zvolí Quick Sort nebo méně efektivní algoritmus běžící "in-place" ($\mathcal{O}(1)$).
+* **Stav dat:** Pokud jsou data již téměř seřazená, chovají se některé algoritmy (např. Bubble Sort s optimalizací nebo Timsort) velmi efektivně. Pokud data nelze seřadit, nelze využít binární vyhledávání.

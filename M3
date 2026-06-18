@@ -1,0 +1,90 @@
+# Vývojové diagramy a UML
+
+## 1. Vývojové diagramy (Flowchart)
+
+### Definice, účel a oblasti využití
+**Vývojový diagram** je grafické znázornění algoritmu nebo procesu. Pomocí standardizovaných symbolů propojených šipkami zobrazuje jednotlivé kroky potřebné k dosažení cíle.
+* **Účel:** Zpřehlednit složité procesy, usnadnit analýzu programů, odhalit logické chyby v algoritmu ještě před psaním kódu a sloužit jako univerzální dokumentace.
+* **Oblasti využití:** Softwarové inženýrství, procesní řízení (byznys), projektový management, návrh databází.
+
+### Základní symboly a jejich význam
+Každý tvar ve vývojovém diagramu má specifický význam:
+
+* **Terminátor (Ovál / Zaoblený obdélník):** Označuje začátek nebo konec celého diagramu.
+* **Proces (Obdélník):** Představuje konkrétní operaci, akci nebo výpočet (např. `x = x + 1`).
+* **Rozhodování (Kosočtverec):** Obsahuje podmínku (ano/ne). Větví tok diagramu na dvě nebo více cest.
+* **Vstup / Výstup (Kosodélník):** Znázorňuje zadávání dat uživatelem nebo výpis výsledků na obrazovku.
+* **Podprogram / Předdefinovaný proces (Obdélník s dvojitými svislými čarami):** Volání jiné, samostatně definované funkce či algoritmu.
+* **Spojka (Kruh):** Slouží ke spojení diagramu, pokud se větví nebo přechází na jinou stránku.
+* **Toková čára (Šipka):** Určuje směr provádění kroků.
+
+### Formální pravidla tvorby diagramů
+* Diagram má vždy právě **jeden začátek** a alespoň **jeden konec**.
+* Tok řízení standardně postupuje **shora dolů** a **zleva doprava**.
+* Šipky se nesmí křížit bez jasného označení.
+* Z rozhodovacího bloku (kosočtverce) musí jednoznačně vystupovat větve označené popiskem (např. *Ano / Ne*, *True / False*).
+
+---
+
+## 2. Druhy vývojových diagramů
+
+V závislosti na tom, jakou část systému popisují, rozlišujeme:
+
+* **Programový diagram (Program flowchart):** Popisuje vnitřní logiku konkrétního programu, metodu nebo funkci (kroky kódu, cykly, podmínky).
+* **Systémový diagram (System flowchart):** Zobrazuje tok dat v celém systému (jak data putují mezi aplikacemi, servery a databázemi).
+* **Datový diagram (Data flowchart):** Zaměřuje se čistě na kanály, kterými se data přenášejí, a na jejich transformaci.
+* **Dokumentový diagram (Document flowchart):** Zobrazuje oběh dokumentů a informací mezi různými odděleními (časté v administrativě a byznysu).
+
+---
+
+## 3. UML ve vývoji software
+
+### Co je UML a význam ve firmě
+**UML (Unified Modeling Language)** je standardizovaný grafický jazyk pro vizualizaci, specifikaci, navrhování a dokumentaci softwarových systémů. 
+* **Význam ve firmě:** Slouží jako společný komunikační nástroj mezi softwarovými architekty, programátory, projekťáky a klienty. Pomáhá promyslet architekturu aplikace předtím, než se začne psát kód, což šetří finance a čas.
+
+### Strukturní a behaviorální UML diagramy
+UML diagramy se dělí do dvou hlavních kategorií podle toho, co vyjadřují:
+
+#### A. Strukturní diagramy (Co v systému je)
+Zobrazují statickou strukturu systému (komponenty, objekty, vztahy).
+* **Diagram tříd (Class Diagram):** Nejdůležitější strukturní diagram. Ukazuje třídy, jejich vlastnosti (atributy), metody a vztahy mezi nimi (dědičnost, asociace).
+* **Diagram komponent (Component Diagram):** Zobrazuje softwarové moduly a jejich vzájemné závislosti.
+* **Diagram nasazení (Deployment Diagram):** Ukazuje hardwarovou architekturu, na které software běží (servery, sítě).
+
+#### B. Behaviorální diagramy (Jak systém funguje)
+Zobrazují dynamické chování systému, procesy a interakce v čase.
+* **Diagram případů užití (Use Case Diagram):** Ukazuje interakci mezi uživatelem (aktérem) a systémem (co uživatel může v systému dělat).
+* **Aktivitní diagram (Activity Diagram):** Popisuje procedurální logiku a procesy (podobný vývojovému diagramu).
+* **Sekvenční diagram (Sequence Diagram):** Zobrazuje časovou posloupnost zasílání zpráv mezi objekty během určité operace.
+
+---
+
+## 4. Srovnání a interpretace toků řízení
+
+### Klasický vývojový diagram vs. UML aktivitní diagram
+Ačkoliv oba diagramy slouží k popisu procesů a algoritmů, liší se v možnostech zápisu:
+
+| Vlastnost | Klasický vývojový diagram | UML Aktivitní diagram |
+| :--- | :--- | :--- |
+| **Úroveň detailu** | Vhodný pro detailní logiku kódu/funkce | Vhodný pro vysokoúrovňové byznys procesy i kód |
+| **Paralelismus** | Neumí snadno vyjádřit paralelní děje | Má přímé konstrukce pro větvení a synchronizaci souběžných činností (*Fork / Join*) |
+| **Zodpovědnost** | Nezobrazuje, kdo danou činnost vykonává | Pomocí plaveckých drah (*Swimlanes*) jasně rozděluje role (např. zákazník vs. systém) |
+
+### Sekvenční, podmíněný a cyklický tok řízení
+Grafické vyjádření tří základních programových konstrukcí:
+
+1. **Sekvenční tok (Posloupnost):** Kroky jdou lineárně za sebou. Šipka vede z jednoho obdélníku (procesu) do druhého.
+2. **Podmíněný tok (Větvení):** Využívá kosočtverec (rozhodování). Na základě splnění podmínky se tok dělí do různých větví.
+3. **Cyklický tok (Smyčka):** Šipka se po provedení určitého procesu vrací zpět nad rozhodovací blok, čímž vzniká smyčka. Cyklus běží, dokud je splněna (nebo nesplněna) daná podmínka.
+
+---
+
+## 5. Software pro tvorbu vývojových diagramů
+
+Výběr nástroje závisí na komplexnosti projektu a potřebě týmové spolupráce:
+
+* **Draw.io / Diagrams.net:** Zdarma, open-source, skvělý pro rychlé náčrty vývojových diagramů i základního UML. Lze snadno propojit s Google Drive či GitHubem.
+* **Lucidchart:** Pokročilý cloudový nástroj s bohatou knihovnou šablon, vhodný pro firemní spolupráci v reálném čase. (Placený / Freemium).
+* **Mermaid.js:** Nástroj pro tvorbu diagramů pomocí textového kódu (text-to-diagram). Velmi populární u vývojářů, protože diagram lze zapsat přímo v Markdown dokumentaci.
+* **Enterprise Architect / Visual Paradigm:** Profesionální a robustní CASE nástroje pro komplexní softwarové modelování, generování zdrojového kódu z UML diagramů a reverzní inženýrství.

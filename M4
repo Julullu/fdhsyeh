@@ -1,0 +1,126 @@
+# Vývoj programovacích jazyků a jejich klasifikace
+
+## 1. Vývoj programovacích jazyků
+
+### Od strojového kódu k vyšším jazykům
+Programovací jazyky prošly evolucí, která kopírovala vývoj samotného hardwaru a potřebu usnadnit lidem práci s ním. Tato evoluce se dělí do tzv. **generací**:
+
+1. **1. generace – Strojový kód:** Čistě binární zápis (nuly a jedničky). Instrukce jsou procesorově specifické a pro člověka extrémně těžko čitelné.
+2. **2. generace – Jazyk symbolických adres (Assembler):** Nahradil binární instrukce textovými zkratkami (např. `MOV`, `ADD`). Stále je těsně svázán s hardwarem.
+3. **3. generace – Vyšší programovací jazyky:** Přiblížily se lidské mluvě (angličtině) a matematickému zápisu (Fortran, COBOL, C, Pascal). Jsou nezávislé na hardwaru.
+4. **4. generace – Jazyky zaměřené na specifickou doménu (4GL):** Deklarativní jazyky, kde programátor definuje *co* má být výsledkem, nikoliv *jak* k němu dojít (např. SQL, MATLAB).
+5. **5. generace – Jazyky pro umělou inteligenci a logické programování:** Jazyky založené na řešení omezení a logických vazbách (Lisp, Prolog).
+
+### Důvody vzniku a vývoje
+* **Abstrakce od hardwaru:** Snaha odstínit programátora od složité architektury procesorů a paměti.
+* **Zvýšení produktivity:** Psaní kódu v moderních jazycích je mnohonásobně rychlejší a vyžaduje méně řádků textu.
+* **Přenositelnost (Portabilita):** Možnost spustit stejný kód na různých operačních systémech a procesorech bez nutnosti jeho přepisování.
+* **Bezpečnost:** Snaha zamezit chybám programátorů (např. neoprávněnému přístupu do paměti).
+
+### Významné osobnosti a milníky
+* **Ada Lovelace:** V 19. století napsala první algoritmus pro mechanický počítač Charlese Babbage, považována za první programátorku na světě.
+* **Grace Hopper:** Průkopnice kompilátorů, stála u zrodu jazyka COBOL a zpopularizovala pojem "debugging" (odstraňování chyb).
+* **John Backus:** Vedl tým, který vytvořil **Fortran** (1957) – první široce používaný vyšší programovací jazyk.
+* **Dennis Ritchie:** Vytvořil jazyk **C** (1972) v Bellových laboratořích. Jazyk C se stal základem pro moderní operační systémy a ovlivnil syntaxi většiny dnešních jazyků.
+* **James Gosling:** Tvůrce jazyka **Java** (1995), který zavedl koncept přenositelného kódu běžícího na virtuálním stroji.
+
+---
+
+## 2. Rozdělení podle úrovně (Abstrakce)
+
+### Nízkoúrovňové jazyky (Low-level)
+Patří sem strojový kód a Assembler. Málo abstrahované od hardwaru.
+* **Výhody:** Maximální kontrola nad hardwarem a správou paměti, extrémní rychlost a efektivita.
+* **Omezení:** Kód je nepřenosný (napsaný pro konkrétní procesor), extrémně složitý na čtení, psaní a údržbu. Chybí vestavěné bezpečnostní mechanismy.
+
+### Vysokoúrovňové jazyky (High-level)
+Patří sem většina moderních jazyků (Python, Java, C++, C#). Výrazná abstrakce od hardwaru.
+* **Výhody:** Snadná čitelnost (podobnost s angličtinou), rychlý vývoj, automatická správa paměti, přenositelnost mezi platformami.
+* **Omezení:** Vyšší režie systému, nižší rychlost oproti nízkoúrovňovým jazykům, programátor nemá přímou kontrolu nad každým bajtem paměti.
+
+---
+
+## 3. Rozdělení podle způsobu překladu a spuštění
+
+Počítač rozumí pouze strojovému kódu. Vyšší programovací jazyky se proto musí přeložit.
+
+### Kompilované jazyky
+Zdrojový kód je jednorázově přeložen programem (**kompilátorem**) do spustitelného souboru ve strojovém kódu (např. `.exe` ve Windows).
+* **Příklady:** C, C++, Rust, Go.
+* **Výhody:** Maximální rychlost při spuštění, kód je optimalizovaný pro cílový procesor.
+* **Nevýhody:** Kompilace trvá čas, výsledný soubor je závislý na dané platformě (program zkompilovaný pro Windows nespustíš na macOS).
+
+### Interpretované jazyky
+Zdrojový kód se nepřekládá dopředu. Při každém spuštění ho program zvaný **interpret** čte řádek po řádku a rovnou provádí.
+* **Příklady:** Python, JavaScript, PHP, Ruby.
+* **Výhody:** Okamžité spuštění bez čekání na kompilaci, vysoká přenositelnost (kód běží všude, kde je nainstalovaný interpret).
+* **Nevýhody:** Výrazně pomalejší běh programu (interpret spotřebovává výkon během provádění kódu).
+
+### Mezikód (Bytecode) a virtuální stroj
+Hybridní přístup. Zdrojový kód se nejprve zkompiluje do univerzálního **mezikódu** (bytecode). Tento mezikód se pak spouští ve speciální aplikaci – **virtuálním stroji**, který ho za běhu překládá pro konkrétní hardware (často pomocí JIT – Just-In-Time kompilace).
+* **Příklady:** Java (Java Virtual Machine - JVM), C# (.NET CLR).
+* **Výhody:** Ideální kompromis – rychlost se blíží kompilovaným jazykům a přenositelnost interpretovaným jazykům ("Write once, run anywhere").
+
+---
+
+## 4. Rozdělení podle programovacího přístupu (Paradigmatu)
+
+### Procedurální a imperativní jazyky
+* **Princip:** Program je chápán jako posloupnost přesných příkazů a instrukcí (kroků), které mění stav paměti. Kód se strukturuje do podprogramů (procedur a funkcí).
+* **Příklady:** C, Pascal, BASIC.
+
+### Objektově orientované jazyky (OOP)
+* **Princip:** Svět programu je rozdělen na **objekty**, které mají své vlastnosti (atributy) a schopnosti (metody). Objekty spolu komunikují zasíláním zpráv. Pilíře OOP jsou: Zapouzdření, Dědičnost, Polymorfismus a Abstrakce.
+* **Příklady:** Java, C++, C#, Python.
+
+### Neprocedurální (Deklarativní) jazyky
+Programátor neurčuje krok za krokem *jak* se má výsledek spočítat, ale definuje *co* má být výsledkem. Dělí se na:
+* **Funkcionální:** Program je chápán jako vyhodnocování matematických funkcí bez měnitelných stavů (Lisp, Haskell).
+* **Logické:** Založené na definování faktů, pravidel a dotazování se nad nimi (Prolog).
+
+---
+
+## 5. Zástupci jazyků a jejich použití
+
+### Příklady v jednotlivých skupinách
+
+| Jazyk | Typ (z hlediska překladu) | Hlavní paradigma | Typické použití |
+| :--- | :--- | :--- | :--- |
+| **C** | Kompilovaný | Procedurální / Imperativní | Operační systémy, ovladače, vestavěné systémy |
+| **C++** | Kompilovaný | Multi-paradigma (OOP + Proc) | Herní enginy, desktopové aplikace, náročný SW |
+| **Java** | Mezikód (JVM) | Objektově orientované | Firemní systémy (Enterprise), Android aplikace |
+| **Python**| Interpretovaný | Multi-paradigma (OOP, Skript) | Datová věda, AI/Strojové učení, web, skripty |
+| **JavaScript** | Interpretovaný (JIT) | Multi-paradigma (Prototypové)| Vývoj webových stránek (frontend i backend) |
+| **SQL** | Deklarativní | Specifické (4GL) | Práce s relačními databázemi |
+
+### Vhodnost jazyků pro různé typy úloh
+* **Webový vývoj:** JavaScript (univerzální král webu), PHP, Python (Framework Django/Flask), Ruby.
+* **Mobilní aplikace:** Swift (iOS), Kotlin / Java (Android).
+* **Herní průmysl:** C++ (Unreal Engine), C# (Unity).
+* **Data Science a AI:** Python, R (díky bohatým matematickým knihovnám).
+* **Systémové programování:** C, C++, Rust.
+
+---
+
+## 6. Trendy a moderní jazyky
+
+### Python
+Stále dominuje díky své jednoduché syntaxi a masivnímu nasazení v oblastech umělé inteligence, strojového učení a datové analýzy. Stal se neoficiálním "jazykem vědy".
+
+### Rust
+Moderní kompilovaný jazyk od Mozilly, navržený jako bezpečná náhrada za C/C++. Přináší koncept **vlastnictví paměti (Ownership)**, který eliminuje chyby s pamětí při kompilaci (nemá Garbage Collector, a přesto je bezpečný). Je extrémně rychlý a oblíbený pro systémové programování.
+
+### Go (Golang)
+Vytvořený společností Google. Je navržený pro maximální jednoduchost, rychlou kompilaci a skvělou nativní podporu **paralelismu (Goroutines)**. Používá se pro cloudové služby, mikroslužby a backendovou infrastrukturu.
+
+---
+
+## 7. AI a Vibecoding
+
+### Umělá inteligence ve vývoji softwaru
+Nástroje jako GitHub Copilot, ChatGPT nebo Claude radikálně mění způsob psaní kódu. AI dokáže generovat celé bloky kódu, psát testy, hledat chyby (debugovat) nebo převádět kód mezi jazyky. Vývojář se přesouvá z role "pisatele řádků" do role architekta a kontrolora.
+
+### Vibecoding
+**Vibecoding** je moderní, neformální termín popisující styl programování, kdy člověk sám nepíše téměř žádný zdrojový kód. 
+* Místo toho programátor pouze zadává instrukce v přirozeném jazyce (prompty) pokročilým AI modelům a nechává je vytvářet celé aplikace.
+* Programátor se tak soustředí na celkový design, myšlenku a logiku aplikace (chytá správný "vibe" a směr projektu), zatímco technickou implementaci a syntaxi kompletně deleguje na AI.
